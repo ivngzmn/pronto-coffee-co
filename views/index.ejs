@@ -1,0 +1,77 @@
+<!doctype html>
+<html>
+<head>
+    
+    <title>Pronto Coffee Co.</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+    <link rel="stylesheet" href="index.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Dancing+Script:wght@500&family=Quicksand:wght@300;500;700&display=swap" rel="stylesheet">
+    
+</head>
+<body>
+   
+    <div class="container">
+        <span id="signin">Barista Sign-In <a href="/login" class="">Login</a></span>
+
+        <img src="logo.png" alt="Pronto Logo">
+     
+<div id="ordering">
+<section id="buttonsToOrder" class="box-bottom-shadow">
+
+    <h1>Place Order</h1>
+   <div id="form">
+       <h3> sizes</h3>
+        <div id="sizes">
+        <input type="radio" class="size" id="tall" value="Tall" name="size">
+        <label for="tall" >Tall</label>
+        <input type="radio" class="size" id="venti" value="Venti" name="size">
+        <label for="venti" >Venti</label>
+        <input type="radio" class="size" id="grande" value="Grande" name="size">
+        <label for="grande" >Grande</label>
+        </div>
+        <h3>Milk</h3>
+         <div id="milk">
+        <input type="radio" class="miik" id="Almond" value="Almond" name="milk">
+        <label for="Almond" >Almond</label>
+        <input type="radio" class="milk" id="Oat" value="Oat" name="milk">
+        <label for="Oat" >Oat</label>
+        <input type="radio" class="milk" id="Whole" value="Whole" name="milk">
+        <label for="Whole" >Whole</label>  
+        <input type="radio" class="milk" id="n/a" value="n/a" name="milk">
+        <label for="Oat" >No Milk</label>
+        </div>
+        <h3>Coffee</h3>
+
+        <button class="order btn btn-primary btn-lg box-bottom-shadow" type="submit" name="drink" value="Espresso">Espresso</button>
+        <button class="order btn btn-primary btn-lg box-bottom-shadow" type="submit" name="drink" value="Latte">Latte</button>
+        <button class="order btn btn-primary btn-lg box-bottom-shadow" type="submit" name="drink" value="Macchiato">Macchiato</button>
+        <button class="order btn btn-primary btn-lg box-bottom-shadow" type="submit" name="drink" value="Cold Brew">Cold Brew</button>
+        <button class="order btn btn-primary btn-lg box-bottom-shadow" type="submit" name="drink" value="House Blend">House Blend</button>
+        <button class="order btn btn-primary btn-lg box-bottom-shadow" type="submit" name="drink" value="Iced Latte">Iced Latte</button>
+        <button class="order btn btn-primary btn-lg box-bottom-shadow" type="submit" name="drink" value="Iced Macchiato">Iced Macchiato</button>
+        <!-- </form> -->
+
+  
+</section>
+    <section id="ticket"  class="box-bottom-shadow">
+        <h1> Ticket</h1>
+        <ul id="orderTicket" class="list-unstyled">
+            <label for="name">Customer Name:</label>
+        <input id="nameInput" class="orderInput" type="text" value="" name="name" required>
+        </ul>
+        <button id="submit" class="btn btn-primary btn-lg box-bottom-shadow" type="submit" name="order" value="order">Submit Order</button>
+        
+    </section>
+</div>
+</div>
+
+
+
+
+</div>
+<script src="main.js"></script>
+</body>
+</html>
