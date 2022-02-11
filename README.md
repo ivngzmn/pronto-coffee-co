@@ -8,7 +8,7 @@ A full stack web application that allows a barista, login, add to an order, view
 
 ## How It's Made:
 
-**Tech used:** HTML, CSS, JS, API, JSON, NODE.JS, EXPRESS, MONGODB, USER AUTH & Render
+**Tech used:** HTML, Bootstrap CSS, JS, API, JSON, NODE.JS, EXPRESS, MONGODB, USER AUTH & Render
 
 I wanted to be able to create a full stack web app that allowed a coffee shop to be able to have their own ordering application. I used Bootstrap for this project and it helped get the layout completed rapidly. With MongoDB Atlas it was nice and straightforward to set up and get things communicating with my developer build. I ended up using Render for deployment this time around and it was much easier than using Heroku. Just drop the .env into Render and it was much better than having to enter keys and secrets manually.
 
