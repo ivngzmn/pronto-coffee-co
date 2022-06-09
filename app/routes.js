@@ -1,17 +1,17 @@
 module.exports = function (app, passport, db, ObjectId) {
-  app.get("/", function (req, res) {
-    res.render("index.ejs", { outcome: null });
+  app.get('/', function (req, res) {
+    res.render('index.ejs', { outcome: null });
   });
 
-  app.get("/profile", isLoggedIn, function (req, res) {
-    db.collection("order")
+  app.get('/profile', isLoggedIn, function (req, res) {
+    db.collection('order')
       .find()
       .toArray((err, result) => {
         if (err) return console.log(err);
         let orders = result.filter((h) => h.completed === false);
         let completedOrders = result.filter((h) => h.completed === true);
 
-        res.render("profile.ejs", {
+        res.render('profile.ejs', {
           user: req.user,
           orders: orders,
           completed: completedOrders,
@@ -19,30 +19,30 @@ module.exports = function (app, passport, db, ObjectId) {
       });
   });
 
-  app.get("/logout", function (req, res) {
+  app.get('/logout', function (req, res) {
     req.logout();
-    res.redirect("/");
+    res.redirect('/');
   });
 
-  app.post("/", (req, res) => {
-    console.log("name for order", req.body.name);
-    db.collection("order").save(
+  app.post('/', (req, res) => {
+    console.log('name for order', req.body.name);
+    db.collection('order').save(
       {
         name: req.body.name,
         order: req.body.order,
         completed: false,
-        barista: "",
+        barista: '',
       },
       (err, savedResult) => {
         if (err) return console.log(err);
-        console.log("saved to database");
-        res.render("index.ejs");
+        console.log('saved to database');
+        res.render('index.ejs');
       }
     );
   });
 
-  app.put("/messages/like", (req, res) => {
-    db.collection("order").findOneAndUpdate(
+  app.put('/messages/like', (req, res) => {
+    db.collection('order').findOneAndUpdate(
       {
         _id: ObjectId(req.body.id),
       },
@@ -63,50 +63,50 @@ module.exports = function (app, passport, db, ObjectId) {
     );
   });
 
-  app.delete("/messages", (req, res) => {
-    db.collection("order").findOneAndDelete(
+  app.delete('/messages', (req, res) => {
+    db.collection('order').findOneAndDelete(
       {
         _id: ObjectId(req.body.id),
       },
       (err, result) => {
         if (err) return res.send(500, err);
-        res.send("Message deleted!");
+        res.send('Message deleted!');
       }
     );
   });
 
-  app.get("/login", function (req, res) {
-    res.render("login.ejs", { message: req.flash("loginMessage") });
+  app.get('/login', function (req, res) {
+    res.render('login.ejs', { message: req.flash('loginMessage') });
   });
 
   app.post(
-    "/login",
-    passport.authenticate("local-login", {
-      successRedirect: "/profile",
-      failureRedirect: "/login",
+    '/login',
+    passport.authenticate('local-login', {
+      successRedirect: '/profile',
+      failureRedirect: '/login',
       failureFlash: true,
     })
   );
 
-  app.get("/signup", function (req, res) {
-    res.render("signup.ejs", { message: req.flash("signupMessage") });
+  app.get('/signup', function (req, res) {
+    res.render('signup.ejs', { message: req.flash('signupMessage') });
   });
 
   app.post(
-    "/signup",
-    passport.authenticate("local-signup", {
-      successRedirect: "/profile",
-      failureRedirect: "/signup",
+    '/signup',
+    passport.authenticate('local-signup', {
+      successRedirect: '/profile',
+      failureRedirect: '/signup',
       failureFlash: true,
     })
   );
 
-  app.get("/unlink/local", isLoggedIn, function (req, res) {
+  app.get('/unlink/local', isLoggedIn, function (req, res) {
     var user = req.user;
     user.local.email = undefined;
     user.local.password = undefined;
     user.save(function (err) {
-      res.redirect("/profile");
+      res.redirect('/profile');
     });
   });
 };
@@ -114,5 +114,5 @@ module.exports = function (app, passport, db, ObjectId) {
 function isLoggedIn(req, res, next) {
   if (req.isAuthenticated()) return next();
 
-  res.redirect("/");
+  res.redirect('/');
 }

@@ -1,5 +1,5 @@
-const mongoose = require("mongoose");
-require("dotenv").config({ path: "./config/.env" });
+const mongoose = require('mongoose');
+require('dotenv').config({ path: './config/.env' });
 
 const connectDB = async () => {
   try {
@@ -20,5 +20,5 @@ module.exports = connectDB;
 
 module.exports = {
   url: process.env.DB_STRING,
-  dbName: "PRONTO-COFFEE-CO",
+  dbName: 'PRONTO-COFFEE-CO',
 };

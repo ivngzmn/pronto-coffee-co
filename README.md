@@ -2,7 +2,7 @@
 
 A full stack web application that allows a barista, login, add to an order, view pending orders, view completed orders and complete orders. Orders that have been completed will note which barista completed the order.
 
-**Link to project:**(https://prontocoffeeco.onrender.com)
+**Link to project:** [Pronto Coffee Co.](https://prontocoffeeco.onrender.com)
 
 ![app image](#)
 
@@ -21,11 +21,10 @@ Add Coffee Shop main page
 
 Switched from Heroku to Render and it was a breeze. I realized I was able to use most of the backend from a previous project and it made development much quicker.
 
-## Examples:
+## Other Projects:
 
-Take a look at these couple examples that I have in my own portfolio:
+Take a peek at some of my other projects:
+
 **Markdown Editor:** https://github.com/ivngzmn/react-markdown-editor
 
 **Pomodoro App:** https://github.com/ivngzmn/react-pomodoro-app
-
-**Rock Paper Scissors Game:** https://github.com/ivngzmn/TOP-Rock-Paper-Scissors

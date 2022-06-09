@@ -6,7 +6,7 @@
   "scripts": {
     "start": "nodemon server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "watch": "nodemon server.js && tailwindcss build -i src/tailwind.css -o public/css/style.css -w",
+    "dev": "nodemon server.js && tailwindcss build -i src/tailwind.css -o public/css/style.css -w",
     "build:tailwind": "cross-env NODE_ENV=production postcss src/tailwind.css -o public/style.css"
   },
   "dependencies": {
