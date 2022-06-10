@@ -17,7 +17,7 @@
     "connect-mongo": "^4.6.0",
     "cookie-parser": "~1.4.3",
     "dotenv": "^16.0.0",
-    "ejs": "~2.5.2",
+    "ejs": "^3.1.8",
     "express": "^4.16.4",
     "express-session": "^1.15.6",
     "lodash": "^4.17.20",
@@ -32,5 +32,8 @@
     "passport-google-oauth": "~1.0.0",
     "passport-local": "~1.0.0",
     "passport-twitter": "^0.1.5"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.0.24"
   }
 }
