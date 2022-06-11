@@ -1,77 +1,369 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    
-    <title>Pronto Coffee Co.</title>
-    <!-- <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> -->
-    <!-- <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> -->
-    <link rel="stylesheet" href="index.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Dancing+Script:wght@500&family=Quicksand:wght@300;500;700&display=swap" rel="stylesheet">
-    
+  <meta charset="UTF-8" />
+  <meta content="IE=edge" http-equiv="X-UA-Compatible" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Meta Description -->
+  <meta content="" name="description" />
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="css/index.css" />
+  <!--Font Styles -->
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Kufam:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+  <!--FAVICON-->
+  <link href="images/coffee-favicon.ico" rel="icon" />
+  <title>Pronto Coffee Co.</title>
 </head>
 <body>
-   
-    <div class="container">
-        <span id="signin">Barista Sign-In <a href="/login" class="">Login</a></span>
-
-        <img src="logo.png" alt="Pronto Logo">
-     
-<div id="ordering">
-<section id="buttonsToOrder" class="box-bottom-shadow">
-
-    <h1>Place Order</h1>
-   <div id="form">
-       <h3> sizes</h3>
-        <div id="sizes">
-        <input type="radio" class="size" id="tall" value="Tall" name="size">
-        <label for="tall" >Tall</label>
-        <input type="radio" class="size" id="venti" value="Venti" name="size">
-        <label for="venti" >Venti</label>
-        <input type="radio" class="size" id="grande" value="Grande" name="size">
-        <label for="grande" >Grande</label>
+  <!--start of hero (landing) section-->
+  <section class="relative lg:h-screen">
+    <!-- Start of header -->
+    <header class="absolute w-full z-10">
+      <nav class="lg:max-w-screen-xl  flex flex-row flex-wrap justify-between my-4 lg:my-6 ml-auto mr-auto "
+        role="navigation">
+        <!-- COMPANY LOGO (SVG) -->
+        <div class="flex items-center ml-3 w-44">
+          <a href="/">
+            <img src="images/pronto-logo.png" alt="pronto-logo">
+          </a>
         </div>
-        <h3>Milk</h3>
-         <div id="milk">
-        <input type="radio" class="miik" id="Almond" value="Almond" name="milk">
-        <label for="Almond" >Almond</label>
-        <input type="radio" class="milk" id="Oat" value="Oat" name="milk">
-        <label for="Oat" >Oat</label>
-        <input type="radio" class="milk" id="Whole" value="Whole" name="milk">
-        <label for="Whole" >Whole</label>  
-        <input type="radio" class="milk" id="n/a" value="n/a" name="milk">
-        <label for="Oat" >No Milk</label>
+        <div class="inline-block h-8 mr-3 lg:hidden">
+          <button id="nav_toggle" class="h-full w-full">
+            <svg class="h-full w-auto" xmlns="http://www.w3.org/2000/svg" width="192" height="192" fill="#4B5563"
+              viewBox="0 0 256 256">
+              <rect width="256" height="256" fill="none"></rect>
+              <line x1="40" y1="128" x2="216" y2="128" stroke="#4B5563" stroke-linecap="round" stroke-linejoin="round"
+                stroke-width="16"></line>
+              <line x1="40" y1="64" x2="216" y2="64" stroke="#4B5563" stroke-linecap="round" stroke-linejoin="round"
+                stroke-width="16"></line>
+              <line x1="40" y1="192" x2="216" y2="192" stroke="#4B5563" stroke-linecap="round" stroke-linejoin="round"
+                stroke-width="16"></line>
+            </svg>
+          </button>
         </div>
-        <h3>Coffee</h3>
+        <div id="nav_content"
+          class="w-full hidden py-8 lg:flex lg:w-auto lg:py-0 lg:items-center rounded-br-full shadow-md lg:shadow-none bg-yellow-50">
+          <ul class="flex flex-col ml-auto text-md text-gray-700 font-semibold lg:flex-row">
+            <li class="mx-6 w-mc hover:text-gray-900 mb-4 lg:mb-0"><a href="/growth-tips">BLOG</a></li>
+            <li class="mx-6 w-mc hover:text-gray-900 mb-4 lg:mb-0"><a href="/contact">CONTACT</a></li>
+            <li class="mx-6 w-mc hover:text-gray-900 mb-4 lg:mb-0"><a href="/login">LOGIN</a></li>
+            <li class="mx-6 w-mc hover:text-gray-900 mb-4 lg:mb-0"><a href="/signup">REGISTER</a></li>
+          </ul>
+        </div>
+        </div>
+      </nav>
+    </header>
 
-        <button class="order btn btn-primary btn-lg box-bottom-shadow" type="submit" name="drink" value="Espresso">Espresso</button>
-        <button class="order btn btn-primary btn-lg box-bottom-shadow" type="submit" name="drink" value="Latte">Latte</button>
-        <button class="order btn btn-primary btn-lg box-bottom-shadow" type="submit" name="drink" value="Macchiato">Macchiato</button>
-        <button class="order btn btn-primary btn-lg box-bottom-shadow" type="submit" name="drink" value="Cold Brew">Cold Brew</button>
-        <button class="order btn btn-primary btn-lg box-bottom-shadow" type="submit" name="drink" value="House Blend">House Blend</button>
-        <button class="order btn btn-primary btn-lg box-bottom-shadow" type="submit" name="drink" value="Iced Latte">Iced Latte</button>
-        <button class="order btn btn-primary btn-lg box-bottom-shadow" type="submit" name="drink" value="Iced Macchiato">Iced Macchiato</button>
-        <!-- </form> -->
+    <div class="lg:flex justify-center items-center h-full pb-16 lg:pb-0">
+      <img class="pt-24 w-full lg:pt-0 lg:w-auto" src="./images/coffee_hero.png" alt="">
+      <div class="mx-4 mt-8 lg:mt-0 lg:ml-16 lg:max-w-prose">
+        <span class="block uppercase text-sm lg:text-base lg:font-semibold mb-2 lg:mb-4 text-gray-700">Pronto Coffee Co.</span>
+        <h1 class="text-5xl lg:text-7xl uppercase text-gray-900 font-medium mb-4 lg:mb-8">All You Need is <span
+            class="block font-black">Our Delicious</span>
+          Coffee.</h1>
+          <span class="text-gray-700 mb-2 max-w-prose">We are the best coffee maker in the town and always ready to serve you with absolutely the best quality coffee.</span>
+        <div class="mt-3">
+        <a class="inline-block uppercase text-sm text-center font-bold px-5 py-3 lg:px-10 lg:py-4 rounded-3xl rounded-bl-3xl bg-gray-900 text-yellow-50 hover:bg-gray-700 focus:ring-2 focus:ring-yellow-300"
+          href="/contact">Find out more</a>
+        </div>
+      </div>
+      
+    </div>
+  </section>
+  <!--end of hero (landing) section-->
 
-  
-</section>
-    <section id="ticket"  class="box-bottom-shadow">
-        <h1> Ticket</h1>
-        <ul id="orderTicket" class="list-unstyled">
-            <label for="name">Customer Name:</label>
-        <input id="nameInput" class="orderInput" type="text" value="" name="name" required>
-        </ul>
-        <button id="submit" class="btn btn-primary btn-lg box-bottom-shadow" type="submit" name="order" value="order">Submit Order</button>
+  <!-- Start of Services section -->
+  <section class="py-16 lg:py-24 shadow-inner  bg-yellow-100">
+    <div class="lg:flex justify-center gap-x-18">
+      <!-- Service 1-->
+      <div class="mx-4 md:w-2/3 md:mx-auto mb-16 lg:mx-0 lg:mb-0 lg:w-80 flex flex-col items-center">
+        <img class="w-20" src="images/coffee-cup.png" alt="coffee cup icon">
+        <h2 class="text-xl lg:text-2xl mt-3 mb-6 font-semibold text-gray-900">Coffee</h2>
+        <p class="text-center text-gray-500">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Purus,
+          augue ut leo
+          sagittis
+          tempor nibh. Commodo
+          nulla nullam
+          tempor adipiscing.</p>
+      </div>
+
+      <!-- Service 2 -->
+      <div class="mx-4 md:w-2/3 md:mx-auto mb-16 lg:mx-0 lg:mb-0 lg:w-80 flex flex-col items-center">
+        <img class="w-20" src="images/tea-cup.png" alt="tea cup icon">
+
+        <h2 class="text-xl lg:text-2xl mt-3 mb-6 font-semibold text-gray-900">Tea</h2>
+        <p class="text-center text-gray-500">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Purus,
+          augue ut leo
+          sagittis
+          tempor nibh. Commodo
+          nulla nullam
+          tempor adipiscing.</p>
+      </div>
+
+      <!-- Service 3 -->
+      <div class="mx-4 md:w-2/3 md:mx-auto mb-16 lg:mx-0 lg:mb-0 lg:w-80 flex flex-col items-center">
+        <img class="w-18" src="images/restaurant.png" alt="tea cup icon">
         
-    </section>
-</div>
-</div>
+
+        <h2 class="text-xl lg:text-2xl mt-3 mb-6 font-semibold text-gray-900">Food</h2>
+        <p class="text-center text-gray-500">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Purus,
+          augue ut leo
+          sagittis
+          tempor nibh. Commodo
+          nulla nullam
+          tempor adipiscing.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Growth Tips section -->
+  <section class="flex justify-center mx-4 md:w-2/3 md:mx-auto pt-24 lg:pt-30 pb-32 lg:pb-40">
+    <div class="lg:flex items-center justify-center gap-x-14">
+      <!-- decription -->
+      <div class="lg:w-1/4 mb-16 lg:mb-0">
+        <h2 class="inline-block text-3xl lg:text-4xl font-semibold uppercase text-gray-900">Only the best ingredients</h2>
+        <p class="leading-relaxed mt-10 mb-10 text-gray-700">Lorem ipsum dolor sit amet, consectetur
+          adipiscing elit.
+          At et
+          augue
+          tristique risus,
+          enim non. Auctor quis
+          pulvinar
+          elit sit. Est proin scelerisque at est gravida nibh. Odio eget odio diam felis aliquam volutpat integer. Dis
+          commodo
+          blandit id enim facilisi eros nulla.</p>
+        <a class="inline-block uppercase text-center text-sm font-bold px-5 py-3 lg:px-10 lg:py-4 rounded-3xl rounded-bl-3xl bg-gray-900 text-yellow-50 hover:bg-gray-700 focus:ring-2 focus:ring-yellow-300"
+          href="/growth-tips">See Tips</a>
+      </div>
+      <!-- Image -->
+      <img src="./images/coffee_growth.png" alt="A happy cartoon woman holding a green growing plant.">
+    </div>
+  </section>
+
+  <!-- Start of Testimonials section -->
+  <section class="flex flex-col shadow-inner rounded-r-10xl lg:rounded-r-full items-center pt-30 pb-40 bg-yellow-100">
+    <h2 class="inline-block text-3xl lg:text-4xl font-semibold uppercase text-gray-900 mb-18">What our Clients say about us</h2>
+
+    <!-- testimonial container -->
+    <div class="lg:flex gap-x-10">
+
+      <!-- testimonial 1-->
+      <div class="mb-24 lg:mb-0">
+        <div class="flex items-center shadow-md w-89 h-89 p-10 rounded-tl-3xl rounded-br-3xl bg-yellow-50">
+          <p class="font-medium leading-relaxed">“Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ornare
+            rhoncus mauris nunc
+            integer lectus risus. Molestie in a
+            lacinia sapien, sodales purus. Ultrices semper ornare ante. Molestie in a lacinia sapien, sodales purus.
+            Ultrices semper
+            ornare ante a lacinia nunc.”</p>
+        </div>
+        <div class="flex mt-10">
+          <div class="h-12 w-12 flex-shrink-0">
+            <img class="w-full h-full rounded-full shadow-inner" src="./images/Testimonials/smiling_man.png"
+              alt="A smiling man.">
+          </div>
+          <div class="ml-4">
+            <span class="block text-sm font-bold mt-2 tracking-wider text-gray-600">Thom Yorke</span>
+            <span class="block text-sm text-gray-500">Software Engineer, Apple</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- testimonial 2 -->
+      <div class="mb-24 lg:mb-0">
+        <div class="flex items-center shadow-md w-89 h-89 p-10 rounded-tl-3xl rounded-br-3xl bg-yellow-50">
+          <p class="font-medium leading-relaxed">“Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ornare
+            rhoncus mauris nunc
+            integer lectus risus. Molestie in a
+            lacinia sapien, sodales purus. Ultrices semper ornare ante. Molestie in a lacinia sapien, sodales purus.
+            Ultrices semper
+            ornare ante a lacinia nunc.”</p>
+        </div>
+        <div class="flex mt-10">
+          <div class="h-12 w-12 flex-shrink-0">
+            <img class="w-full h-full rounded-full shadow-inner" src="./images/Testimonials/smiling_woman.jpg"
+              alt="A smiling woman.">
+          </div>
+          <div class="ml-4">
+            <span class="block text-sm font-bold mt-2 tracking-wider text-gray-600">Laura Misch</span>
+            <span class="block text-sm text-gray-500">Software Engineer, Microsoft</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- testimonial 3 -->
+      <div>
+        <div class="flex items-center shadow-md w-89 h-89 p-10 rounded-tl-3xl rounded-br-3xl bg-yellow-50">
+          <p class="font-medium leading-relaxed">“Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ornare
+            rhoncus mauris nunc
+            integer lectus risus. Molestie in a
+            lacinia sapien, sodales purus. Ultrices semper ornare ante. Molestie in a lacinia sapien, sodales purus.
+            Ultrices semper
+            ornare ante a lacinia nunc.”</p>
+        </div>
+        <div class="flex mt-10">
+          <div class="h-12 w-12 flex-shrink-0">
+            <img class="w-full h-full rounded-full shadow-inner" src="./images/Testimonials/smiling_man_2.jpg"
+              alt="A smiling man.">
+          </div>
+          <div class="ml-4">
+            <span class="block text-sm font-bold mt-2 tracking-wider text-gray-600">Rory Ferreira</span>
+            <span class="block text-sm text-gray-500">Senior Software Engineer, Stripe</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Start of Previous Work section -->
+  <section class="pt-24 lg:pt-40 pb-32 lg:pb-52">
+    <h2 class="text-center text-3xl lg:text-4xl font-semibold uppercase text-gray-900 mb-20 lg:mb-24">Our Process</h2>
+
+    <!-- project 1 -->
+    <div class="flex flex-col items-center mx-4 md:w-2/3 md:mx-auto lg:w-full lg:mx-0">
+      <div class="lg:flex items-center justify-center gap-x-14">
+        <!-- decription -->
+        <div class="lg:w-1/4">
+          <h2 class="inline-block text-xl font-semibold uppercase text-gray-800">Fresh Ingredients</h2>
+          <p class="leading-relaxed my-6 text-gray-700">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            Massa in arcu venenatis est laoreet habitant nibh. Eu proin
+            egestas consequat pharetra sit volutpat consectetur mauris. Scelerisque ac lectus vitae, amet sed vel
+            molestie dui.
+            Ullamcorper.</p>
+          <a class="inline-block uppercase text-center text-sm font-bold px-5 py-3 lg:px-10 lg:py-4 rounded-3xl bg-gray-900 text-yellow-50 hover:bg-gray-700 focus:ring-2 focus:ring-yellow-300"
+            href="#">Order Now</a>
+        </div>
+        <!-- Image -->
+        <div
+          class="relative h-80 lg:w-[100rem] mt-8 lg:mt-0 -mx-4 lg:mx-0 lg:rounded-xl overflow-hidden">
+          <div class="absolute top-0 right-0 left-0 bottom-0 opacity-10 bg-yellow-50">
+          </div>
+          <img class="h-full w-full object-cover" src="images/post_2.jpg" alt="Fresh coffe beans">
+        </div>
+      </div>
+    </div>
+
+    <!-- project 2 -->
+    <div class="flex flex-col items-center my-24 lg:my-40 mx-4 md:w-2/3 md:mx-auto lg:w-full lg:mx-0">
+      <div class="lg:flex flex-row-reverse items-center justify-center gap-x-14">
+        <!-- decription -->
+        <div class="lg:w-1/4">
+          <h2 class="inline-block text-xl font-semibold uppercase text-gray-800">Barista Masters</h2>
+          <p class="leading-relaxed my-6 text-gray-700">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            Massa in arcu venenatis est laoreet habitant nibh. Eu proin
+            egestas consequat pharetra sit volutpat consectetur mauris. Scelerisque ac lectus vitae, amet sed vel
+            molestie dui.
+            Ullamcorper.</p>
+          <a class="inline-block uppercase text-center text-sm font-bold px-5 py-3 lg:px-10 lg:py-4 rounded-tl-3xl rounded-3xl bg-gray-900 text-yellow-50 hover:bg-gray-700 focus:ring-2 focus:ring-yellow-300"
+            href="/project-url">Baristas</a>
+        </div>
+        <!-- Image -->
+        <div class="relative h-80 lg:w-[100rem] mt-8 lg:mt-0 -mx-4 lg:mx-0 lg:rounded-xl overflow-hidden">
+          <div class="absolute top-0 right-0 left-0 bottom-0 opacity-10 bg-yellow-50">
+          </div>
+          <img class="h-full w-full object-cover" src="./images/work_2.jpg"
+            alt="A barista preparing coffee at Pronto Coffee Co.">
+        </div>
+      </div>
+    </div>
+
+    <!-- project 3 -->
+    <div class="flex flex-col items-center mx-4 md:w-2/3 md:mx-auto lg:w-full lg:mx-0">
+      <div class="lg:flex items-center justify-center gap-x-14">
+        <!-- decription -->
+        <div class="lg:w-1/4">
+          <h2 class="inline-block text-xl font-semibold uppercase text-gray-800">Atmousphere</h2>
+          <p class="leading-relaxed my-6 text-gray-700">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            Massa in arcu venenatis est laoreet habitant nibh. Eu proin
+            egestas consequat pharetra sit volutpat consectetur mauris. Scelerisque ac lectus vitae, amet sed vel
+            molestie dui.
+            Ullamcorper.</p>
+          <a class="inline-block uppercase text-center text-sm font-bold px-5 py-3 lg:px-10 lg:py-4 rounded-3xl rounded-bl-3xl bg-gray-900 text-yellow-50 hover:bg-gray-700 focus:ring-2 focus:ring-yellow-300"
+            href="/project-url">Reserve table</a>
+        </div>
+        <!-- Image -->
+        <div class="relative h-80 lg:w-[100rem] mt-8 lg:mt-0 -mx-4 lg:mx-0 lg:rounded-xl overflow-hidden">
+          <div class="absolute top-0 right-0 left-0 bottom-0 opacity-10 bg-yellow-50">
+          </div>
+          <img class="h-full w-full object-cover" src="./images/work_3.jpg"
+            alt="A coffee shop with people seated at tables.">
+        </div>
+      </div>
+    </div>
 
 
+  </section>
+
+  <!-- Start of CTA section -->
+  <section class="py-24 shadow-inner  bg-yellow-100">
+    <h2 class="text-center font-semibold text-xl lg:text-2xl mb-12 text-gray-900">Ready for more customers?</h2>
+    <div class="text-center">
+      <a class="inline-block uppercase font-bold px-5 py-3 lg:px-10 lg:py-4 rounded-3xl text-sm lg:text-base rounded-bl-3xl bg-gray-900 text-yellow-50 hover:bg-gray-700 focus:ring-2 focus:ring-yellow-300"
+        href="/contact">Get in touch now</a>
+    </div>
+  </section>
 
 
-</div>
-<script src="main.js"></script>
+  <!--Footer links and social media-->
+  <footer class="py-16">
+    <div class="flex flex-col lg:flex-row items-center justify-between mx-auto max-w-screen-xl">
+      <div class="flex items-center">
+        <!-- Logo SVG-->
+        <a class="ml-4" href="/">
+        <img class="w-52" src="images/pronto-logo.png" alt="">
+
+        </a>
+      </div>
+      <ul class="flex flex-col lg:flex-row items-center text-sm font-semibold text-gray-500 py-12 lg:py-0">
+        <li class="mx-7 hover:text-gray-700 mb-2 lg:mb-0">
+          <a href="/growth-tips">BLOG</a>
+        </li>
+
+        <li class="mx-7 hover:text-gray-700 mb-2 lg:mb-0">
+          <a href="/contact">CONTACT</a>
+        </li>
+      </ul>
+      <div class="flex text-gray-500">
+        <!-- Twitter Logo -->
+        <a class="hover:text-gray-700" href="/">
+          <svg class="mx-4 fill-current" width="21" height="17" viewBox="0 0 21 17" fill="none"
+            xmlns="http://www.w3.org/2000/svg">
+            <title>Twitter</title>
+            <path
+              d="M20.92 2C20.15 2.35 19.32 2.58 18.46 2.69C19.34 2.16 20.02 1.32 20.34 0.31C19.51 0.81 18.59 1.16 17.62 1.36C16.83 0.5 15.72 0 14.46 0C12.11 0 10.19 1.92 10.19 4.29C10.19 4.63 10.23 4.96 10.3 5.27C6.74 5.09 3.57 3.38 1.46 0.79C1.09 1.42 0.88 2.16 0.88 2.94C0.88 4.43 1.63 5.75 2.79 6.5C2.08 6.5 1.42 6.3 0.84 6V6.03C0.84 8.11 2.32 9.85 4.28 10.24C3.65073 10.4122 2.9901 10.4362 2.35 10.31C2.62161 11.1625 3.15354 11.9084 3.87102 12.4429C4.5885 12.9775 5.45545 13.2737 6.35 13.29C4.83363 14.4904 2.954 15.1393 1.02 15.13C0.68 15.13 0.34 15.11 0 15.07C1.9 16.29 4.16 17 6.58 17C14.46 17 18.79 10.46 18.79 4.79C18.79 4.6 18.79 4.42 18.78 4.23C19.62 3.63 20.34 2.87 20.92 2Z" />
+          </svg>
+        </a>
+        <!-- Facebook Logo -->
+        <a class="hover:text-gray-700" href="/">
+          <svg class="mx-4 fill-current" width="20" height="20" viewBox="0 0 20 20" fill="none"
+            xmlns="http://www.w3.org/2000/svg">
+            <title>Facebook</title>
+            <path
+              d="M10 0C4.5 0 0 4.49 0 10.02C0 15.02 3.66 19.17 8.44 19.92V12.92H5.9V10.02H8.44V7.81C8.44 5.3 9.93 3.92 12.22 3.92C13.31 3.92 14.45 4.11 14.45 4.11V6.58H13.19C11.95 6.58 11.56 7.35 11.56 8.14V10.02H14.34L13.89 12.92H11.56V19.92C13.9164 19.5478 16.0622 18.3455 17.6099 16.5301C19.1576 14.7146 20.0054 12.4056 20 10.02C20 4.49 15.5 0 10 0Z" />
+          </svg>
+        </a>
+        <!-- Instagram Logo -->
+        <a class="hover:text-gray-700" href="/">
+          <svg class="mx-4 fill-current" width="20" height="20" viewBox="0 0 20 20" fill="none"
+            xmlns="http://www.w3.org/2000/svg">
+            <title>Instagram</title>
+            <path
+              d="M5.8 0H14.2C17.4 0 20 2.6 20 5.8V14.2C20 15.7383 19.3889 17.2135 18.3012 18.3012C17.2135 19.3889 15.7383 20 14.2 20H5.8C2.6 20 0 17.4 0 14.2V5.8C0 4.26174 0.61107 2.78649 1.69878 1.69878C2.78649 0.61107 4.26174 0 5.8 0ZM5.6 2C4.64522 2 3.72955 2.37928 3.05442 3.05442C2.37928 3.72955 2 4.64522 2 5.6V14.4C2 16.39 3.61 18 5.6 18H14.4C15.3548 18 16.2705 17.6207 16.9456 16.9456C17.6207 16.2705 18 15.3548 18 14.4V5.6C18 3.61 16.39 2 14.4 2H5.6ZM15.25 3.5C15.5815 3.5 15.8995 3.6317 16.1339 3.86612C16.3683 4.10054 16.5 4.41848 16.5 4.75C16.5 5.08152 16.3683 5.39946 16.1339 5.63388C15.8995 5.8683 15.5815 6 15.25 6C14.9185 6 14.6005 5.8683 14.3661 5.63388C14.1317 5.39946 14 5.08152 14 4.75C14 4.41848 14.1317 4.10054 14.3661 3.86612C14.6005 3.6317 14.9185 3.5 15.25 3.5ZM10 5C11.3261 5 12.5979 5.52678 13.5355 6.46447C14.4732 7.40215 15 8.67392 15 10C15 11.3261 14.4732 12.5979 13.5355 13.5355C12.5979 14.4732 11.3261 15 10 15C8.67392 15 7.40215 14.4732 6.46447 13.5355C5.52678 12.5979 5 11.3261 5 10C5 8.67392 5.52678 7.40215 6.46447 6.46447C7.40215 5.52678 8.67392 5 10 5ZM10 7C9.20435 7 8.44129 7.31607 7.87868 7.87868C7.31607 8.44129 7 9.20435 7 10C7 10.7956 7.31607 11.5587 7.87868 12.1213C8.44129 12.6839 9.20435 13 10 13C10.7956 13 11.5587 12.6839 12.1213 12.1213C12.6839 11.5587 13 10.7956 13 10C13 9.20435 12.6839 8.44129 12.1213 7.87868C11.5587 7.31607 10.7956 7 10 7Z" />
+          </svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- Fine Print-->
+    <div class="flex flex-col items-center mt-24 text-xs text-gray-400">
+      <span>&copy; Pronto Coffee Co. 2022</span>
+    </div>
+  </footer>
+
+
 </body>
+
+<script src="js/nav.js"></script>
+
 </html>

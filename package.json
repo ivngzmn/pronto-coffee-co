@@ -6,8 +6,8 @@
   "scripts": {
     "start": "nodemon server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon server.js && tailwindcss build -i src/tailwind.css -o public/css/style.css -w",
-    "build:tailwind": "cross-env NODE_ENV=production postcss src/tailwind.css -o public/style.css"
+    "dev": "nodemon server.js && tailwindcss build -i public/css/tailwind.css -o public/css/index.css -w",
+    "build:tailwind": "cross-env NODE_ENV=production postcss src/tailwind.css -o public/css/tailwind.css -o public/css/index.css"
   },
   "dependencies": {
     "bcrypt": "*",

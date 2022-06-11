@@ -1,9 +1,57 @@
 module.exports = function (app, passport, db, ObjectId) {
+  // normal routes ===============================================================
   // home route
   app.get('/', function (req, res) {
     res.render('index.ejs', { outcome: null }); // load the index.ejs file
   });
+  // the contact route
+  app.get('/contact', function (req, res) {
+    res.render('contact.ejs');
+  });
+  // the growth tips route
+  app.get('/growth-tips', function (req, res) {
+    res.render('growth-tips.ejs');
+  });
+  // blog post how to brew the perfect cup route
+  app.get('/how-to-brew-the-perfect-cup', function (req, res) {
+    res.render('how-to-brew-the-perfect-cup.ejs');
+  });
 
+  // authentication routes =========================================================
+  // profile route
+  app.get('/profile', isLoggedIn, function (req, res) {
+    db.collection('order')
+      .find()
+      .toArray((err, result) => {
+        if (err) return console.log(err);
+        let orders = result.filter((h) => h.completed === false);
+        let completedOrders = result.filter((h) => h.completed === true);
+
+        res.render('profile.ejs', {
+          user: req.user, // get the user out of session and pass to template
+          orders: orders,
+          completed: completedOrders,
+        });
+      });
+  });
+  // order taker route
+  app.get('/order-dashboard', isLoggedIn, function (req, res) {
+    db.collection('order')
+      .find()
+      .toArray((err, result) => {
+        if (err) return console.log(err);
+        let orders = result.filter((h) => h.completed === false);
+        let completedOrders = result.filter((h) => h.completed === true);
+
+        res.render('order-dashboard.ejs', {
+          user: req.user, // get the user out of session and pass to template
+          orders: orders,
+          completed: completedOrders,
+        });
+      });
+  });
+
+  // login routes ===============================================================
   // the login form route
   app.get('/login', function (req, res) {
     res.render('login.ejs', { message: req.flash('loginMessage') });
@@ -12,7 +60,7 @@ module.exports = function (app, passport, db, ObjectId) {
   app.post(
     '/login',
     passport.authenticate('local-login', {
-      successRedirect: '/profile',
+      successRedirect: '/profile', // redirect to the secure profile section
       failureRedirect: '/login',
       failureFlash: true,
     })
@@ -32,29 +80,13 @@ module.exports = function (app, passport, db, ObjectId) {
     })
   );
 
-  // profile route
-  app.get('/profile', isLoggedIn, function (req, res) {
-    db.collection('order')
-      .find()
-      .toArray((err, result) => {
-        if (err) return console.log(err);
-        let orders = result.filter((h) => h.completed === false);
-        let completedOrders = result.filter((h) => h.completed === true);
-
-        res.render('profile.ejs', {
-          user: req.user, // get the user out of session and pass to template
-          orders: orders,
-          completed: completedOrders,
-        });
-      });
-  });
-
   // logout route
   app.get('/logout', function (req, res) {
     req.logout();
     res.redirect('/');
   });
 
+  // create order
   app.post('/', (req, res) => {
     console.log('name for order', req.body.name);
     db.collection('order').save(
@@ -71,7 +103,7 @@ module.exports = function (app, passport, db, ObjectId) {
       }
     );
   });
-
+  // update order
   app.put('/messages/like', (req, res) => {
     db.collection('order').findOneAndUpdate(
       {
@@ -93,7 +125,7 @@ module.exports = function (app, passport, db, ObjectId) {
       }
     );
   });
-
+  // delete order
   app.delete('/messages', (req, res) => {
     db.collection('order').findOneAndDelete(
       {
@@ -105,7 +137,7 @@ module.exports = function (app, passport, db, ObjectId) {
       }
     );
   });
-
+  // TODO: add routes for the following:
   app.get('/unlink/local', isLoggedIn, function (req, res) {
     var user = req.user;
     user.local.email = undefined;
