@@ -6,7 +6,7 @@
 @layer components {
   /* #region DEFAULTS */
   html {
-    @apply font-kufam bg-[#F1F0EE] h-full;
+    @apply bg-[#F1F0EE] h-full;
   }
   /* #endregion */
 
