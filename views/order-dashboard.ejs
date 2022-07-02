@@ -1,77 +1,604 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
+
 <head>
-    
-    <title>Pronto Coffee Co.</title>
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
-    <link rel="stylesheet" href="css/index.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Dancing+Script:wght@500&family=Quicksand:wght@300;500;700&display=swap" rel="stylesheet">
-    
+  <meta charset="UTF-8" />
+  <meta content="IE=edge" http-equiv="X-UA-Compatible" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Meta Description -->
+  <meta content="" name="description" />
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="css/index.css" />
+  <!--Font Styles -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Kufam:wght@400;500;600;700;900&display=swap" rel="stylesheet" />
+  <!--FAVICON-->
+  <link href="images/coffee-favicon.ico" rel="icon" />
+  <title>Welcome <%= user.local.userName %> - Pronto Coffee Co.</title>
 </head>
+
 <body>
-   
-    <div class="container">
-        <span id="signin">Barista Sign-In <a href="/login" class="">Login</a></span>
+  <div>
+    <!-- Off-canvas menu for mobile, show/hide based on off-canvas menu state. -->
+    <div id="sidebar" class="hidden relative z-40 md:hidden" role="dialog" aria-modal="true">
+      <!--
+      Off-canvas menu backdrop, show/hide based on off-canvas menu state.
 
-        <img src="logo.png" alt="Pronto Logo">
-     
-<div id="ordering">
-<section id="buttonsToOrder" class="box-bottom-shadow">
+      Entering: "transition-opacity ease-linear duration-300"
+        From: "opacity-0"
+        To: "opacity-100"
+      Leaving: "transition-opacity ease-linear duration-300"
+        From: "opacity-100"
+        To: "opacity-0"
+    -->
+      <div class="fixed inset-0 bg-gray-600 bg-opacity-75"></div>
 
-    <h1>Place Order</h1>
-   <div id="form">
-       <h3> sizes</h3>
-        <div id="sizes">
-        <input type="radio" class="size" id="tall" value="Tall" name="size">
-        <label for="tall" >Tall</label>
-        <input type="radio" class="size" id="venti" value="Venti" name="size">
-        <label for="venti" >Venti</label>
-        <input type="radio" class="size" id="grande" value="Grande" name="size">
-        <label for="grande" >Grande</label>
+      <div class="fixed inset-0 z-40 flex">
+        <!--
+        Off-canvas menu, show/hide based on off-canvas menu state.
+
+        Entering: "transition ease-in-out duration-300 transform"
+          From: "-translate-x-full"
+          To: "translate-x-0"
+        Leaving: "transition ease-in-out duration-300 transform"
+          From: "translate-x-0"
+          To: "-translate-x-full"
+      -->
+        <div class="relative max-w-xs w-full bg-white pt-5 pb-4 flex-1 flex flex-col">
+          <!--
+          Close button, show/hide based on off-canvas menu state.
+
+          Entering: "ease-in-out duration-300"
+            From: "opacity-0"
+            To: "opacity-100"
+          Leaving: "ease-in-out duration-300"
+            From: "opacity-100"
+            To: "opacity-0"
+        -->
+          <div class="absolute top-0 right-0 -mr-12 pt-2">
+            <button id="close-sidebar" type="button"
+              class="ml-1 flex items-center justify-center h-10 w-10 rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+              <span class="sr-only">Close sidebar</span>
+              <!-- Heroicon name: outline/x -->
+              <svg class="h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                stroke-width="2" stroke="currentColor" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+
+          <div class="flex-shrink-0 px-4 flex items-center">
+            <img src="images/pronto-logo.png" alt="Pronto Logo" />
+          </div>
+          <div class="mt-5 flex-1 h-0 overflow-y-auto">
+            <nav class="px-2 space-y-1">
+              <!-- Current: "bg-gray-100 text-gray-900", Default: "text-gray-600 hover:bg-gray-50 hover:text-gray-900" -->
+              <a href="/porfile"
+                class="hover:bg-gray-50 text-gray-900 group rounded-md py-2 px-2 flex items-center text-base font-medium">
+                <!--
+                Heroicon name: outline/home
+
+                Current: "text-gray-500", Default: "text-gray-400 group-hover:text-gray-500"
+              -->
+                <svg class="text-gray-500 mr-4 flex-shrink-0 h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none"
+                  viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                </svg>
+                Welcome <%= user.local.userName %>
+              </a>
+
+              <a href="#"
+                class="text-gray-600 hover:bg-gray-50 hover:text-gray-900 group rounded-md py-2 px-2 flex items-center text-base font-medium">
+                <!-- Heroicon name: outline/users -->
+                <svg class="text-gray-400 group-hover:text-gray-500 mr-4 flex-shrink-0 h-6 w-6"
+                  xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                  stroke="currentColor" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                </svg>
+                Baristas
+              </a>
+
+              <a href="/order-dashboard"
+                class="bg-gray-100 text-gray-600 hover:bg-gray-50 hover:text-gray-900 group rounded-md py-2 px-2 flex items-center text-base font-medium">
+                <!-- Heroicon name: outline/inbox -->
+                <svg class="text-gray-400 group-hover:text-gray-500 mr-3 flex-shrink-0 h-6 w-6" fill="currentColor"
+                  viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd"
+                    d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z"
+                    clip-rule="evenodd"></path>
+                </svg>
+                Order POS
+              </a>
+
+              <a href="/barista-order-dashboard"
+                class="text-gray-600 hover:bg-gray-50 hover:text-gray-900 group rounded-md py-2 px-2 flex items-center text-base font-medium">
+                <!-- Heroicon name: outline/calendar -->
+                <svg class="text-gray-400 group-hover:text-gray-500 mr-3 flex-shrink-0 h-6 w-6" fill="currentColor"
+                  viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd"
+                    d="M9 3a1 1 0 012 0v5.5a.5.5 0 001 0V4a1 1 0 112 0v4.5a.5.5 0 001 0V6a1 1 0 112 0v5a7 7 0 11-14 0V9a1 1 0 012 0v2.5a.5.5 0 001 0V4a1 1 0 012 0v4.5a.5.5 0 001 0V3z"
+                    clip-rule="evenodd"></path>
+                </svg>
+                Make drinks
+              </a>
+
+              <a href="#"
+                class="text-gray-600 hover:bg-gray-50 hover:text-gray-900 group rounded-md py-2 px-2 flex items-center text-base font-medium">
+                <svg class="text-gray-400 group-hover:text-gray-500 mr-3 flex-shrink-0 h-6 w-6" fill="none"
+                  stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                Clock-in/out
+              </a>
+            </nav>
+          </div>
         </div>
-        <h3>Milk</h3>
-         <div id="milk">
-        <input type="radio" class="miik" id="Almond" value="Almond" name="milk">
-        <label for="Almond" >Almond</label>
-        <input type="radio" class="milk" id="Oat" value="Oat" name="milk">
-        <label for="Oat" >Oat</label>
-        <input type="radio" class="milk" id="Whole" value="Whole" name="milk">
-        <label for="Whole" >Whole</label>  
-        <input type="radio" class="milk" id="n/a" value="n/a" name="milk">
-        <label for="Oat" >No Milk</label>
+
+        <div class="flex-shrink-0 w-14">
+          <!-- Dummy element to force sidebar to shrink to fit close icon -->
         </div>
-        <h3>Coffee</h3>
+      </div>
+    </div>
 
-        <button class="order btn btn-primary btn-lg box-bottom-shadow" type="submit" name="drink" value="Espresso">Espresso</button>
-        <button class="order btn btn-primary btn-lg box-bottom-shadow" type="submit" name="drink" value="Latte">Latte</button>
-        <button class="order btn btn-primary btn-lg box-bottom-shadow" type="submit" name="drink" value="Macchiato">Macchiato</button>
-        <button class="order btn btn-primary btn-lg box-bottom-shadow" type="submit" name="drink" value="Cold Brew">Cold Brew</button>
-        <button class="order btn btn-primary btn-lg box-bottom-shadow" type="submit" name="drink" value="House Blend">House Blend</button>
-        <button class="order btn btn-primary btn-lg box-bottom-shadow" type="submit" name="drink" value="Iced Latte">Iced Latte</button>
-        <button class="order btn btn-primary btn-lg box-bottom-shadow" type="submit" name="drink" value="Iced Macchiato">Iced Macchiato</button>
-        <!-- </form> -->
+    <!-- Static sidebar for desktop -->
+    <div class="hidden md:flex md:w-64 md:flex-col md:fixed md:inset-y-0">
+      <!-- Sidebar component, swap this element with another sidebar if you like -->
+      <div class="border-r border-gray-200 pt-5 flex flex-col flex-grow bg-white overflow-y-auto">
+        <div class="flex-shrink-0 px-4 flex items-center">
+          <img src="images/pronto-logo.png" alt="Pronto Logo" />
+        </div>
+        <div class="flex-grow mt-5 flex flex-col">
+          <nav class="flex-1 px-2 pb-4 space-y-1">
+            <!-- Current: "bg-gray-100 text-gray-900", Default: "text-gray-600 hover:bg-gray-50 hover:text-gray-900" -->
+            <a href="/profile"
+              class="text-gray-900 hover:bg-gray-50 group rounded-md py-2 px-2 flex items-center text-sm font-medium">
+              <!--
+              Heroicon name: outline/home
 
-  
-</section>
-    <section id="ticket"  class="box-bottom-shadow">
-        <h1> Ticket</h1>
-        <ul id="orderTicket" class="list-unstyled">
-            <label for="name">Customer Name:</label>
-        <input id="nameInput" class="orderInput" type="text" value="" name="name" required>
-        </ul>
-        <button id="submit" class="btn btn-primary btn-lg box-bottom-shadow" type="submit" name="order" value="order">Submit Order</button>
-        
-    </section>
-</div>
-</div>
+              Current: "text-gray-500", Default: "text-gray-400 group-hover:text-gray-500"
+            -->
+              <svg class="text-gray-500 mr-3 flex-shrink-0 h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none"
+                viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+              </svg>
+              Welcome <%= user.local.userName %>
+            </a>
+
+            <a href="#"
+              class="text-gray-600 hover:bg-gray-50 hover:text-gray-900 group rounded-md py-2 px-2 flex items-center text-sm font-medium">
+              <!-- Heroicon name: outline/users -->
+              <svg class="text-gray-400 group-hover:text-gray-500 mr-3 flex-shrink-0 h-6 w-6"
+                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                stroke="currentColor" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+              </svg>
+              Baristas
+            </a>
+
+            <a href="/order-dashboard"
+              class="bg-gray-100 text-gray-600 hover:bg-gray-50 hover:text-gray-900 group rounded-md py-2 px-2 flex items-center text-sm font-medium">
+              <!-- Heroicon name: outline/inbox -->
+              <svg class="text-gray-400 group-hover:text-gray-500 mr-3 flex-shrink-0 h-6 w-6" fill="currentColor"
+                viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                  d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z"
+                  clip-rule="evenodd"></path>
+              </svg>
+              Order POS
+            </a>
+
+            <a href="/barista-order-dashboard"
+              class="text-gray-600 hover:bg-gray-50 hover:text-gray-900 group rounded-md py-2 px-2 flex items-center text-sm font-medium">
+              <!-- Heroicon name: outline/calendar -->
+              <svg class="text-gray-400 group-hover:text-gray-500 mr-3 flex-shrink-0 h-6 w-6" fill="currentColor"
+                viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                  d="M9 3a1 1 0 012 0v5.5a.5.5 0 001 0V4a1 1 0 112 0v4.5a.5.5 0 001 0V6a1 1 0 112 0v5a7 7 0 11-14 0V9a1 1 0 012 0v2.5a.5.5 0 001 0V4a1 1 0 012 0v4.5a.5.5 0 001 0V3z"
+                  clip-rule="evenodd"></path>
+              </svg>
+              Make drinks
+            </a>
+
+            <a href="#"
+              class="text-gray-600 hover:bg-gray-50 hover:text-gray-900 group rounded-md py-2 px-2 flex items-center text-sm font-medium">
+              <!-- Heroicon name: outline/chart-bar -->
+              <svg class="text-gray-400 group-hover:text-gray-500 mr-3 flex-shrink-0 h-6 w-6" fill="none"
+                stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+              Clock-in/out
+            </a>
+          </nav>
+        </div>
+      </div>
+    </div>
+
+    <div class="md:pl-64">
+      <div class="max-w-[95rem] mx-auto flex flex-col md:px-8 xl:px-0">
+        <div class="sticky top-0 z-10 flex-shrink-0 h-12 bg-white border-b border-gray-200 flex">
+          <button id="open-sidebar" type="button"
+            class="border-r border-gray-200 px-4 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 md:hidden">
+            <span class="sr-only">Open sidebar</span>
+            <!-- Heroicon name: outline/menu-alt-2 -->
+            <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+              stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h7" />
+            </svg>
+          </button>
+          <div class="flex-1 flex justify-between px-4 md:px-0">
+            <div class="flex-1 flex"></div>
+            <div class="ml-4 flex items-center md:ml-6">
+              <button type="button"
+                class="bg-white p-1 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                <span class="sr-only">View notifications</span>
+                <!-- Heroicon name: outline/bell -->
+                <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                  stroke="currentColor" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                </svg>
+              </button>
+
+              <!-- Profile dropdown -->
+              <div class="ml-3 relative pr-6">
+                <div>
+                  <button type="button"
+                    class="max-w-xs flex items-center text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+                    id="user-menu-button" aria-expanded="false" aria-haspopup="true">
+                    <span class="sr-only">Open user menu</span>
+                    <img class="h-8 w-8 rounded-full" src="images/writer-3.png" alt="" />
+                  </button>
+                </div>
+
+                <!--
+                Dropdown menu, show/hide based on menu state.
+
+                Entering: "transition ease-out duration-100"
+                  From: "transform opacity-0 scale-95"
+                  To: "transform opacity-100 scale-100"
+                Leaving: "transition ease-in duration-75"
+                  From: "transform opacity-100 scale-100"
+                  To: "transform opacity-0 scale-95"
+              -->
+                <div id="menu"
+                  class="hidden origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 py-1 focus:outline-none"
+                  role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
+                  <!-- Active: "bg-gray-100", Not Active: "" -->
+                  <a href="/profile" class="block py-2 px-4 text-sm text-gray-700" role="menuitem" tabindex="-1"
+                    id="user-menu-item-0">Your Profile</a>
+
+                  <a href="/logout" class="block py-2 px-4 text-sm text-gray-700" role="menuitem" tabindex="-1"
+                    id="user-menu-item-2">Sign out</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <main class="flex-1 px-8">
+          <div class="py-6">
+            <div class="px-4 sm:px-6 md:px-0">
+              <h1 class="text-4xl font-semibold text-gray-900">
+                Hello,
+                <span id="orderTaker">
+                  <%= user.local.userName %>
+                </span>
+              </h1>
+            </div>
+            <div class="px-4 sm:px-6 md:px-0">
+              <!-- Dashboard Order Content -->
+              <h2 class="text-gray-500 text-xl font-medium uppercase tracking-wide">Place an order:</h2>
+              <!--TODO: Data we are sending to the server coffeeSize, milkType, coffeeType, baristaName -->
+              <!--TODO: make sure we send the POST to the server  -->
+              <!--TODO: gab all the data from the form to be sent to the DB  -->
+              <!--TODO: Make our selections be visible in the DOM under current order  -->
+              <!--TODO: profit!!!!  -->
+
+              <!-- dashboard test  -->
+              <div class="pt-10">
+                <div class="flex items-center justify-between">
+                  <h2 class="text-xl font-medium text-gray-900">Coffee Cup Size</h2>
+                </div>
+
+                <fieldset class="mt-2">
+                  <legend class="sr-only">Choose a coffee size option</legend>
+                  <div class="grid grid-cols-3 gap-3 sm:grid-cols-6">
+
+                    <label
+                      class="border rounded-md py-6 px-3 flex flex-col items-center justify-center text-sm font-medium uppercase sm:flex-1 cursor-pointer focus:outline-none bg-orange-200">
+                      <input type="radio" name="cup__size" value="Piquin" class="sr-only"
+                        aria-labelledby="coffee-size-option-0-label">
+                      <img class="h-10 pb-2" src="./images/coffee-cup.png" alt="coffee cup logo">
+                      <span id="coffee-size-option-0-label" class="">Piquin 3oz</span>
+                    </label>
+
+                    <label
+                      class="border rounded-md py-3 px-3 flex flex-col items-center justify-center text-sm font-medium uppercase sm:flex-1 cursor-pointer focus:outline-none bg-orange-200">
+                      <input type="radio" name="cup__size" value="Tall" class="sr-only"
+                        aria-labelledby="coffee-size-option-1-label">
+                      <img class="h-11 pb-2" src="./images/coffee-cup.png" alt="coffee cup">
+
+                      <span id="coffee-size-option-1-label">Tall 6oz</span>
+                    </label>
 
 
+                    <label
+                      class="border rounded-md py-3 px-3 flex flex-col items-center justify-center text-sm font-medium uppercase sm:flex-1 cursor-pointer focus:outline-none bg-orange-200">
+                      <input type="radio" name="cup__size" value="Grande" class="sr-only"
+                        aria-labelledby="coffee-size-option-2-label">
+                      <img class="h-14 pb-2" src="./images/coffee-cup.png" alt="coffee cup">
+
+                      <span id="coffee-size-option-2-label">Grande 12oz</span>
+                    </label>
 
 
-</div>
-<script src="/public/js/order-dashboard.js"></script>
+                    <label
+                      class="border rounded-md py-3 px-3 flex flex-col items-center justify-center text-sm font-medium uppercase sm:flex-1 cursor-pointer focus:outline-none bg-orange-200">
+                      <input type="radio" name="cup__size" value="Venti" class="sr-only"
+                        aria-labelledby="coffee-size-option-3-label">
+                      <img class="h-16 pb-2" src="./images/coffee-cup.png" alt="coffee cup">
+
+                      <span id="coffee-size-option-3-label">Venti 20oz</span>
+                    </label>
+
+
+                    <label
+                      class="border rounded-md py-3 px-3 flex flex-col items-center justify-center text-sm font-medium uppercase sm:flex-1 cursor-pointer focus:outline-none bg-orange-200">
+                      <input type="radio" name="cup__size" value="Trenta" class="sr-only"
+                        aria-labelledby="coffee-size-option-4-label">
+                      <img class="h-16 pb-2" src="./images/coffee-cup.png" alt="coffee cup">
+
+                      <span id="coffee-size-4-label">Trenta 30oz</span>
+                    </label>
+                  </div>
+                </fieldset>
+              </div>
+              <!--vegan milk options -->
+              <div class="pt-5">
+                <div class="flex items-center justify-between">
+                  <h2 class="text-xl font-medium text-gray-900">Non-Dairy Milk Options</h2>
+                </div>
+
+                <fieldset class="mt-2">
+                  <legend class="sr-only">Choose a milk option</legend>
+                  <div class="grid grid-cols-3 gap-3 sm:grid-cols-6">
+
+                    <label
+                      class="border rounded-md py-6 px-3 flex flex-col items-center justify-center text-sm font-medium uppercase sm:flex-1 cursor-pointer focus:outline-none bg-amber-50">
+                      <input type="radio" name="memory-option" value="3oz" class="sr-only"
+                        aria-labelledby="memory-option-0-label">
+                      <img class="h-16 pb-2" src="./images/non_milk.png" alt="non dairy milk">
+                      <span id="coffee-size-option-0-label" class="">Oat</span>
+                    </label>
+
+                    <label
+                      class="border rounded-md py-3 px-3 flex flex-col items-center justify-center text-sm font-medium uppercase sm:flex-1 cursor-pointer focus:outline-none bg-amber-50">
+                      <input type="radio" name="memory-option" value="8 GB" class="sr-only"
+                        aria-labelledby="memory-option-1-label">
+                      <img class="h-16 pb-2" src="./images/non_milk.png" alt="non dairy milk">
+                      <span id="memory-option-1-label">Almond</span>
+                    </label>
+
+
+                    <label
+                      class="border rounded-md py-3 px-3 flex flex-col items-center justify-center text-sm font-medium uppercase sm:flex-1 cursor-pointer focus:outline-none bg-amber-50">
+                      <input type="radio" name="memory-option" value="16 GB" class="sr-only"
+                        aria-labelledby="memory-option-2-label">
+                      <img class="h-16 pb-2" src="./images/non_milk.png" alt="non dairy milk">
+                      <span id="memory-option-2-label">Soy</span>
+                    </label>
+
+
+                    <label
+                      class="border rounded-md py-3 px-3 flex flex-col items-center justify-center text-sm font-medium uppercase sm:flex-1 cursor-pointer focus:outline-none bg-amber-50">
+                      <input type="radio" name="memory-option" value="32 GB" class="sr-only"
+                        aria-labelledby="memory-option-3-label">
+                      <img class="h-16 pb-2" src="./images/non_milk.png" alt="non dairy milk">
+                      <span id="memory-option-3-label">Coconut</span>
+                    </label>
+
+                  </div>
+                </fieldset>
+              </div>
+              <!-- dairy options -->
+              <div class="pt-5">
+                <div class="flex items-center justify-between">
+                  <h2 class="text-xl font-medium text-gray-900">Dairy Options</h2>
+                </div>
+
+                <fieldset class="mt-2">
+                  <legend class="sr-only">Choose a dairy milk option</legend>
+                  <div class="grid grid-cols-3 gap-3 sm:grid-cols-6">
+
+                    <label
+                      class="border rounded-md py-6 px-3 flex flex-col items-center justify-center text-sm font-medium uppercase sm:flex-1 cursor-pointer focus:outline-none bg-amber-50">
+                      <input type="radio" name="memory-option" value="64 GB" class="sr-only"
+                        aria-labelledby="memory-option-4-label">
+                      <img class="h-16 pb-2" src="./images/milk.png" alt="coffee cup logo">
+                      <span id="memory-option-4-label">Heavy Cream</span>
+                    </label>
+
+                    <label
+                      class="border rounded-md py-3 px-3 flex flex-col items-center justify-center text-sm font-medium uppercase sm:flex-1 cursor-pointer focus:outline-none bg-amber-50">
+                      <input type="radio" name="memory-option" value="64 GB" class="sr-only"
+                        aria-labelledby="memory-option-5-label">
+                      <img class="h-16 pb-2" src="./images/milk.png" alt="coffee cup logo">
+                      <span id="memory-option-4-label">Half & Half</span>
+                    </label>
+
+                    <label
+                      class="border rounded-md py-3 px-3 flex flex-col items-center justify-center text-sm font-medium uppercase sm:flex-1 cursor-pointer focus:outline-none bg-amber-50">
+                      <input type="radio" name="memory-option" value="64 GB" class="sr-only"
+                        aria-labelledby="memory-option-5-label">
+                      <img class="h-16 pb-2" src="./images/milk.png" alt="coffee cup logo">
+                      <span id="memory-option-4-label">Whole Milk</span>
+                    </label>
+
+                    <label
+                      class="border rounded-md py-3 px-3 flex flex-col items-center justify-center text-sm font-medium uppercase sm:flex-1 cursor-pointer focus:outline-none bg-amber-50">
+                      <input type="radio" name="memory-option" value="64 GB" class="sr-only"
+                        aria-labelledby="memory-option-5-label">
+                      <img class="h-16 pb-2" src="./images/milk.png" alt="coffee cup logo">
+                      <span id="memory-option-4-label">Non-Fat</span>
+                    </label>
+
+                    <label
+                      class="border rounded-md py-3 px-3 flex flex-col items-center justify-center text-sm font-medium uppercase sm:flex-1 cursor-pointer focus:outline-none bg-amber-50">
+                      <input type="radio" name="memory-option" value="64 GB" class="sr-only"
+                        aria-labelledby="memory-option-5-label">
+                      <img class="h-16 pb-2" src="./images/milk.png" alt="coffee cup logo">
+                      <span id="memory-option-4-label">2% Milk</span>
+                    </label>
+                  </div>
+                </fieldset>
+
+              </div>
+              <!-- coffee options -->
+              <div class="pt-10">
+                <div class="flex items-center justify-between">
+                  <h2 class="text-xl font-medium text-gray-900">Coffee</h2>
+                </div>
+
+                <fieldset class="mt-2">
+                  <legend class="sr-only">Choose a coffee size option</legend>
+                  <div class="grid grid-cols-3 gap-3 sm:grid-cols-6">
+
+                    <label
+                      class="border rounded-md py-6 px-3 flex flex-col items-center justify-center text-sm font-medium uppercase sm:flex-1 cursor-pointer focus:outline-none bg-orange-200">
+                      <input type="radio" name="memory-option" value="3oz" class="sr-only"
+                        aria-labelledby="memory-option-0-label">
+                      <img class="h-16 pb-2" src="./images/coffee_type.png" alt="coffee cup logo">
+                      <span id="coffee-size-option-0-label" class="">Espresso</span>
+                    </label>
+
+                    <label
+                      class="border rounded-md py-3 px-3 flex flex-col items-center justify-center text-sm font-medium uppercase sm:flex-1 cursor-pointer focus:outline-none bg-orange-200">
+                      <input type="radio" name="memory-option" value="8 GB" class="sr-only"
+                        aria-labelledby="memory-option-1-label">
+                      <img class="h-16 pb-2" src="./images/coffee_type.png" alt="coffee cup logo">
+
+                      <span id="memory-option-1-label">Latte</span>
+                    </label>
+
+
+                    <label
+                      class="border rounded-md py-3 px-3 flex flex-col items-center justify-center text-sm font-medium uppercase sm:flex-1 cursor-pointer focus:outline-none bg-orange-200">
+                      <input type="radio" name="memory-option" value="16 GB" class="sr-only"
+                        aria-labelledby="memory-option-2-label">
+                      <img class="h-16 pb-2" src="./images/coffee_type.png" alt="coffee cup logo">
+
+                      <span id="memory-option-2-label">Macchiato</span>
+                    </label>
+
+
+                    <label
+                      class="border rounded-md py-3 px-3 flex flex-col items-center justify-center text-sm font-medium uppercase sm:flex-1 cursor-pointer focus:outline-none bg-orange-200">
+                      <input type="radio" name="memory-option" value="32 GB" class="sr-only"
+                        aria-labelledby="memory-option-3-label">
+                      <img class="h-16 pb-2" src="./images/coffee_type.png" alt="coffee cup logo">
+
+                      <span id="memory-option-3-label">House Blend</span>
+                    </label>
+
+
+                    <label
+                      class="border rounded-md py-3 px-3 flex flex-col items-center justify-center text-sm font-medium uppercase sm:flex-1 cursor-pointer focus:outline-none bg-orange-200">
+                      <input type="radio" name="memory-option" value="64 GB" class="sr-only"
+                        aria-labelledby="memory-option-4-label">
+                      <img class="h-16 pb-2" src="./images/coffee_type.png" alt="coffee cup logo">
+
+                      <span id="memory-option-4-label">Cold Brew</span>
+                    </label>
+                  </div>
+                </fieldset>
+              </div>
+              <!-- end test -->
+
+              <section>
+                <div>
+                  <div>
+                    <section class="py-8">
+                      <!-- <div id="sizes">
+                        <input type="radio" class="size" id="tall" value="Tall" name="size" />
+                        <label for="tall">Tall</label>
+                        <input type="radio" class="size" id="venti" value="Venti" name="size" />
+                        <label for="venti">Venti</label>
+                        <input type="radio" class="size" id="grande" value="Grande" name="size" />
+                        <label for="grande">Grande</label>
+                      </div> -->
+
+                      <h3>Milk</h3>
+                      <div id="milk">
+                        <input type="radio" class="miik" id="Almond" value="Almond" name="milk" />
+                        <label for="Almond">Almond</label>
+                        <input type="radio" class="milk" id="Oat" value="Oat" name="milk" />
+                        <label for="Oat">Oat</label>
+                        <input type="radio" class="milk" id="Whole" value="Whole" name="milk" />
+                        <label for="Whole">Whole</label>
+                        <input type="radio" class="milk" id="n/a" value="n/a" name="milk" />
+                        <label for="Oat">No Milk</label>
+                      </div>
+
+                      <h3>Coffee</h3>
+
+                      <button class="order" type="submit" name="drink" value="Espresso">
+                        Espresso
+                      </button>
+                      <button class="order" type="submit" name="drink" value="Latte">
+                        Latte
+                      </button>
+                      <button class="order" type="submit" name="drink" value="Macchiato">
+                        Macchiato
+                      </button>
+                      <button class="order" type="submit" name="drink" value="Cold Brew">
+                        Cold Brew
+                      </button>
+                      <button class="order" type="submit" name="drink" value="House Blend">
+                        House Blend
+                      </button>
+                      <button class="order" type="submit" name="drink" value="Iced Latte">
+                        Iced Latte
+                      </button>
+                      <button class="order" type="submit" name="drink" value="Iced Macchiato">
+                        Iced Macchiato
+                      </button>
+                    </section>
+                    <!-- submit section -->
+                    <section id="ticket" class="box-bottom-shadow">
+                      <h1>Ticket:</h1>
+
+                      <label for="name">Customer Name:</label>
+
+                      <input id="nameInput" class="orderInput" type="text" name="name" placeholder="Name" required />
+
+                      <ul id="orderTicket" class=""></ul>
+
+                      <button id="submit" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                        type="submit" name="order" value="order">
+                        Submit Order
+                      </button>
+                    </section>
+                  </div>
+                </div>
+              </section>
+
+              <!-- /End replace -->
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+  </div>
+
+
+  <script src="js/order-dashboard.js"></script>
+
 </body>
+
 </html>

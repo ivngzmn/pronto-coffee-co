@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
+
 <head>
   <meta charset="UTF-8" />
   <meta content="IE=edge" http-equiv="X-UA-Compatible" />
@@ -15,6 +16,7 @@
   <link href="images/coffee-favicon.ico" rel="icon" />
   <title>Pronto Coffee Co.</title>
 </head>
+
 <body>
   <!--start of hero (landing) section-->
   <section class="relative lg:h-screen">
@@ -23,7 +25,7 @@
       <nav class="lg:max-w-screen-xl  flex flex-row flex-wrap justify-between my-4 lg:my-6 ml-auto mr-auto "
         role="navigation">
         <!-- COMPANY LOGO (png) -->
-        <div class="flex items-center ml-3 w-44">
+        <div class="flex items-center ml-3 w-52">
           <a href="/">
             <img src="images/pronto-logo.png" alt="pronto-logo">
           </a>
@@ -45,7 +47,7 @@
         <div id="nav_content"
           class="w-full hidden py-8 lg:flex lg:w-auto lg:py-0 lg:items-center rounded-br-full shadow-md lg:shadow-none bg-[#F1F0EE]">
           <ul class="flex flex-col ml-auto text-md text-gray-700 font-semibold lg:flex-row">
-            <li class="mx-6 w-mc hover:text-gray-900 mb-4 lg:mb-0"><a href="/growth-tips">BLOG</a></li>
+            <li class="mx-6 w-mc hover:text-gray-900 mb-4 lg:mb-0"><a href="/blog">BLOG</a></li>
             <li class="mx-6 w-mc hover:text-gray-900 mb-4 lg:mb-0"><a href="/contact">CONTACT</a></li>
             <li class="mx-6 w-mc hover:text-gray-900 mb-4 lg:mb-0"><a href="/login">LOGIN</a></li>
             <li class="mx-6 w-mc hover:text-gray-900 mb-4 lg:mb-0"><a href="/signup">REGISTER</a></li>
@@ -56,19 +58,21 @@
     </header>
 
     <div class="lg:flex justify-center items-center h-full pb-16 lg:pb-0">
-      <img class="pt-24 w-full lg:pt-0 lg:w-auto" src="./images/coffee_hero.png" alt="">
+      <img class="pt-24 px-4 w-full lg:pt-0 lg:w-auto" src="./images/coffee_hero.png" alt="">
       <div class="mx-4 mt-8 lg:mt-0 lg:ml-16 lg:max-w-prose">
-        <span class="block uppercase text-sm lg:text-base lg:font-semibold mb-2 lg:mb-4 text-gray-700">Pronto Coffee Co.</span>
+        <span class="block uppercase text-sm lg:text-base lg:font-semibold mb-2 lg:mb-4 text-gray-700">Pronto Coffee
+          Co.</span>
         <h1 class="text-5xl lg:text-7xl uppercase text-gray-900 font-medium mb-4 lg:mb-8">All You Need is <span
             class="block font-black">Our Delicious</span>
           Coffee.</h1>
-          <span class="text-gray-700 mb-2 max-w-prose">We are the best coffee maker in the town and always ready to serve you with absolutely the best quality coffee.</span>
+        <span class="text-gray-700 mb-2 max-w-prose">We are the best coffee maker in the town and always ready to serve
+          you with absolutely the best quality coffee.</span>
         <div class="mt-3">
-        <a class="inline-block uppercase text-sm text-center font-bold px-5 py-3 lg:px-10 lg:py-4 rounded-3xl rounded-bl-3xl bg-gray-900 text-yellow-50 hover:bg-gray-700 focus:ring-2 focus:ring-yellow-300"
-          href="/contact">Find out more</a>
+          <a class="inline-block uppercase text-sm text-center font-bold px-5 py-3 lg:px-10 lg:py-4 rounded-3xl rounded-bl-3xl bg-gray-900 text-yellow-50 hover:bg-gray-700 focus:ring-2 focus:ring-yellow-300"
+            href="#more">Find out more</a>
         </div>
       </div>
-      
+
     </div>
   </section>
   <!--end of hero (landing) section-->
@@ -104,7 +108,7 @@
       <!-- Service 3 -->
       <div class="mx-4 md:w-2/3 md:mx-auto mb-16 lg:mx-0 lg:mb-0 lg:w-80 flex flex-col items-center">
         <img class="w-20" src="images/restaurant.png" alt="tea cup icon">
-        
+
 
         <h2 class="text-xl lg:text-2xl mt-3 mb-6 font-semibold text-gray-900">Food</h2>
         <p class="text-center text-gray-500">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Purus,
@@ -118,23 +122,19 @@
   </section>
 
   <!-- Growth Tips section -->
-  <section class="flex justify-center mx-4 md:w-2/3 md:mx-auto pt-24 lg:pt-30 pb-32 lg:pb-40">
+  <section id="more" class="flex justify-center mx-4 md:w-2/3 md:mx-auto pt-24 lg:pt-30 pb-32 lg:pb-40">
     <div class="lg:flex items-center justify-center gap-x-14">
       <!-- decription -->
       <div class="lg:w-1/4 mb-16 lg:mb-0">
-        <h2 class="inline-block text-3xl lg:text-4xl font-semibold uppercase text-gray-900">Only the best ingredients</h2>
-        <p class="leading-relaxed mt-10 mb-10 text-gray-700">Lorem ipsum dolor sit amet, consectetur
-          adipiscing elit.
-          At et
-          augue
-          tristique risus,
-          enim non. Auctor quis
-          pulvinar
-          elit sit. Est proin scelerisque at est gravida nibh. Odio eget odio diam felis aliquam volutpat integer. Dis
-          commodo
-          blandit id enim facilisi eros nulla.</p>
+        <h2 class="inline-block text-3xl lg:text-4xl font-semibold uppercase text-gray-900">Only the best ingredients
+        </h2>
+        <p class="leading-relaxed mt-10 mb-10 text-gray-700">It starts with traveling to find the absolute best coffees.
+          This plays out across different countries, continents, and
+          terrains. We maintain high standards for how our coffees score and taste. When the coffees land at our HQ, we
+          roast and
+          cup and make minute adjustments to the roast profiles until they make the coffees shine in the cup.</p>
         <a class="inline-block uppercase text-center text-sm font-bold px-5 py-3 lg:px-10 lg:py-4 rounded-3xl rounded-bl-3xl bg-gray-900 text-yellow-50 hover:bg-gray-700 focus:ring-2 focus:ring-yellow-300"
-          href="/growth-tips">See Tips</a>
+          href="/blog">Read More</a>
       </div>
       <!-- Image -->
       <img src="./images/coffee_growth.png" alt="A happy cartoon woman holding a green growing plant.">
@@ -143,7 +143,8 @@
 
   <!-- Start of Testimonials section -->
   <section class="flex flex-col shadow-inner items-center pt-32 pb-40 px-6 lg:px-12 bg-white">
-    <h2 class="inline-block text-3xl lg:text-4xl font-semibold uppercase text-gray-900 mb-20">What our Clients say about us</h2>
+    <h2 class="inline-block text-3xl lg:text-4xl font-semibold uppercase text-gray-900 mb-20">What our Clients say about
+      us</h2>
 
     <!-- testimonial container -->
     <div class="lg:flex gap-x-10">
@@ -151,12 +152,17 @@
       <!-- testimonial 1-->
       <div class="mb-24 lg:mb-0">
         <div class="flex items-center shadow-md w-89 h-89 p-10 rounded-tl-3xl rounded-br-3xl bg-[#F1F0EE]">
-          <p class="font-medium leading-relaxed">“Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ornare
-            rhoncus mauris nunc
-            integer lectus risus. Molestie in a
-            lacinia sapien, sodales purus. Ultrices semper ornare ante. Molestie in a lacinia sapien, sodales purus.
-            Ultrices semper
-            ornare ante a lacinia nunc.”</p>
+          <p class="font-medium leading-relaxed">“Came here the early mornings when I had to do some studying. There are
+            few seats inside so might be hard to find seating
+            if coming here later in the day or during the weekend.
+
+            I'm usually not in this area so it was my first time here. The staff was incredibly friendly and made me
+            feel like I've
+            been a regular.
+
+            I also really appreciate that they have a ton of milk options including lactose free milk.
+
+            Def give this place a try if you're looking for a quiet place to work.”</p>
         </div>
         <div class="flex mt-10">
           <div class="h-12 w-12 flex-shrink-0">
@@ -173,12 +179,17 @@
       <!-- testimonial 2 -->
       <div class="mb-24 lg:mb-0">
         <div class="flex items-center shadow-md w-89 h-89 p-10 rounded-tl-3xl rounded-br-3xl bg-[#F1F0EE]">
-          <p class="font-medium leading-relaxed">“Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ornare
-            rhoncus mauris nunc
-            integer lectus risus. Molestie in a
-            lacinia sapien, sodales purus. Ultrices semper ornare ante. Molestie in a lacinia sapien, sodales purus.
-            Ultrices semper
-            ornare ante a lacinia nunc.”</p>
+          <p class="font-medium leading-relaxed">“I have a feeling this place is going to pop off soon! This is a low
+            key coffee shop located in the same plaza as the
+            movie theaters max parking is not super convenient since it's a short walk to the shop. I can imagine it
+            being
+            crowded/difficult to find parking when there's a movie premiere.
+
+            Despite the parking hiccup, the coffee is great here! They take their time in brewing the espresso for your
+            lattes and
+            have multiple milk options. I love how they use coffee ice cubes instead of regular ice cubes. My sister and
+            I got the
+            sugar free vanilla and almond lattes. They have speciality coffees that I would love to be back for!”</p>
         </div>
         <div class="flex mt-10">
           <div class="h-12 w-12 flex-shrink-0">
@@ -195,12 +206,13 @@
       <!-- testimonial 3 -->
       <div>
         <div class="flex items-center shadow-md w-89 h-89 p-10 rounded-tl-3xl rounded-br-3xl bg-[#F1F0EE]">
-          <p class="font-medium leading-relaxed">“Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ornare
-            rhoncus mauris nunc
-            integer lectus risus. Molestie in a
-            lacinia sapien, sodales purus. Ultrices semper ornare ante. Molestie in a lacinia sapien, sodales purus.
-            Ultrices semper
-            ornare ante a lacinia nunc.”</p>
+          <p class="font-medium leading-relaxed">“Lots of different choices, especially on their signature lattes, and
+            several different milk options. Extremely cute
+            place and they had a pop-up shop outside for other vendors (plants, clothes, etc.) A couple tables inside
+            and bar-style
+            seating. There's a parking structure across the way for the plaza. For a pretty empty day in the plaza, it
+            was nice to
+            see this place busy while I was there studying! I'll be back to try more flavors!”</p>
         </div>
         <div class="flex mt-10">
           <div class="h-12 w-12 flex-shrink-0">
@@ -226,20 +238,23 @@
         <!-- decription -->
         <div class="lg:w-1/4">
           <h2 class="inline-block text-xl font-semibold uppercase text-gray-800">Fresh Ingredients</h2>
-          <p class="leading-relaxed my-6 text-gray-700">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-            Massa in arcu venenatis est laoreet habitant nibh. Eu proin
-            egestas consequat pharetra sit volutpat consectetur mauris. Scelerisque ac lectus vitae, amet sed vel
-            molestie dui.
-            Ullamcorper.</p>
+          <p class="leading-relaxed my-6 text-gray-700">Each coffee we have is accompanied by its pricing and trade
+            data, meaning you can see what we paid for it, what it
+            scored at, who we bought it from, and other details right on its product page. This is not only something we
+            are very
+            proud of but is also a practice that is rare to see in coffee. We want you to see exactly how this coffee
+            came to be one
+            of our offerings. Our producing partners innovate and work hard to grow some of the most amazing coffees,
+            and we want
+            their name to be listed and recognized.</p>
           <a class="inline-block uppercase text-center text-sm font-bold px-5 py-3 lg:px-10 lg:py-4 rounded-3xl bg-gray-900 text-yellow-50 hover:bg-gray-700 focus:ring-2 focus:ring-yellow-300"
             href="#">Order Now</a>
         </div>
         <!-- Image -->
-        <div
-          class="relative h-80 lg:w-[40rem] lg:h-[23rem] mt-8 lg:mt-0 -mx-4 lg:mx-0 lg:rounded-xl overflow-hidden">
+        <div class="relative h-80 lg:w-[40rem] lg:h-[23rem] mt-8 lg:mt-0 -mx-4 lg:mx-0 lg:rounded-xl overflow-hidden">
           <div class="absolute top-0 right-0 left-0 bottom-0 opacity-10 bg-yellow-50">
           </div>
-          <img class="h-full w-full object-cover" src="images/post_2.jpg" alt="Fresh coffe beans">
+          <img class="h-full w-full px-4 object-cover" src="images/post_2.jpg" alt="Fresh coffe beans">
         </div>
       </div>
     </div>
@@ -250,11 +265,15 @@
         <!-- decription -->
         <div class="lg:w-1/4">
           <h2 class="inline-block text-xl font-semibold uppercase text-gray-800">Barista Masters</h2>
-          <p class="leading-relaxed my-6 text-gray-700">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-            Massa in arcu venenatis est laoreet habitant nibh. Eu proin
-            egestas consequat pharetra sit volutpat consectetur mauris. Scelerisque ac lectus vitae, amet sed vel
-            molestie dui.
-            Ullamcorper.</p>
+          <p class="leading-relaxed my-6 text-gray-700">Our approach to serving coffee begins way before there’s a
+            customer in front of us. Teaching the fundamentals of coffee
+            and espresso, from farming to cupping to preparation starts with in depth classes, hands on skillset
+            development, and
+            repetition in our training lab. We are proud of the time and expertise our trainers spend with each of our
+            staff
+            members, and this knowledge extends to our wholesale partners and the coffee enthusiast. We host curriculum
+            for high end
+            cafes and home users alike.</p>
           <a class="inline-block uppercase text-center text-sm font-bold px-5 py-3 lg:px-10 lg:py-4 rounded-tl-3xl rounded-3xl bg-gray-900 text-yellow-50 hover:bg-gray-700 focus:ring-2 focus:ring-yellow-300"
             href="/project-url">Baristas</a>
         </div>
@@ -262,7 +281,7 @@
         <div class="relative h-80 lg:w-[40rem] lg:h-[23rem] mt-8 lg:mt-0 -mx-4 lg:mx-0 lg:rounded-xl overflow-hidden">
           <div class="absolute top-0 right-0 left-0 bottom-0 opacity-10 bg-yellow-50">
           </div>
-          <img class="h-full w-full object-cover" src="./images/work_2.jpg"
+          <img class="h-full w-full px-4 object-cover" src="./images/work_2.jpg"
             alt="A barista preparing coffee at Pronto Coffee Co.">
         </div>
       </div>
@@ -274,11 +293,15 @@
         <!-- decription -->
         <div class="lg:w-1/4">
           <h2 class="inline-block text-xl font-semibold uppercase text-gray-800">Atmousphere</h2>
-          <p class="leading-relaxed my-6 text-gray-700">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-            Massa in arcu venenatis est laoreet habitant nibh. Eu proin
-            egestas consequat pharetra sit volutpat consectetur mauris. Scelerisque ac lectus vitae, amet sed vel
-            molestie dui.
-            Ullamcorper.</p>
+          <p class="leading-relaxed my-6 text-gray-700">In our cafes, our goal is that you feel welcomed, seen, and
+            heard, and that whatever coffee or pastry you choose fits
+            what you’re looking for. It’s the service at the very end that completes the supply chain. There’s an art to
+            it. We want
+            our cafes to be full of people from our community working, reading, and having conversations. Our staff is
+            made up of
+            some of the best coffee professionals in the states, and every drink, every interaction, every item is cared
+            for,
+            intentionally made, watched over, and executed to be exactly right.</p>
           <a class="inline-block uppercase text-center text-sm font-bold px-5 py-3 lg:px-10 lg:py-4 rounded-3xl rounded-bl-3xl bg-gray-900 text-yellow-50 hover:bg-gray-700 focus:ring-2 focus:ring-yellow-300"
             href="/project-url">Reserve table</a>
         </div>
@@ -286,7 +309,7 @@
         <div class="relative h-80 lg:w-[40rem] lg:h-[23rem] mt-8 lg:mt-0 -mx-4 lg:mx-0 lg:rounded-xl overflow-hidden">
           <div class="absolute top-0 right-0 left-0 bottom-0 opacity-10 bg-yellow-50">
           </div>
-          <img class="h-full w-full object-cover" src="./images/work_3.jpg"
+          <img class="h-full w-full px-4 object-cover" src="./images/work_3.jpg"
             alt="A coffee shop with people seated at tables.">
         </div>
       </div>
@@ -311,12 +334,12 @@
       <div class="flex items-center">
         <!-- Logo png-->
         <a class="ml-4" href="/">
-        <img class="w-52" src="images/pronto-logo.png" alt="pronto cofee co. logo">
+          <img class="w-52" src="images/pronto-logo.png" alt="pronto cofee co. logo">
         </a>
       </div>
       <ul class="flex flex-col lg:flex-row items-center text-sm font-semibold text-gray-500 py-12 lg:py-0">
         <li class="mx-7 hover:text-gray-700 mb-2 lg:mb-0">
-          <a href="/growth-tips">BLOG</a>
+          <a href="/blog">BLOG</a>
         </li>
 
         <li class="mx-7 hover:text-gray-700 mb-2 lg:mb-0">

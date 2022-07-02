@@ -1,5 +1,21 @@
-var complete = document.getElementsByClassName("completed");
-var trash = document.getElementsByClassName("clear");
+const complete = document.getElementsByClassName("completed");
+const trash = document.getElementsByClassName("clear");
+const menu = document.querySelector("#user-menu-button");
+const closeBtn = document.querySelector("#close-sidebar");
+const openBtn = document.querySelector("#open-sidebar");
+
+menu.addEventListener("click", toggleMenu);
+closeBtn.addEventListener("click", toggleSidebar);
+openBtn.addEventListener("click", toggleSidebar);
+
+function toggleMenu() {
+  console.log("you clicked the menu button");
+  document.querySelector("#menu").classList.toggle("hidden");
+}
+function toggleSidebar() {
+  console.log("you clicked the menu button");
+  document.querySelector("#sidebar").classList.toggle("hidden");
+}
 
 Array.from(complete).forEach(function (element) {
   element.addEventListener("click", function () {
