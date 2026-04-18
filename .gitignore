@@ -3,3 +3,4 @@ node_modules
 *codekit3
 .env
 npm-debug.log
+.plans/
