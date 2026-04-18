@@ -1,9 +1,9 @@
-const mongoose = require('mongoose');
-require('dotenv').config({ path: './config/.env' });
+const mongoose = require("mongoose");
+const { requireEnv } = require("./load-env");
 
 const connectDB = async () => {
   try {
-    const conn = await mongoose.connect(process.env.DB_STRING, {
+    const conn = await mongoose.connect(requireEnv("DB_STRING"), {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useFindAndModify: false,
@@ -19,6 +19,6 @@ const connectDB = async () => {
 module.exports = connectDB;
 
 module.exports = {
-  url: process.env.DB_STRING,
-  dbName: 'PRONTO-COFFEE-CO',
+  url: requireEnv("DB_STRING"),
+  dbName: "PRONTO-COFFEE-CO",
 };

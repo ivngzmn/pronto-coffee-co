@@ -5,10 +5,13 @@ module.exports = function (passport) {
   passport.serializeUser(function (user, done) {
     done(null, user.id);
   });
-  passport.deserializeUser(function (id, done) {
-    User.findById(id, function (err, user) {
-      done(err, user);
-    });
+  passport.deserializeUser(async function (id, done) {
+    try {
+      const user = await User.findById(id);
+      done(null, user);
+    } catch (err) {
+      done(err);
+    }
   });
   // local signup
   passport.use(
@@ -20,12 +23,10 @@ module.exports = function (passport) {
         passReqToCallback: true,
       },
       async (req, email, password, done) => {
-        console.log(req);
         // find a user whose email is the same as the forms email
         // we are checking to see if the user trying to login already exists
-        User.findOne({ 'local.email': email }, function (err, user) {
-          // if there are any errors, return the error
-          if (err) return done(err);
+        try {
+          const user = await User.findOne({ 'local.email': email });
           // check to see if theres already a user with that email
           if (user) {
             return done(
@@ -33,22 +34,22 @@ module.exports = function (passport) {
               false,
               req.flash('signupMessage', 'That email is already taken.')
             );
-          } else {
-            // grab the user's info from the form
-            const userName = req.body.userName;
-            // create the user
-            const newUser = new User({ userName, email, password });
-            // set the user's local credentials
-            newUser.local.userName = userName; // pulled out my hair for this one
-            newUser.local.email = email;
-            newUser.local.password = newUser.generateHash(password);
-            // save the user
-            newUser.save(function (err) {
-              if (err) throw err;
-              return done(null, newUser);
-            });
           }
-        });
+
+          // grab the user's info from the form
+          const userName = req.body.userName;
+          // create the user
+          const newUser = new User({ userName, email, password });
+          // set the user's local credentials
+          newUser.local.userName = userName; // pulled out my hair for this one
+          newUser.local.email = email;
+          newUser.local.password = newUser.generateHash(password);
+          // save the user
+          await newUser.save();
+          return done(null, newUser);
+        } catch (err) {
+          return done(err);
+        }
       }
     )
   );
@@ -61,9 +62,9 @@ module.exports = function (passport) {
         passwordField: 'password',
         passReqToCallback: true,
       },
-      function (req, email, password, done) {
-        User.findOne({ 'local.email': email }, function (err, user) {
-          if (err) return done(err);
+      async function (req, email, password, done) {
+        try {
+          const user = await User.findOne({ 'local.email': email });
           if (!user)
             return done(
               null,
@@ -77,7 +78,9 @@ module.exports = function (passport) {
               req.flash('loginMessage', 'Oops! Wrong password.')
             );
           return done(null, user);
-        });
+        } catch (err) {
+          return done(err);
+        }
       }
     )
   );
