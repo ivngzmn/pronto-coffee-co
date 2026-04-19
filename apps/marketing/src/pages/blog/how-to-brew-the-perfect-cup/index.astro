@@ -1,0 +1,66 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+---
+
+<BaseLayout
+  title="How to Brew the Perfect Cup - Pronto Coffee Co."
+  description="A simple Pronto guide to brewing a better cup of coffee."
+>
+  <article class="mx-auto max-w-4xl px-4 pb-20 pt-14 md:px-6 lg:pt-20">
+    <div class="space-y-5">
+      <Badge>Brewing guide</Badge>
+      <h1 class="text-5xl font-semibold text-foreground">How to Brew the Perfect Cup</h1>
+      <p class="text-lg leading-8 text-muted-foreground">
+        Great coffee starts before the first pour. Beans matter, but consistency matters more.
+      </p>
+      <div class="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
+        <span>August 20, 2021</span>
+        <span>John Something</span>
+        <span>5 min read</span>
+      </div>
+    </div>
+
+    <img src="/assets/images/growth_tips_hero.jpg" alt="Coffee brewing setup." class="mt-10 rounded-[32px] border border-border shadow-xl" />
+
+    <div class="mt-10 space-y-6 text-base leading-8 text-muted-foreground">
+      <p>
+        Start with fresh beans, filtered water, and a repeatable recipe. Measure your coffee, keep your grind size consistent, and let the bloom do its job before you rush the rest of the pour.
+      </p>
+      <p>
+        If a cup tastes sharp or thin, grind a little finer or reduce your water. If it tastes muddy or bitter, go slightly coarser and shorten the brew. Small changes matter more than dramatic ones.
+      </p>
+      <p>
+        The goal is not just a strong cup. It is a balanced one that leaves room for sweetness, texture, and clarity.
+      </p>
+    </div>
+
+    <div class="mt-10 grid gap-4 md:grid-cols-3">
+      <Card>
+        <CardContent className="p-5">
+          <p class="text-sm font-semibold text-foreground">1. Measure everything</p>
+          <p class="mt-2 text-sm leading-7 text-muted-foreground">Use a scale for both coffee and water so you can actually repeat what worked.</p>
+        </CardContent>
+      </Card>
+      <Card>
+        <CardContent className="p-5">
+          <p class="text-sm font-semibold text-foreground">2. Adjust one variable</p>
+          <p class="mt-2 text-sm leading-7 text-muted-foreground">When a cup is off, change one thing at a time so the feedback is useful.</p>
+        </CardContent>
+      </Card>
+      <Card>
+        <CardContent className="p-5">
+          <p class="text-sm font-semibold text-foreground">3. Taste with intention</p>
+          <p class="mt-2 text-sm leading-7 text-muted-foreground">Look for sweetness, body, and finish instead of only chasing strength.</p>
+        </CardContent>
+      </Card>
+    </div>
+
+    <div class="mt-12 flex flex-wrap gap-3">
+      <Button as="a" href="/blog/">Back to the blog</Button>
+      <Button as="a" href="/contact/" variant="outline">Ask the team</Button>
+    </div>
+  </article>
+</BaseLayout>

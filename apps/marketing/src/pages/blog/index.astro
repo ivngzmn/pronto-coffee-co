@@ -1,0 +1,90 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+
+const featuredPost = {
+  title: "How to Brew the Perfect Cup",
+  href: "/blog/how-to-brew-the-perfect-cup/",
+  excerpt:
+    "A practical guide to dialing in water, grind, and timing so a good bag of beans has room to shine.",
+  image: "/assets/images/growth_tips_hero.jpg",
+  author: "John Something",
+  role: "Editor",
+  date: "August 20, 2021",
+};
+
+const backlogPosts = [
+  {
+    title: "How to Source Better Beans",
+    excerpt: "Planned: origin notes, freshness, menu fit, and the tradeoffs worth paying attention to.",
+    status: "Todo",
+  },
+  {
+    title: "Calmer Service During the Rush",
+    excerpt: "Planned: small operational patterns that help the bar move faster without losing warmth.",
+    status: "Todo",
+  },
+];
+---
+
+<BaseLayout title="Blog - Pronto Coffee Co." description="Pronto Coffee Co. journal and shop notes.">
+  <section class="mx-auto max-w-6xl px-4 pb-16 pt-14 md:px-6 lg:pb-24 lg:pt-20">
+    <div class="max-w-3xl space-y-4">
+      <Badge>Journal</Badge>
+      <h1 class="text-5xl font-semibold text-foreground">Shop notes, brewing guides, and stories from the counter.</h1>
+      <p class="text-base leading-8 text-muted-foreground">
+        This should read like a coffee brand journal, not a product roadmap. The next pass needs finished cafe stories, stronger drink-focused excerpts, and complete article metadata.
+      </p>
+    </div>
+
+    <div class="mt-10 grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
+      <Card className="overflow-hidden">
+        <div class="grid gap-0 lg:grid-cols-[1.1fr_0.9fr]">
+          <CardContent className="flex flex-col justify-between p-6">
+            <div class="space-y-4">
+              <div class="flex flex-wrap items-center gap-3 text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                <span>Featured</span>
+                <span>{featuredPost.date}</span>
+              </div>
+              <CardTitle className="text-3xl">{featuredPost.title}</CardTitle>
+              <CardDescription className="text-base leading-7">
+                {featuredPost.excerpt}
+              </CardDescription>
+            </div>
+            <div class="mt-8 flex items-center justify-between gap-4">
+              <div class="text-sm">
+                <p class="font-semibold text-foreground">{featuredPost.author}</p>
+                <p class="text-muted-foreground">{featuredPost.role}</p>
+              </div>
+              <Button as="a" href={featuredPost.href}>Read article</Button>
+            </div>
+          </CardContent>
+          <img src={featuredPost.image} alt="Coffee brewing setup." class="h-full w-full object-cover" />
+        </div>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <Badge className="w-fit">Content backlog</Badge>
+          <CardTitle>Posts still to complete</CardTitle>
+          <CardDescription>
+            These entries should become real menu, sourcing, and cafe-life stories before the blog is promoted more prominently.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          {backlogPosts.map((post) => (
+            <div class="rounded-3xl border border-border bg-secondary/40 p-4">
+              <div class="flex items-center justify-between gap-4">
+                <p class="font-semibold text-foreground">{post.title}</p>
+                <Badge>{post.status}</Badge>
+              </div>
+              <p class="mt-3 text-sm leading-7 text-muted-foreground">{post.excerpt}</p>
+            </div>
+          ))}
+        </CardContent>
+      </Card>
+    </div>
+  </section>
+</BaseLayout>
