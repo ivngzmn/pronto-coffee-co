@@ -1,0 +1,78 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+---
+
+<BaseLayout title="Contact - Pronto Coffee Co." description="Find Pronto Coffee Co. and get in touch." includeFormScript={true}>
+  <section class="mx-auto grid max-w-6xl gap-6 px-4 pb-16 pt-14 md:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:pb-24 lg:pt-20">
+    <Card className="overflow-hidden border-border/70 bg-stone-950 text-stone-50">
+      <CardHeader className="space-y-4">
+        <Badge className="w-fit bg-white/10 text-stone-100">Cafe details</Badge>
+        <CardTitle className="text-3xl text-white">Find the shop, check the hours, and plan your next stop.</CardTitle>
+        <CardDescription className="text-stone-300">
+          Everything you need for the next coffee run, from the first visit of the day to an afternoon stop for cold brew and a pastry.
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="space-y-6 text-sm text-stone-200">
+        <div>
+          <p class="font-semibold text-white">Telephone</p>
+          <p class="mt-1">(714) 555-0184</p>
+        </div>
+        <div>
+          <p class="font-semibold text-white">Email</p>
+          <p class="mt-1">hello@prontocoffee.co</p>
+        </div>
+        <div>
+          <p class="font-semibold text-white">Hours</p>
+          <p class="mt-1">Daily: 5am-8pm</p>
+        </div>
+        <div>
+          <p class="font-semibold text-white">Address</p>
+          <p class="mt-1">1847 Harbor Blvd.</p>
+          <p>Costa Mesa, CA 92627</p>
+        </div>
+        <img src="/assets/images/work_3.jpg" alt="Interior of a coffee shop." class="rounded-[24px] object-cover" />
+      </CardContent>
+    </Card>
+
+    <Card>
+      <CardHeader>
+        <Badge className="w-fit">Questions</Badge>
+        <CardTitle className="text-3xl">Send a note before your next visit</CardTitle>
+        <CardDescription>
+          Ask about coffee, breakfast, pickup timing, or what is worth trying on your first stop in.
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <form class="space-y-4">
+          <label class="block space-y-2">
+            <span class="text-sm font-medium text-foreground">Name</span>
+            <Input type="text" id="name" name="name" required placeholder="Your name" />
+          </label>
+          <label class="block space-y-2">
+            <span class="text-sm font-medium text-foreground">Email</span>
+            <Input type="email" id="email" name="email" required placeholder="name@example.com" />
+          </label>
+          <label class="block space-y-2">
+            <span class="text-sm font-medium text-foreground">Question</span>
+            <Textarea id="question" name="question" minlength="10" maxlength="280" required placeholder="How can we help?" />
+          </label>
+          <div class="flex flex-wrap gap-3 pt-2">
+            <Button type="submit">Send message</Button>
+            <Button as="a" href="/menu/" variant="outline">Browse the menu</Button>
+          </div>
+          <span id="success" class="hidden rounded-2xl border border-green-200 bg-green-50 px-4 py-3 text-sm font-medium text-green-700">
+            Thanks. Your note is queued for the team.
+          </span>
+          <span id="error" class="hidden rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-700">
+            Something went wrong. Please email hello@prontocoffee.co instead.
+          </span>
+        </form>
+      </CardContent>
+    </Card>
+  </section>
+</BaseLayout>

@@ -1,43 +1,59 @@
 # Pronto Coffee Co
 
-A split coffee shop platform with:
+Pronto Coffee Co now uses a workspace-based layout so the authenticated app, marketing site, and backend can evolve independently.
 
-- a standalone static marketing site in `marketing-site/`
-- a Node/Express operations app for staff authentication and order management
+## Apps
 
-The operations app allows a barista to log in, add to an order, view pending orders, view completed orders, and complete orders. Orders that have been completed note which barista completed the order.
+- `apps/server`: Express, MongoDB, and Passport local auth. This is now the API and session layer.
+- `apps/web`: React staff app with Tailwind and shadcn-style UI components.
+- `apps/marketing`: Astro marketing site that preserves the existing public routes.
 
-**Link to project:** [Pronto Coffee Co.](https://pronto-coffee-co.herokuapp.com/)
+## Local development
 
-![app image](https://raw.githubusercontent.com/ivngzmn/ivanguzmandev/main/public/static/images/projects/pronto-coffee-co.webp)
+Use Node 24.
 
-## How It's Made:
+```bash
+npm install
+npm run dev
+```
 
-**Tech used:** HTML, Bootstrap CSS, JS, API, JSON, NODE.JS, EXPRESS, MONGODB, USER AUTH & Heroku
+That starts:
 
-I wanted to be able to create a full stack web app that allowed a coffee shop to be able to have their own ordering application. I used Bootstrap for this project and it helped get the layout completed rapidly. With MongoDB Atlas it was nice and straightforward to set up and get things communicating with my developer build. As for deployment Heroku came in for the rescue.
+- API server: `http://localhost:3000`
+- React staff app: `http://localhost:5173`
+- Astro marketing site: `http://localhost:4321`
 
-## Local Development
+You can also run each app independently:
 
-- Use Node 24
-- Run the app with `npm run dev:app`
-- Run the marketing site with `npm run dev:marketing`
-- Run both together with `npm run dev`
+```bash
+npm run dev:server
+npm run dev:web
+npm run dev:marketing
+```
 
-For local split-site development:
+## Environment variables
 
-- operations app: `http://localhost:3000`
-- marketing site: `http://localhost:4321`
+Create `apps/server/.env` for local backend development. These are the main variables:
 
-## Lessons Learned:
+- `DB_STRING`
+- `SESSION_SECRET`
+- `APP_BASE_URL`
+- `FRONTEND_APP_URL`
+- `MARKETING_SITE_URL`
+- `OAUTH_GOOGLE_CALLBACK_URL`
+- `OAUTH_GITHUB_CALLBACK_URL`
+- `OAUTH_FACEBOOK_CALLBACK_URL`
 
-- Using Passport was great until I wanted to pass in a third field besides the users `email` and `password`. I wanted to be able to capture the `userName` to my MondoDB database. I was able to figure it out after being stuck for a few days. This was achieved by adding the `userName` in the callback instead of attempting to pass my `userName` through the `LocalStrategy`.
-- Even though I liked using render, Heroku came into the rescue and the cli tools made it much easier to deploy this time around.
+For the React app, set `VITE_API_URL` if the API is not running at `http://localhost:3000`.
 
-## Other Projects:
+For the Astro app, set `PUBLIC_APP_URL` if the React app is not running at `http://localhost:5173`.
 
-Take a peek at some of my other projects:
+## Render
 
-**🚀 Portfolio:** [Portfolio](https://github.com/ivngzmn/ivanguzmandev)
+The repo includes a `render.yaml` blueprint with separate services for:
 
-**🪙 Coin Forge:** [Coin Forge](https://github.com/ivngzmn/coin-forge)
+- the API
+- the React staff app
+- the Astro marketing site
+
+Each service uses Render build filters so monorepo changes only redeploy the surfaces that were touched. Render’s current docs describe `buildFilter.paths`, `ignoredPaths`, and root-directory behavior in the [Blueprint spec](https://render.com/docs/blueprint-spec) and [monorepo support guide](https://render.com/docs/monorepo-support).

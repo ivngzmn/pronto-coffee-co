@@ -1,0 +1,25 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+---
+
+<BaseLayout title="Page Not Found - Pronto Coffee Co.">
+  <section class="mx-auto flex min-h-[70vh] max-w-4xl items-center justify-center px-4 py-14 md:px-6">
+    <Card className="w-full max-w-2xl">
+      <CardContent className="space-y-6 p-10 text-center">
+        <Badge>404</Badge>
+        <h1 class="text-4xl font-semibold text-foreground">We could not find that page.</h1>
+        <p class="text-base leading-8 text-muted-foreground">
+          Head back to the homepage, read the blog, or jump into the staff app if you were trying to sign in.
+        </p>
+        <div class="flex flex-wrap justify-center gap-3">
+          <Button as="a" href="/">Go home</Button>
+          <Button as="a" href="/blog/" variant="outline">Read the blog</Button>
+          <Button as="a" href="/login" data-app-path="/login" variant="secondary">Open staff app</Button>
+        </div>
+      </CardContent>
+    </Card>
+  </section>
+</BaseLayout>

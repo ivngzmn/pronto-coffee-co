@@ -1,0 +1,115 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  defaultLocation,
+  featuredMenuItems,
+  menuCategories,
+  seasonalHighlights,
+} from "@pronto/menu";
+---
+
+<BaseLayout title="Menu - Pronto Coffee Co." description="Explore Pronto Coffee Co. drinks and cafe bites.">
+  <section class="max-w-6xl px-4 pb-16 mx-auto pt-14 md:px-6 lg:pb-24 lg:pt-20">
+    <div class="max-w-3xl space-y-4">
+      <Badge>{defaultLocation.serviceModel}</Badge>
+      <h1 class="text-5xl font-semibold text-foreground">Coffee, breakfast, pastries, and pickup favorites all in one place.</h1>
+      <p class="text-base leading-8 text-muted-foreground">
+        This is now the live source for the public Pronto menu. It is also the same core item list the staff app uses when a barista is building an order at the register.
+      </p>
+    </div>
+
+    <div class="grid gap-6 mt-10 lg:grid-cols-[1.15fr_0.85fr]">
+      <Card className="overflow-hidden">
+        <CardHeader>
+          <Badge className="w-fit">Featured Favorites</Badge>
+          <CardTitle>What regulars reach for first</CardTitle>
+          <CardDescription>
+            Signature coffee, quick breakfast, and the kind of add-ons that make the morning stop feel complete.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="grid gap-4 md:grid-cols-3">
+          {featuredMenuItems.map((item) => (
+            <article class="overflow-hidden rounded-[28px] border border-border bg-secondary/30">
+              <img src={item.image} alt={item.name} class="h-44 w-full object-cover" />
+              <div class="space-y-3 p-4">
+                <Badge>{item.callout}</Badge>
+                <div>
+                  <p class="text-lg font-semibold text-foreground">{item.name}</p>
+                  <p class="text-sm text-muted-foreground">{item.category}</p>
+                </div>
+                <p class="text-sm leading-7 text-muted-foreground">{item.blurb}</p>
+              </div>
+            </article>
+          ))}
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <Badge className="w-fit">Location Details</Badge>
+          <CardTitle>{defaultLocation.name}</CardTitle>
+          <CardDescription>
+            {defaultLocation.addressLines.join(" • ")}
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4 text-sm text-muted-foreground">
+          <p>{defaultLocation.hours}</p>
+          <p>{defaultLocation.phone}</p>
+          <div>
+            <p class="font-semibold text-foreground">Seasonal highlights</p>
+            <ul class="mt-3 space-y-2">
+              {seasonalHighlights.map((item) => (
+                <li class="rounded-2xl bg-secondary/50 px-4 py-3">{item}</li>
+              ))}
+            </ul>
+          </div>
+          <div class="flex flex-wrap gap-3 pt-2">
+            <Button as="a" href="/order-ahead/" variant="outline">Order Ahead</Button>
+            <Button as="a" href="/contact/">Find the cafe</Button>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+
+    <div class="grid gap-6 mt-10">
+      {menuCategories.map((group) => (
+        <Card>
+          <CardHeader>
+            <CardTitle>{group.title}</CardTitle>
+            <CardDescription>{group.description}</CardDescription>
+          </CardHeader>
+          <CardContent className="grid gap-4 md:grid-cols-2">
+            {group.items.map((item) => (
+              <article class="rounded-[28px] border border-border bg-secondary/30 p-5">
+                <div class="flex items-start justify-between gap-4">
+                  <div>
+                    <p class="text-lg font-semibold text-foreground">{item.name}</p>
+                    <p class="mt-2 text-sm leading-7 text-muted-foreground">{item.description}</p>
+                  </div>
+                  <span class="text-sm font-semibold text-foreground">{item.price}</span>
+                </div>
+                <div class="mt-4 flex flex-wrap gap-2 text-xs">
+                  {(item.sizes || []).map((size) => (
+                    <span class="rounded-full bg-card px-3 py-1 text-muted-foreground">{size}</span>
+                  ))}
+                  {(item.dietaryTags || []).map((tag) => (
+                    <span class="rounded-full bg-accent/30 px-3 py-1 text-accent-foreground">{tag}</span>
+                  ))}
+                  {item.bestSeller ? (
+                    <span class="rounded-full bg-primary px-3 py-1 text-primary-foreground">Best Seller</span>
+                  ) : null}
+                  {item.seasonal ? (
+                    <span class="rounded-full bg-secondary px-3 py-1 text-secondary-foreground">Seasonal</span>
+                  ) : null}
+                </div>
+              </article>
+            ))}
+          </CardContent>
+        </Card>
+      ))}
+    </div>
+  </section>
+</BaseLayout>
