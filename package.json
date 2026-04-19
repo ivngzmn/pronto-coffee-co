@@ -1,38 +1,30 @@
 {
-  "version": "1.0.0",
-  "name": "node-server",
-  "main": "server.js",
+  "name": "pronto-coffee-co",
+  "version": "2.0.0",
+  "private": true,
   "license": "MIT",
   "engines": {
     "node": ">=24 <25"
   },
+  "workspaces": [
+    "apps/server",
+    "apps/web",
+    "apps/marketing",
+    "packages/menu"
+  ],
   "scripts": {
-    "start": "node server.js",
-    "dev:app": "node --watch server.js",
-    "dev:marketing": "serve marketing-site -l 4321",
-    "dev": "concurrently \"npm:dev:app\" \"npm:dev:marketing\"",
-    "build:css": "tailwindcss -i ./public/css/tailwind.css -o ./public/css/index.css",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev:css": "tailwindcss -i ./public/css/tailwind.css -o ./public/css/index.css --watch"
-  },
-  "dependencies": {
-    "bcrypt": "^6.0.0",
-    "connect-flash": "~0.1.1",
-    "cookie-parser": "^1.4.7",
-    "dotenv": "^17.4.2",
-    "ejs": "^5.0.2",
-    "express": "^5.2.1",
-    "express-session": "^1.19.0",
-    "mongodb": "^7.1.1",
-    "mongoose": "^9.4.1",
-    "morgan": "^1.10.1",
-    "passport": "^0.7.0",
-    "passport-local": "^1.0.0"
+    "dev": "concurrently -n server,web,marketing -c blue,magenta,green \"npm run dev --workspace @pronto/server\" \"npm run dev --workspace @pronto/web\" \"npm run dev --workspace @pronto/marketing\"",
+    "dev:server": "npm run dev --workspace @pronto/server",
+    "dev:web": "npm run dev --workspace @pronto/web",
+    "dev:marketing": "npm run dev --workspace @pronto/marketing",
+    "build": "npm run build --workspaces --if-present",
+    "build:server": "npm run build --workspace @pronto/server",
+    "build:web": "npm run build --workspace @pronto/web",
+    "build:marketing": "npm run build --workspace @pronto/marketing",
+    "start": "npm run start --workspace @pronto/server",
+    "test": "npm run test --workspaces --if-present"
   },
   "devDependencies": {
-    "@tailwindcss/cli": "^4.2.2",
-    "concurrently": "^9.2.1",
-    "serve": "^14.2.6",
-    "tailwindcss": "^4.2.2"
+    "concurrently": "^9.2.1"
   }
 }
