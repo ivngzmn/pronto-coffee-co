@@ -1,0 +1,25 @@
+{
+  "name": "@pronto/server",
+  "version": "1.0.0",
+  "private": true,
+  "main": "server.js",
+  "scripts": {
+    "dev": "node --watch server.js",
+    "start": "node server.js",
+    "build": "node --check server.js && node --check app/routes.js && node --check config/passport.js && node --check app/models/user.js",
+    "test": "echo \"No automated backend tests yet\""
+  },
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "express-session": "^1.19.0",
+    "mongodb": "^7.1.1",
+    "mongoose": "^9.4.1",
+    "morgan": "^1.10.1",
+    "passport": "^0.7.0",
+    "passport-local": "^1.0.0"
+  }
+}
