@@ -49,6 +49,8 @@ services:
     envVars:
       - key: NODE_VERSION
         value: 24
+      - key: NPM_CONFIG_PRODUCTION
+        value: false
       - key: VITE_API_URL
         value: https://pronto-coffee-co.onrender.com
     routes:
@@ -70,6 +72,8 @@ services:
     envVars:
       - key: NODE_VERSION
         value: 24
+      - key: NPM_CONFIG_PRODUCTION
+        value: false
       - key: PUBLIC_APP_URL
         value: https://pronto-coffee-co-front-end.onrender.com
       - key: PUBLIC_API_URL
