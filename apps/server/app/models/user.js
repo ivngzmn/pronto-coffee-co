@@ -19,6 +19,13 @@ const userSchema = mongoose.Schema({
     displayName: String,
     username: String,
   },
+  github: {
+    id: String,
+    token: String,
+    username: String,
+    email: String,
+    name: String,
+  },
   google: {
     id: String,
     token: String,

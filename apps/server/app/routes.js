@@ -8,8 +8,8 @@ function serializeUser(user) {
 
   return {
     id: user._id,
-    userName: user.local?.userName || user.google?.name || user.facebook?.name,
-    email: user.local?.email || user.google?.email || user.facebook?.email,
+    userName: user.local?.userName || user.google?.name || user.github?.name || user.facebook?.name,
+    email: user.local?.email || user.google?.email || user.github?.email || user.facebook?.email,
   };
 }
 
@@ -42,6 +42,13 @@ module.exports = function registerRoutes(app, passport, db, ObjectId) {
     normalizeBaseUrl(process.env.FRONTEND_APP_URL) || "http://localhost:5173";
   const marketingBaseUrl =
     normalizeBaseUrl(process.env.MARKETING_SITE_URL) || "http://localhost:4321";
+  const configuredProviderNames = require("../config/passport").configuredProviderNames;
+  const enabledProviders = configuredProviderNames();
+  const providerScopes = {
+    google: ["profile", "email"],
+    github: ["user:email"],
+    facebook: ["email"],
+  };
 
   app.get("/", (req, res) => res.redirect(redirectTo(marketingBaseUrl, "/")));
   app.get("/contact", (req, res) =>
@@ -76,6 +83,41 @@ module.exports = function registerRoutes(app, passport, db, ObjectId) {
       authenticated: req.isAuthenticated(),
       user: serializeUser(req.user),
     });
+  });
+
+  app.get("/api/auth/providers", (_req, res) => {
+    res.json({
+      providers: ["google", "github", "facebook"].map((provider) => ({
+        id: provider,
+        enabled: enabledProviders.includes(provider),
+        loginUrl: `/api/auth/${provider}`,
+      })),
+    });
+  });
+
+  app.get("/api/auth/:provider", (req, res, next) => {
+    const provider = req.params.provider;
+
+    if (!enabledProviders.includes(provider)) {
+      return res.status(404).json({ error: "That social sign-in provider is not configured." });
+    }
+
+    return passport.authenticate(provider, {
+      scope: providerScopes[provider],
+    })(req, res, next);
+  });
+
+  app.get("/api/auth/:provider/callback", (req, res, next) => {
+    const provider = req.params.provider;
+
+    if (!enabledProviders.includes(provider)) {
+      return res.redirect(redirectTo(frontendBaseUrl, "/login?error=social-provider"));
+    }
+
+    return passport.authenticate(provider, {
+      failureRedirect: redirectTo(frontendBaseUrl, "/login?error=social-auth"),
+      successRedirect: redirectTo(frontendBaseUrl, "/profile"),
+    })(req, res, next);
   });
 
   app.post("/api/auth/login", (req, res, next) => {

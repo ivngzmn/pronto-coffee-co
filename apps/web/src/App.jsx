@@ -10,6 +10,7 @@ import {
 import {
   Coffee,
   CupSoda,
+  Github,
   LogOut,
   PackageCheck,
   ShieldCheck,
@@ -188,12 +189,12 @@ function AuthLayout({ title, subtitle, children }) {
           </h1>
           <p className="mt-4 max-w-xl text-sm leading-7 text-stone-200 md:text-base">
             The operations app now runs as a modern React frontend against the Express and Passport backend.
-            Local auth is live, and social login is already queued up as the next backend milestone.
+            Baristas can use fast social sign-in while local credentials stay available as a fallback.
           </p>
           <div className="mt-10 grid gap-4 md:grid-cols-3">
             <ValuePill label="API-first" value="Passport local" />
             <ValuePill label="Frontend" value="React + Tailwind" />
-            <ValuePill label="Next up" value="Google, GitHub, Facebook" />
+            <ValuePill label="Fast login" value="Google, GitHub, Facebook" />
           </div>
         </div>
         <Card className="overflow-hidden">
@@ -220,23 +221,89 @@ function ValuePill({ label, value }) {
 }
 
 function ProviderButtons() {
-  const providers = ["Google", "GitHub", "Facebook"];
+  const [providers, setProviders] = useState([
+    { id: "google", enabled: true, loginUrl: "/api/auth/google" },
+    { id: "github", enabled: true, loginUrl: "/api/auth/github" },
+    { id: "facebook", enabled: true, loginUrl: "/api/auth/facebook" },
+  ]);
+
+  useEffect(() => {
+    let ignore = false;
+
+    api("/api/auth/providers")
+      .then((data) => {
+        if (!ignore && Array.isArray(data.providers)) {
+          setProviders(data.providers);
+        }
+      })
+      .catch(() => {
+        if (!ignore) {
+          setProviders((current) =>
+            current.map((provider) => ({ ...provider, enabled: false }))
+          );
+        }
+      });
+
+    return () => {
+      ignore = true;
+    };
+  }, []);
+
+  const providerMeta = {
+    google: { label: "Google", icon: <span className="text-base font-bold">G</span> },
+    github: { label: "GitHub", icon: <Github className="h-4 w-4" /> },
+    facebook: { label: "Facebook", icon: <span className="text-base font-bold">f</span> },
+  };
 
   return (
     <div className="grid gap-3 sm:grid-cols-3">
-      {providers.map((provider) => (
-        <Button key={provider} variant="outline" type="button" disabled>
-          {provider}
-        </Button>
-      ))}
+      {providers.map((provider) => {
+        const meta = providerMeta[provider.id] || {
+          label: provider.id,
+          icon: null,
+        };
+        const href = `${API_URL}${provider.loginUrl}`;
+
+        if (!provider.enabled) {
+          return (
+            <Button key={provider.id} variant="outline" type="button" disabled title="Provider setup needed">
+              {meta.icon}
+              {meta.label}
+            </Button>
+          );
+        }
+
+        return (
+          <Button key={provider.id} variant="outline" type="button" asChild>
+            <a href={href}>
+              {meta.icon}
+              {meta.label}
+            </a>
+          </Button>
+        );
+      })}
     </div>
   );
 }
 
 function LoginPage({ setSession }) {
   const navigate = useNavigate();
+  const location = useLocation();
   const [error, setError] = useState("");
   const [pending, setPending] = useState(false);
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const socialError = params.get("error");
+
+    if (socialError === "social-provider") {
+      setError("That social sign-in provider is not configured yet.");
+    }
+
+    if (socialError === "social-auth") {
+      setError("Social sign-in was cancelled or could not be completed.");
+    }
+  }, [location.search]);
 
   async function onSubmit(event) {
     event.preventDefault();
@@ -264,10 +331,10 @@ function LoginPage({ setSession }) {
   return (
     <AuthLayout
       title="Sign in to your account"
-      subtitle="Use your local Pronto staff credentials. Social sign-in is documented and queued next."
+      subtitle="Use fast social sign-in or your local Pronto staff credentials."
     >
       <div className="space-y-3">
-        <p className="text-sm font-medium text-stone-700">Coming soon</p>
+        <p className="text-sm font-medium text-stone-700">Fast barista sign-in</p>
         <ProviderButtons />
       </div>
       <form className="space-y-4" onSubmit={onSubmit}>
@@ -325,10 +392,10 @@ function SignupPage({ setSession }) {
   return (
     <AuthLayout
       title="Create a staff account"
-      subtitle="The backend keeps Passport local auth active while the view layer migrates to React."
+      subtitle="Start with a social account or create local Pronto staff credentials."
     >
       <div className="space-y-3">
-        <p className="text-sm font-medium text-stone-700">Social auth backlog</p>
+        <p className="text-sm font-medium text-stone-700">Fast barista sign-in</p>
         <ProviderButtons />
       </div>
       <form className="space-y-4" onSubmit={onSubmit}>
