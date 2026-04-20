@@ -16,16 +16,18 @@ services:
     envVars:
       - key: NODE_VERSION
         value: 24
+      - key: NODE_ENV
+        value: production
       - key: SESSION_SECRET
-        generateValue: true
+        sync: false
       - key: DB_STRING
         sync: false
       - key: APP_BASE_URL
-        sync: false
+        value: https://pronto-coffee-co.onrender.com
       - key: FRONTEND_APP_URL
-        sync: false
+        value: https://pronto-coffee-co-front-end.onrender.com
       - key: MARKETING_SITE_URL
-        sync: false
+        value: https://pronto-coffee-co-marketing.onrender.com
       - key: OAUTH_GOOGLE_CALLBACK_URL
         sync: false
       - key: OAUTH_GITHUB_CALLBACK_URL
@@ -48,7 +50,7 @@ services:
       - key: NODE_VERSION
         value: 24
       - key: VITE_API_URL
-        sync: false
+        value: https://pronto-coffee-co.onrender.com
     routes:
       - type: rewrite
         source: /*
@@ -69,4 +71,6 @@ services:
       - key: NODE_VERSION
         value: 24
       - key: PUBLIC_APP_URL
-        sync: false
+        value: https://pronto-coffee-co-front-end.onrender.com
+      - key: PUBLIC_API_URL
+        value: https://pronto-coffee-co.onrender.com

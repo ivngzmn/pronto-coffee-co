@@ -46,7 +46,7 @@ Create `apps/server/.env` for local backend development. These are the main vari
 
 For the React app, set `VITE_API_URL` if the API is not running at `http://localhost:3000`.
 
-For the Astro app, set `PUBLIC_APP_URL` if the React app is not running at `http://localhost:5173`.
+For the Astro app, set `PUBLIC_APP_URL` if the React app is not running at `http://localhost:5173`, and set `PUBLIC_API_URL` if the API is not running at `http://localhost:3000`.
 
 ## Render
 
@@ -55,5 +55,7 @@ The repo includes a `render.yaml` blueprint with separate services for:
 - the API
 - the React staff app
 - the Astro marketing site
+
+For the deployed `onrender.com` services, the blueprint wires the public service URLs into the API CORS allowlist and frontend builds. Keep `SESSION_SECRET` set to a stable secret in the Render Dashboard so existing login sessions survive redeploys.
 
 Each service uses Render build filters so monorepo changes only redeploy the surfaces that were touched. Render’s current docs describe `buildFilter.paths`, `ignoredPaths`, and root-directory behavior in the [Blueprint spec](https://render.com/docs/blueprint-spec) and [monorepo support guide](https://render.com/docs/monorepo-support).

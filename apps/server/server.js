@@ -11,6 +11,7 @@ const configDB = require("./config/database");
 
 const app = express();
 const PORT = Number(process.env.PORT || 3000);
+const isProduction = process.env.NODE_ENV === "production";
 
 require("./config/passport")(passport);
 
@@ -23,6 +24,10 @@ const allowedOrigins = [
     .map((value) => value.trim())
     .filter(Boolean),
 ].filter(Boolean);
+
+if (isProduction) {
+  app.set("trust proxy", 1);
+}
 
 app.use(morgan("dev"));
 app.use(cookieParser());
@@ -47,8 +52,8 @@ app.use(
     saveUninitialized: false,
     cookie: {
       maxAge: 1000 * 60 * 60 * 24,
-      sameSite: "lax",
-      secure: process.env.NODE_ENV === "production",
+      sameSite: isProduction ? "none" : "lax",
+      secure: isProduction,
     },
   })
 );
