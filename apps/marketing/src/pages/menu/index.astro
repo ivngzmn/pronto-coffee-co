@@ -3,6 +3,8 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Chip } from "@/components/ui/chip";
+import { FeatureCard, MenuItemCard } from "@/components/ui/marketing-card";
 import {
   defaultLocation,
   featuredMenuItems,
@@ -32,17 +34,14 @@ import {
         </CardHeader>
         <CardContent className="grid gap-4 md:grid-cols-3">
           {featuredMenuItems.map((item) => (
-            <article class="overflow-hidden rounded-[28px] border border-border bg-secondary/30">
-              <img src={item.image} alt={item.name} class="h-44 w-full object-cover" />
-              <div class="space-y-3 p-4">
-                <Badge>{item.callout}</Badge>
-                <div>
-                  <p class="text-lg font-semibold text-foreground">{item.name}</p>
-                  <p class="text-sm text-muted-foreground">{item.category}</p>
-                </div>
-                <p class="text-sm leading-7 text-muted-foreground">{item.blurb}</p>
-              </div>
-            </article>
+            <FeatureCard
+              image={item.image}
+              imageAlt={item.name}
+              eyebrow={item.callout}
+              title={item.name}
+              meta={item.category}
+              description={item.blurb}
+            />
           ))}
         </CardContent>
       </Card>
@@ -62,7 +61,7 @@ import {
             <p class="font-semibold text-foreground">Seasonal highlights</p>
             <ul class="mt-3 space-y-2">
               {seasonalHighlights.map((item) => (
-                <li class="rounded-2xl bg-secondary/50 px-4 py-3">{item}</li>
+                <li><Chip className="rounded-2xl bg-secondary/50 px-4 py-3 text-sm">{item}</Chip></li>
               ))}
             </ul>
           </div>
@@ -83,29 +82,7 @@ import {
           </CardHeader>
           <CardContent className="grid gap-4 md:grid-cols-2">
             {group.items.map((item) => (
-              <article class="rounded-[28px] border border-border bg-secondary/30 p-5">
-                <div class="flex items-start justify-between gap-4">
-                  <div>
-                    <p class="text-lg font-semibold text-foreground">{item.name}</p>
-                    <p class="mt-2 text-sm leading-7 text-muted-foreground">{item.description}</p>
-                  </div>
-                  <span class="text-sm font-semibold text-foreground">{item.price}</span>
-                </div>
-                <div class="mt-4 flex flex-wrap gap-2 text-xs">
-                  {(item.sizes || []).map((size) => (
-                    <span class="rounded-full bg-card px-3 py-1 text-muted-foreground">{size}</span>
-                  ))}
-                  {(item.dietaryTags || []).map((tag) => (
-                    <span class="rounded-full bg-accent/30 px-3 py-1 text-accent-foreground">{tag}</span>
-                  ))}
-                  {item.bestSeller ? (
-                    <span class="rounded-full bg-primary px-3 py-1 text-primary-foreground">Best Seller</span>
-                  ) : null}
-                  {item.seasonal ? (
-                    <span class="rounded-full bg-secondary px-3 py-1 text-secondary-foreground">Seasonal</span>
-                  ) : null}
-                </div>
-              </article>
+              <MenuItemCard item={item} />
             ))}
           </CardContent>
         </Card>

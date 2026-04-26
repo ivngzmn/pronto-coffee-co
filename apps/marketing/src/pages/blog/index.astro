@@ -3,6 +3,7 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { StatusCard } from "@/components/ui/marketing-card";
 
 const featuredPost = {
   title: "How to Brew the Perfect Cup",
@@ -75,13 +76,11 @@ const backlogPosts = [
         </CardHeader>
         <CardContent className="space-y-4">
           {backlogPosts.map((post) => (
-            <div class="rounded-3xl border border-border bg-secondary/40 p-4">
-              <div class="flex items-center justify-between gap-4">
-                <p class="font-semibold text-foreground">{post.title}</p>
-                <Badge>{post.status}</Badge>
-              </div>
-              <p class="mt-3 text-sm leading-7 text-muted-foreground">{post.excerpt}</p>
-            </div>
+            <StatusCard
+              title={post.title}
+              status={post.status}
+              description={post.excerpt}
+            />
           ))}
         </CardContent>
       </Card>

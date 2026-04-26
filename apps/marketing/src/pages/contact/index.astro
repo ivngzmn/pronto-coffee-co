@@ -3,6 +3,8 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Alert } from "@/components/ui/alert";
+import { Field } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 ---
@@ -49,28 +51,25 @@ import { Textarea } from "@/components/ui/textarea";
       </CardHeader>
       <CardContent>
         <form class="space-y-4">
-          <label class="block space-y-2">
-            <span class="text-sm font-medium text-foreground">Name</span>
+          <Field label="Name">
             <Input type="text" id="name" name="name" required placeholder="Your name" />
-          </label>
-          <label class="block space-y-2">
-            <span class="text-sm font-medium text-foreground">Email</span>
+          </Field>
+          <Field label="Email">
             <Input type="email" id="email" name="email" required placeholder="name@example.com" />
-          </label>
-          <label class="block space-y-2">
-            <span class="text-sm font-medium text-foreground">Question</span>
+          </Field>
+          <Field label="Question">
             <Textarea id="question" name="question" minlength="10" maxlength="280" required placeholder="How can we help?" />
-          </label>
+          </Field>
           <div class="flex flex-wrap gap-3 pt-2">
             <Button type="submit">Send message</Button>
             <Button as="a" href="/menu/" variant="outline">Browse the menu</Button>
           </div>
-          <span id="success" class="hidden rounded-2xl border border-green-200 bg-green-50 px-4 py-3 text-sm font-medium text-green-700">
+          <Alert id="success" variant="success" className="hidden">
             Thanks. Your note is queued for the team.
-          </span>
-          <span id="error" class="hidden rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-700">
+          </Alert>
+          <Alert id="error" variant="destructive" className="hidden">
             Something went wrong. Please email hello@prontocoffee.co instead.
-          </span>
+          </Alert>
         </form>
       </CardContent>
     </Card>
