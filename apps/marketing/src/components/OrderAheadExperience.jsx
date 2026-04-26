@@ -7,6 +7,8 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Alert } from "@/components/ui/alert";
+import { Field } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 
 const defaultCategoryId = orderingCategories[0]?.id || "";
@@ -135,13 +137,14 @@ export function OrderAheadExperience({ apiUrl }) {
                     className="flex items-center justify-between gap-3 rounded-2xl bg-white/10 px-4 py-3"
                   >
                     <span>{item}</span>
-                    <button
-                      className="text-xs uppercase tracking-[0.2em] text-stone-300"
+                    <Button
+                      className="h-auto px-2 py-1 text-xs uppercase tracking-[0.2em] text-stone-300 hover:bg-white/10 hover:text-white"
+                      variant="ghost"
                       type="button"
                       onClick={() => removeItem(index)}
                     >
                       Remove
-                    </button>
+                    </Button>
                   </li>
                 ))}
               </ol>
@@ -162,22 +165,20 @@ export function OrderAheadExperience({ apiUrl }) {
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="grid gap-4 md:grid-cols-2">
-            <label className="block space-y-2">
-              <span className="text-sm font-medium text-foreground">Name</span>
+            <Field label="Name">
               <Input
                 value={customerName}
                 onChange={(event) => setCustomerName(event.target.value)}
                 placeholder="Taylor"
               />
-            </label>
-            <label className="block space-y-2">
-              <span className="text-sm font-medium text-foreground">Phone</span>
+            </Field>
+            <Field label="Phone">
               <Input
                 value={customerPhone}
                 onChange={(event) => setCustomerPhone(event.target.value)}
                 placeholder="(714) 555-0199"
               />
-            </label>
+            </Field>
           </div>
 
           <OptionGroup
@@ -206,27 +207,30 @@ export function OrderAheadExperience({ apiUrl }) {
 
           <div className="grid gap-3 sm:grid-cols-2">
             {activeCategory?.items.map((item) => (
-              <button
+              <Button
                 key={item.id}
-                className="rounded-[24px] border border-border bg-secondary/30 px-4 py-4 text-left transition-colors hover:bg-secondary/60"
+                className="h-auto justify-start rounded-[24px] border-border bg-secondary/30 px-4 py-4 text-left hover:bg-secondary/60"
+                variant="outline"
                 type="button"
                 onClick={() => addItem(item)}
               >
-                <p className="font-semibold text-foreground">{item.name}</p>
-                <p className="mt-2 text-sm leading-6 text-muted-foreground">{item.basePrice}</p>
-              </button>
+                <span>
+                  <span className="block font-semibold text-foreground">{item.name}</span>
+                  <span className="mt-2 block text-sm leading-6 text-muted-foreground">{item.basePrice}</span>
+                </span>
+              </Button>
             ))}
           </div>
 
           {error ? (
-            <div className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+            <Alert variant="destructive">
               {error}
-            </div>
+            </Alert>
           ) : null}
           {success ? (
-            <div className="rounded-2xl border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-700">
+            <Alert variant="success">
               {success}
-            </div>
+            </Alert>
           ) : null}
 
           <div className="flex flex-wrap gap-3">
@@ -249,18 +253,16 @@ function OptionGroup({ label, options, value, onChange }) {
       <p className="text-sm font-medium text-foreground">{label}</p>
       <div className="flex flex-wrap gap-2">
         {options.map((option) => (
-          <button
+          <Button
             key={option}
-            className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
-              value === option
-                ? "bg-primary text-primary-foreground"
-                : "border border-border bg-card text-muted-foreground hover:bg-secondary"
-            }`}
+            className={value === option ? "rounded-full" : "rounded-full text-muted-foreground"}
+            variant={value === option ? "default" : "outline"}
+            size="sm"
             type="button"
             onClick={() => onChange(option)}
           >
             {option}
-          </button>
+          </Button>
         ))}
       </div>
     </div>

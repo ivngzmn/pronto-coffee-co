@@ -7,6 +7,8 @@ export const defaultLocation = {
   serviceModel: "Cafe + Pickup",
 };
 
+const menuImage = (id) => `/assets/images/menu/${id}.webp`;
+
 export const menuCategories = [
   {
     id: "handcrafted",
@@ -17,6 +19,7 @@ export const menuCategories = [
       {
         id: "house-latte",
         name: "House Latte",
+        image: menuImage("house-latte"),
         description: "Espresso, milk, and Pronto vanilla bean syrup.",
         price: "$6.25",
         sizes: ["Small", "Medium", "Large"],
@@ -28,6 +31,7 @@ export const menuCategories = [
       {
         id: "maple-sea-salt-latte",
         name: "Maple Sea Salt Latte",
+        image: menuImage("maple-sea-salt-latte"),
         description: "Espresso with maple syrup, flaky sea salt, and velvety milk.",
         price: "$6.75",
         sizes: ["Small", "Medium", "Large"],
@@ -38,6 +42,7 @@ export const menuCategories = [
       {
         id: "mocha-latte",
         name: "Mocha Latte",
+        image: menuImage("mocha-latte"),
         description: "Espresso, dark chocolate, and steamed milk.",
         price: "$6.95",
         sizes: ["Small", "Medium", "Large"],
@@ -48,6 +53,7 @@ export const menuCategories = [
       {
         id: "honey-cinnamon-latte",
         name: "Honey Cinnamon Latte",
+        image: menuImage("honey-cinnamon-latte"),
         description: "Espresso sweetened with wildflower honey and cinnamon.",
         price: "$6.65",
         sizes: ["Small", "Medium", "Large"],
@@ -66,6 +72,7 @@ export const menuCategories = [
       {
         id: "americano",
         name: "Americano",
+        image: menuImage("americano"),
         description: "Double espresso finished with hot water.",
         price: "$4.25",
         sizes: ["Small", "Medium", "Large"],
@@ -75,6 +82,7 @@ export const menuCategories = [
       {
         id: "cappuccino",
         name: "Cappuccino",
+        image: menuImage("cappuccino"),
         description: "Espresso with textured milk and a fluffy cap.",
         price: "$5.25",
         sizes: ["Small", "Medium"],
@@ -85,6 +93,7 @@ export const menuCategories = [
       {
         id: "flat-white",
         name: "Flat White",
+        image: menuImage("flat-white"),
         description: "Ristretto espresso with silky milk.",
         price: "$5.75",
         sizes: ["Small", "Medium"],
@@ -95,6 +104,7 @@ export const menuCategories = [
       {
         id: "cortado",
         name: "Cortado",
+        image: menuImage("cortado"),
         description: "Equal parts espresso and warm milk.",
         price: "$4.95",
         sizes: ["Small"],
@@ -113,6 +123,7 @@ export const menuCategories = [
       {
         id: "cold-brew",
         name: "Cold Brew",
+        image: menuImage("cold-brew"),
         description: "Slow-steeped coffee poured over ice.",
         price: "$5.25",
         sizes: ["Small", "Medium", "Large"],
@@ -123,6 +134,7 @@ export const menuCategories = [
       {
         id: "vanilla-cream-cold-brew",
         name: "Vanilla Cream Cold Brew",
+        image: menuImage("vanilla-cream-cold-brew"),
         description: "Cold brew topped with sweet vanilla cream.",
         price: "$5.95",
         sizes: ["Small", "Medium", "Large"],
@@ -132,6 +144,7 @@ export const menuCategories = [
       {
         id: "brown-sugar-shakerato",
         name: "Brown Sugar Shakerato",
+        image: menuImage("brown-sugar-shakerato"),
         description: "Espresso shaken with brown sugar and oat milk.",
         price: "$6.50",
         sizes: ["Small", "Medium", "Large"],
@@ -142,6 +155,7 @@ export const menuCategories = [
       {
         id: "citrus-tonic-cold-brew",
         name: "Citrus Tonic Cold Brew",
+        image: menuImage("citrus-tonic-cold-brew"),
         description: "Cold brew, tonic water, and orange peel.",
         price: "$6.10",
         sizes: ["Medium", "Large"],
@@ -160,6 +174,7 @@ export const menuCategories = [
       {
         id: "matcha-latte",
         name: "Matcha Latte",
+        image: menuImage("matcha-latte"),
         description: "Ceremonial matcha whisked with milk.",
         price: "$6.35",
         sizes: ["Small", "Medium", "Large"],
@@ -171,6 +186,7 @@ export const menuCategories = [
       {
         id: "chai-latte",
         name: "Chai Latte",
+        image: menuImage("chai-latte"),
         description: "Spiced black tea concentrate with steamed milk.",
         price: "$5.95",
         sizes: ["Small", "Medium", "Large"],
@@ -181,6 +197,7 @@ export const menuCategories = [
       {
         id: "lavender-tea-latte",
         name: "Lavender Tea Latte",
+        image: menuImage("lavender-tea-latte"),
         description: "Floral black tea with lavender syrup and milk.",
         price: "$6.15",
         sizes: ["Small", "Medium", "Large"],
@@ -191,6 +208,7 @@ export const menuCategories = [
       {
         id: "strawberry-lemon-spritz",
         name: "Strawberry Lemon Spritz",
+        image: menuImage("strawberry-lemon-spritz"),
         description: "House strawberry puree, lemon, and sparkling water.",
         price: "$5.85",
         sizes: ["Small", "Medium", "Large"],
@@ -209,6 +227,7 @@ export const menuCategories = [
       {
         id: "pronto-breakfast-sandwich",
         name: "Pronto Breakfast Sandwich",
+        image: menuImage("pronto-breakfast-sandwich"),
         description: "Egg, sharp cheddar, bacon, and garlic aioli on a toasted brioche bun.",
         price: "$10.95",
         dietaryTags: ["Contains Egg"],
@@ -216,6 +235,7 @@ export const menuCategories = [
       {
         id: "ham-cheese-croissant",
         name: "Ham + Cheese Croissant",
+        image: menuImage("ham-cheese-croissant"),
         description: "Smoked ham and melty swiss on a buttery croissant.",
         price: "$9.25",
         dietaryTags: ["Contains Gluten"],
@@ -224,6 +244,7 @@ export const menuCategories = [
       {
         id: "avocado-toast",
         name: "Avocado Toast",
+        image: menuImage("avocado-toast"),
         description: "Smashed avocado, chili flake, lemon, and herbs on thick-cut sourdough.",
         price: "$9.75",
         dietaryTags: ["Vegetarian"],
@@ -231,6 +252,7 @@ export const menuCategories = [
       {
         id: "turkey-pesto-toastie",
         name: "Turkey Pesto Toastie",
+        image: menuImage("turkey-pesto-toastie"),
         description: "Turkey, mozzarella, pesto, and tomato on pressed ciabatta.",
         price: "$11.25",
         dietaryTags: ["Contains Gluten"],
@@ -246,6 +268,7 @@ export const menuCategories = [
       {
         id: "butter-croissant",
         name: "Butter Croissant",
+        image: menuImage("butter-croissant"),
         description: "Flaky, buttery, and baked fresh each morning.",
         price: "$4.25",
         dietaryTags: ["Vegetarian"],
@@ -253,6 +276,7 @@ export const menuCategories = [
       {
         id: "blueberry-muffin",
         name: "Blueberry Muffin",
+        image: menuImage("blueberry-muffin"),
         description: "Tender muffin with a sugared top and plenty of berries.",
         price: "$4.65",
         dietaryTags: ["Vegetarian"],
@@ -260,6 +284,7 @@ export const menuCategories = [
       {
         id: "cinnamon-coffee-cake",
         name: "Cinnamon Coffee Cake",
+        image: menuImage("cinnamon-coffee-cake"),
         description: "Crumb-topped cake made for a drip coffee pairing.",
         price: "$4.95",
         dietaryTags: ["Vegetarian"],
@@ -267,6 +292,7 @@ export const menuCategories = [
       {
         id: "seasonal-cookie",
         name: "Seasonal Bakery Cookie",
+        image: menuImage("seasonal-cookie"),
         description: "Rotating bakery cookie from the pastry case.",
         price: "$3.95",
         dietaryTags: ["Vegetarian"],
@@ -280,21 +306,21 @@ export const featuredMenuItems = [
   {
     name: "House Latte",
     category: "Handcrafted Drinks",
-    image: "/assets/images/coffee_hero.png",
+    image: menuImage("house-latte"),
     callout: "Best Seller",
     blurb: "Vanilla bean, espresso, and silky milk for the all-day regular.",
   },
   {
     name: "Cold Brew",
     category: "Cold Brew + Iced Coffee",
-    image: "/assets/images/coffee_growth.png",
+    image: menuImage("cold-brew"),
     callout: "Daily Favorite",
     blurb: "Bold, bright, and built for quick pickup on the way in.",
   },
   {
     name: "Pronto Breakfast Sandwich",
     category: "Breakfast Sandwiches + Toasts",
-    image: "/assets/images/work_1.jpg",
+    image: menuImage("pronto-breakfast-sandwich"),
     callout: "Morning Pairing",
     blurb: "Egg, cheddar, bacon, and garlic aioli on toasted brioche.",
   },
@@ -313,6 +339,7 @@ export const orderingCategories = menuCategories.map((category) => ({
   items: category.items.map((item) => ({
     id: item.id,
     name: item.name,
+    image: item.image,
     basePrice: item.price,
     category: category.staffLabel,
     sizes: item.sizes || [],

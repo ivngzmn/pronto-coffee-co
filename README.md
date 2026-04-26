@@ -41,8 +41,14 @@ Create `apps/server/.env` for local backend development. These are the main vari
 - `FRONTEND_APP_URL`
 - `MARKETING_SITE_URL`
 - `OAUTH_GOOGLE_CALLBACK_URL`
+- `GOOGLE_CLIENT_ID`
+- `GOOGLE_CLIENT_SECRET`
 - `OAUTH_GITHUB_CALLBACK_URL`
+- `GITHUB_CLIENT_ID`
+- `GITHUB_CLIENT_SECRET`
 - `OAUTH_FACEBOOK_CALLBACK_URL`
+- `FACEBOOK_CLIENT_ID`
+- `FACEBOOK_CLIENT_SECRET`
 
 For the React app, set `VITE_API_URL` if the API is not running at `http://localhost:3000`.
 
