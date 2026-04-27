@@ -1,6 +1,20 @@
+const User = require("./models/user");
+
 function normalizeBaseUrl(value) {
   if (!value) return "";
   return value.endsWith("/") ? value.slice(0, -1) : value;
+}
+
+function userRole(user) {
+  return user?.role || "staff";
+}
+
+function formatPhoneNumber(value) {
+  const digits = String(value || "").replace(/\D/g, "").slice(0, 10);
+
+  if (digits.length !== 10) return "";
+
+  return `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6)}`;
 }
 
 function serializeUser(user) {
@@ -8,8 +22,10 @@ function serializeUser(user) {
 
   return {
     id: user._id,
+    role: userRole(user),
     userName: user.local?.userName || user.google?.name || user.github?.name || user.facebook?.name,
     email: user.local?.email || user.google?.email || user.github?.email || user.facebook?.email,
+    phone: user.local?.phone || "",
   };
 }
 
@@ -30,6 +46,20 @@ function serializeOrder(order) {
 function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) return next();
   return res.status(401).json({ error: "Authentication required." });
+}
+
+function ensureRole(roles) {
+  return (req, res, next) => {
+    if (!req.isAuthenticated()) {
+      return res.status(401).json({ error: "Authentication required." });
+    }
+
+    if (!roles.includes(userRole(req.user))) {
+      return res.status(403).json({ error: "You do not have access to that resource." });
+    }
+
+    return next();
+  };
 }
 
 function redirectTo(baseUrl, path) {
@@ -83,6 +113,58 @@ module.exports = function registerRoutes(app, passport, db, ObjectId) {
       authenticated: req.isAuthenticated(),
       user: serializeUser(req.user),
     });
+  });
+
+  app.post("/api/customer/auth/signup", async (req, res, next) => {
+    try {
+      const userName = typeof req.body.userName === "string" ? req.body.userName.trim() : "";
+      const email = typeof req.body.email === "string" ? req.body.email.trim().toLowerCase() : "";
+      const phone = formatPhoneNumber(req.body.phone);
+      const password = typeof req.body.password === "string" ? req.body.password : "";
+
+      if (!userName || !email || !phone || !password) {
+        return res.status(400).json({ error: "Name, email, phone, and password are required." });
+      }
+
+      const existingUser = await User.findOne({ "local.email": email });
+      if (existingUser) {
+        return res.status(400).json({ error: "That email is already taken." });
+      }
+
+      const user = new User();
+      user.role = "customer";
+      user.local.userName = userName;
+      user.local.email = email;
+      user.local.phone = phone;
+      user.local.password = user.generateHash(password);
+      await user.save();
+
+      req.logIn(user, (loginError) => {
+        if (loginError) return next(loginError);
+        return res.status(201).json({ user: serializeUser(user) });
+      });
+    } catch (err) {
+      next(err);
+    }
+  });
+
+  app.post("/api/customer/auth/login", async (req, res, next) => {
+    try {
+      const email = typeof req.body.email === "string" ? req.body.email.trim().toLowerCase() : "";
+      const password = typeof req.body.password === "string" ? req.body.password : "";
+      const user = await User.findOne({ "local.email": email });
+
+      if (!user || userRole(user) !== "customer" || !user.validPassword(password)) {
+        return res.status(401).json({ error: "Unable to log in with those customer credentials." });
+      }
+
+      req.logIn(user, (loginError) => {
+        if (loginError) return next(loginError);
+        return res.json({ user: serializeUser(user) });
+      });
+    } catch (err) {
+      next(err);
+    }
   });
 
   app.get("/api/auth/providers", (_req, res) => {
@@ -158,7 +240,7 @@ module.exports = function registerRoutes(app, passport, db, ObjectId) {
     });
   });
 
-  app.get("/api/profile", ensureAuthenticated, async (req, res, next) => {
+  app.get("/api/profile", ensureRole(["staff"]), async (req, res, next) => {
     try {
       const result = await db.collection("order").find().toArray();
       const pending = result.filter((order) => order.completed === false);
@@ -174,7 +256,7 @@ module.exports = function registerRoutes(app, passport, db, ObjectId) {
     }
   });
 
-  app.get("/api/orders", ensureAuthenticated, async (_req, res, next) => {
+  app.get("/api/orders", ensureRole(["staff"]), async (_req, res, next) => {
     try {
       const result = await db.collection("order").find().toArray();
       res.json({
@@ -186,7 +268,7 @@ module.exports = function registerRoutes(app, passport, db, ObjectId) {
     }
   });
 
-  app.post("/api/orders", ensureAuthenticated, async (req, res, next) => {
+  app.post("/api/orders", ensureRole(["staff"]), async (req, res, next) => {
     try {
       const payload = {
         name: req.body.name,
@@ -208,19 +290,21 @@ module.exports = function registerRoutes(app, passport, db, ObjectId) {
     }
   });
 
-  app.post("/api/order-ahead", async (req, res, next) => {
+  app.post("/api/order-ahead", ensureRole(["customer", "staff"]), async (req, res, next) => {
     try {
-      const name = typeof req.body.name === "string" ? req.body.name.trim() : "";
+      const currentUser = serializeUser(req.user);
+      const requestName = typeof req.body.name === "string" ? req.body.name.trim() : "";
+      const name = currentUser?.userName || requestName || currentUser?.email || "";
       const customerPhone =
-        typeof req.body.customerPhone === "string" ? req.body.customerPhone.trim() : "";
+        currentUser?.phone || formatPhoneNumber(req.body.customerPhone);
       const order = Array.isArray(req.body.order)
         ? req.body.order.filter((item) => typeof item === "string" && item.trim())
         : [];
 
-      if (!name || order.length === 0) {
+      if (!name || !customerPhone || order.length === 0) {
         return res
           .status(400)
-          .json({ error: "Add a customer name and at least one menu item." });
+          .json({ error: "Add a customer name, phone number, and at least one menu item." });
       }
 
       const payload = {
@@ -232,6 +316,7 @@ module.exports = function registerRoutes(app, passport, db, ObjectId) {
         source: "online",
         fulfillmentType: "pickup",
         customerPhone,
+        customerEmail: currentUser?.email || "",
       };
 
       const result = await db.collection("order").insertOne(payload);
@@ -243,7 +328,7 @@ module.exports = function registerRoutes(app, passport, db, ObjectId) {
     }
   });
 
-  app.patch("/api/orders/:id/complete", ensureAuthenticated, async (req, res, next) => {
+  app.patch("/api/orders/:id/complete", ensureRole(["staff"]), async (req, res, next) => {
     try {
       const result = await db.collection("order").findOneAndUpdate(
         { _id: ObjectId.createFromHexString(req.params.id) },
@@ -262,7 +347,7 @@ module.exports = function registerRoutes(app, passport, db, ObjectId) {
     }
   });
 
-  app.delete("/api/orders/:id", ensureAuthenticated, async (req, res, next) => {
+  app.delete("/api/orders/:id", ensureRole(["staff"]), async (req, res, next) => {
     try {
       await db.collection("order").findOneAndDelete({
         _id: ObjectId.createFromHexString(req.params.id),

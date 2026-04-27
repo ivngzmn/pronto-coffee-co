@@ -198,7 +198,7 @@ function useSession() {
   return [session, setSession];
 }
 
-function ProtectedRoute({ authenticated, loading, children }) {
+function ProtectedRoute({ authenticated, loading, user, children }) {
   const location = useLocation();
 
   if (loading) {
@@ -209,7 +209,7 @@ function ProtectedRoute({ authenticated, loading, children }) {
     );
   }
 
-  if (!authenticated) {
+  if (!authenticated || user?.role === "customer") {
     return <Navigate to="/login" replace state={{ from: location.pathname }} />;
   }
 
@@ -1502,8 +1502,9 @@ export default function App() {
     () => ({
       authenticated: session.authenticated,
       loading: session.loading,
+      user: session.user,
     }),
-    [session.authenticated, session.loading]
+    [session.authenticated, session.loading, session.user]
   );
 
   return (

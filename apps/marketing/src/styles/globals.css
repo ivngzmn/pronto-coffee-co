@@ -5,23 +5,23 @@
     "Inter",
     "Segoe UI",
     sans-serif;
-  --color-background: oklch(0.984 0.008 82.9);
-  --color-foreground: oklch(0.24 0.01 65.5);
-  --color-card: oklch(0.99 0.004 82.9);
-  --color-card-foreground: oklch(0.24 0.01 65.5);
-  --color-popover: oklch(0.99 0.004 82.9);
-  --color-popover-foreground: oklch(0.24 0.01 65.5);
-  --color-primary: oklch(0.29 0.02 61.7);
+  --color-background: #f7f9fb;
+  --color-foreground: #191c1e;
+  --color-card: #ffffff;
+  --color-card-foreground: #191c1e;
+  --color-popover: #ffffff;
+  --color-popover-foreground: #191c1e;
+  --color-primary: #111827;
   --color-primary-foreground: oklch(0.985 0.004 95.1);
-  --color-secondary: oklch(0.94 0.01 80.5);
-  --color-secondary-foreground: oklch(0.29 0.02 61.7);
-  --color-muted: oklch(0.95 0.009 81.3);
-  --color-muted-foreground: oklch(0.5 0.02 64.7);
-  --color-accent: oklch(0.84 0.08 74.6);
-  --color-accent-foreground: oklch(0.23 0.01 61.4);
-  --color-border: oklch(0.89 0.008 80.7);
-  --color-input: oklch(0.89 0.008 80.7);
-  --color-ring: oklch(0.55 0.05 70.2);
+  --color-secondary: #e7edf3;
+  --color-secondary-foreground: #243241;
+  --color-muted: #edf1f5;
+  --color-muted-foreground: #526176;
+  --color-accent: #d9e9dd;
+  --color-accent-foreground: #183923;
+  --color-border: #dbe2ea;
+  --color-input: #dbe2ea;
+  --color-ring: #334155;
 }
 
 :root {
@@ -29,9 +29,7 @@
 }
 
 html {
-  background:
-    radial-gradient(circle at top, rgba(245, 158, 11, 0.18), transparent 32%),
-    linear-gradient(180deg, #fffaf2 0%, #f4ede4 100%);
+  background: #f7f9fb;
 }
 
 body {

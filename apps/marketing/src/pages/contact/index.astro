@@ -1,77 +1,114 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import NewsletterCta from "@/components/marketing/NewsletterCta.astro";
+import SectionHeader from "@/components/marketing/SectionHeader.astro";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert } from "@/components/ui/alert";
 import { Field } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { defaultLocation } from "@pronto/menu";
+import { Clock, Phone } from "lucide-react";
+
+const hours = [
+  ["Monday - Friday", "7:00 AM - 6:00 PM"],
+  ["Saturday", "8:00 AM - 4:00 PM"],
+  ["Sunday", "Closed"],
+];
 ---
 
 <BaseLayout title="Contact - Pronto Coffee Co." description="Find Pronto Coffee Co. and get in touch." includeFormScript={true}>
-  <section class="mx-auto grid max-w-6xl gap-6 px-4 pb-16 pt-14 md:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:pb-24 lg:pt-20">
-    <Card className="overflow-hidden border-border/70 bg-stone-950 text-stone-50">
-      <CardHeader className="space-y-4">
-        <Badge className="w-fit bg-white/10 text-stone-100">Cafe details</Badge>
-        <CardTitle className="text-3xl text-white">Find the shop, check the hours, and plan your next stop.</CardTitle>
-        <CardDescription className="text-stone-300">
-          Everything you need for the next coffee run, from the first visit of the day to an afternoon stop for cold brew and a pastry.
-        </CardDescription>
-      </CardHeader>
-      <CardContent className="space-y-6 text-sm text-stone-200">
-        <div>
-          <p class="font-semibold text-white">Telephone</p>
-          <p class="mt-1">(714) 555-0184</p>
-        </div>
-        <div>
-          <p class="font-semibold text-white">Email</p>
-          <p class="mt-1">hello@prontocoffee.co</p>
-        </div>
-        <div>
-          <p class="font-semibold text-white">Hours</p>
-          <p class="mt-1">Daily: 5am-8pm</p>
-        </div>
-        <div>
-          <p class="font-semibold text-white">Address</p>
-          <p class="mt-1">1847 Harbor Blvd.</p>
-          <p>Costa Mesa, CA 92627</p>
-        </div>
-        <img src="/assets/images/work_3.jpg" alt="Interior of a coffee shop." class="rounded-[24px] object-cover" />
-      </CardContent>
-    </Card>
+  <section class="mx-auto max-w-7xl px-4 py-16 md:px-6 lg:py-20">
+    <SectionHeader
+      align="center"
+      headingLevel="h1"
+      eyebrow="Get in touch"
+      title="Questions about coffee, pickup, or wholesale?"
+      description="Send a note before your next visit, check our hours, or find the Costa Mesa cafe."
+    />
 
-    <Card>
-      <CardHeader>
-        <Badge className="w-fit">Questions</Badge>
-        <CardTitle className="text-3xl">Send a note before your next visit</CardTitle>
-        <CardDescription>
-          Ask about coffee, breakfast, pickup timing, or what is worth trying on your first stop in.
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <form class="space-y-4">
-          <Field label="Name">
-            <Input type="text" id="name" name="name" required placeholder="Your name" />
-          </Field>
-          <Field label="Email">
-            <Input type="email" id="email" name="email" required placeholder="name@example.com" />
-          </Field>
-          <Field label="Question">
-            <Textarea id="question" name="question" minlength="10" maxlength="280" required placeholder="How can we help?" />
-          </Field>
-          <div class="flex flex-wrap gap-3 pt-2">
-            <Button type="submit">Send message</Button>
-            <Button as="a" href="/menu/" variant="outline">Browse the menu</Button>
+    <div class="mt-12 grid gap-6 lg:grid-cols-12">
+      <Card className="lg:col-span-7">
+        <CardHeader>
+          <CardTitle className="text-3xl">Send a note</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <form class="space-y-5">
+            <div class="grid gap-4 md:grid-cols-2">
+              <Field label="First name">
+                <Input type="text" id="first-name" name="first-name" required placeholder="Jane" />
+              </Field>
+              <Field label="Last name">
+                <Input type="text" id="last-name" name="last-name" required placeholder="Smith" />
+              </Field>
+            </div>
+            <Field label="Email address">
+              <Input type="email" id="email" name="email" required placeholder="jane@example.com" />
+            </Field>
+            <Field label="Message">
+              <Textarea id="question" name="question" minLength="10" maxLength="500" required placeholder="How can we help?" />
+            </Field>
+            <div class="flex flex-wrap gap-3 pt-2">
+              <Button type="submit">Send message</Button>
+              <Button as="a" href="/menu/" variant="outline">Browse the menu</Button>
+            </div>
+            <Alert id="success" variant="success" className="hidden">
+              Thanks. Your note is queued for the team.
+            </Alert>
+            <Alert id="error" variant="destructive" className="hidden">
+              Something went wrong. Please email hello@prontocoffee.co instead.
+            </Alert>
+          </form>
+        </CardContent>
+      </Card>
+
+      <div class="space-y-6 lg:col-span-5">
+        <Card className="overflow-hidden">
+          <div class="relative h-56">
+            <img
+              src="/assets/images/stitch/stitch-12.webp"
+              alt="Map-inspired view near the Pronto Coffee Co. location."
+              class="h-full w-full object-cover grayscale"
+              loading="lazy"
+            />
+            <div class="absolute inset-0 flex items-center justify-center">
+              <div class="rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow-lg">
+                {defaultLocation.name}
+              </div>
+            </div>
           </div>
-          <Alert id="success" variant="success" className="hidden">
-            Thanks. Your note is queued for the team.
-          </Alert>
-          <Alert id="error" variant="destructive" className="hidden">
-            Something went wrong. Please email hello@prontocoffee.co instead.
-          </Alert>
-        </form>
-      </CardContent>
-    </Card>
+          <CardContent className="space-y-4 p-6">
+            <Badge>Location</Badge>
+            <h2 class="text-2xl font-semibold text-foreground">{defaultLocation.name}</h2>
+            <p class="text-sm leading-7 text-muted-foreground">{defaultLocation.addressLines.join(", ")}</p>
+            <p class="flex items-center gap-2 text-sm font-semibold text-foreground">
+              <Phone className="size-4 shrink-0 text-muted-foreground" aria-hidden="true" />
+              <span>{defaultLocation.phone}</span>
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-primary text-primary-foreground">
+          <CardContent className="space-y-4 p-6">
+            <h2 class="flex items-center gap-2 text-2xl font-semibold text-white">
+              <Clock className="size-5 shrink-0 text-white/70" aria-hidden="true" />
+              <span>Roastery hours</span>
+            </h2>
+            <div class="space-y-3">
+              {hours.map(([day, time]) => (
+                <div class="flex justify-between gap-4 border-b border-white/15 pb-3 text-sm last:border-b-0 last:pb-0">
+                  <span class="text-white/70">{day}</span>
+                  <span class="font-semibold text-white">{time}</span>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
   </section>
+
+  <NewsletterCta tone="light" title="Join our roasting newsletter" description="Get early access to limited seasonal drinks and small-batch notes." />
 </BaseLayout>

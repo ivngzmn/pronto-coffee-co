@@ -1,103 +1,133 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import NewsletterCta from "@/components/marketing/NewsletterCta.astro";
+import SectionHeader from "@/components/marketing/SectionHeader.astro";
+import { ImageFeatureCard } from "@/components/marketing/MarketingCards";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
+import { featuredMenuItems } from "@pronto/menu";
+import { FlaskConical, Leaf } from "lucide-react";
 
-const pillars = [
+const processCards = [
   {
-    title: "House Coffee",
-    description: "Espresso drinks, smooth lattes, and bold cold brew built for the everyday morning stop.",
-    image: "/assets/images/coffee-cup.png",
+    title: "Smart Thermal Profiling",
+    description: "Small-batch roasting with careful temperature tracking for sweetness, clarity, and consistency.",
+    image: "/assets/images/stitch/stitch-06.webp",
+    eyebrow: "Roasting",
   },
   {
-    title: "Breakfast Favorites",
-    description: "Breakfast sandwiches, avocado toast, pastries, and cafe bites that belong next to a fresh cup.",
-    image: "/assets/images/tea-cup.png",
+    title: "Lab-Tested Cups",
+    description: "Every menu item is dialed in for repeatable extraction, texture, and speed at the bar.",
+    image: "/assets/images/stitch/stitch-21.webp",
+    eyebrow: "Calibration",
   },
   {
-    title: "Cafe Routine",
-    description: "A warm counter, easy pickup, and a neighborhood coffee stop built for daily repeat visits.",
-    image: "/assets/images/restaurant.png",
+    title: "Extraction Perfected",
+    description: "Espresso, cold brew, and tea drinks are built around clean flavor and reliable pickup timing.",
+    image: "/assets/images/stitch/stitch-20.webp",
+    eyebrow: "Service",
   },
 ];
-
-const highlights = [
-  "Signature lattes and cold brew",
-  "Breakfast bites and toast",
-  "Cafe + quick pickup energy",
-];
+const orderAheadHref = "/customer-login/?next=/order-ahead/";
 ---
 
-<BaseLayout title="Pronto Coffee Co." description="Coffee, breakfast bites, and a welcoming neighborhood cafe.">
-  <section class="mx-auto grid max-w-6xl items-center gap-10 px-4 pb-16 pt-14 md:px-6 lg:grid-cols-[1.1fr_0.9fr] lg:pb-24 lg:pt-20">
-    <div class="space-y-6">
-      <Badge>Cafe + Pickup</Badge>
-      <h1 class="max-w-3xl text-5xl font-semibold leading-tight text-foreground md:text-6xl">
-        Coffee, breakfast, and an easy stop on the way into the day.
-      </h1>
-      <p class="max-w-2xl text-base leading-8 text-muted-foreground md:text-lg">
-        Pronto Coffee Co. is built around the things people come back for: smooth espresso drinks, bold cold brew, breakfast sandwiches, fresh pastries, and a cafe that feels good whether you stay a while or order ahead.
-      </p>
-      <div class="flex flex-wrap gap-3">
-        <Button as="a" href="/menu/" size="lg">View Food & Drinks</Button>
-        <Button as="a" href="/order-ahead/" variant="outline" size="lg">
-          Order Ahead
-        </Button>
+<BaseLayout title="Pronto Coffee Co. | Precision Roasted" description="Precision-roasted coffee, breakfast favorites, and easy pickup in Costa Mesa.">
+  <section class="relative overflow-hidden bg-slate-50">
+    <div class="pointer-events-none absolute inset-0 opacity-[0.035] [background-image:radial-gradient(#000_1px,transparent_1px)] [background-size:32px_32px]"></div>
+    <div class="relative mx-auto grid min-h-[calc(100vh-4rem)] max-w-7xl items-center gap-12 px-4 py-16 md:px-6 lg:grid-cols-[0.92fr_1.08fr] lg:py-20">
+      <div class="space-y-7">
+        <Badge>Fresh batch now pouring</Badge>
+        <h1 class="max-w-3xl text-5xl font-semibold leading-tight text-primary md:text-7xl">
+          Precision roasted. Ready when you are.
+        </h1>
+        <p class="max-w-xl text-base leading-8 text-muted-foreground md:text-lg">
+          Pronto Coffee Co. serves exacting espresso, smooth cold brew, breakfast favorites, and protected order-ahead pickup for the coffee run that needs to move.
+        </p>
+        <div class="flex flex-wrap gap-3">
+          <Button as="a" href={orderAheadHref} size="lg">Order Ahead</Button>
+          <Button as="a" href="/menu/" variant="outline" size="lg">View Menu</Button>
+        </div>
       </div>
-      <div class="grid gap-3 pt-4 sm:grid-cols-3">
-        {highlights.map((highlight) => (
-          <Card className="rounded-3xl border-border/70 bg-card/70">
-            <CardContent className="p-4 text-sm font-medium text-foreground">{highlight}</CardContent>
+      <div class="relative">
+        <img
+          src="/assets/images/stitch/stitch-08.webp"
+          alt="Espresso pouring from a machine into a white ceramic cup."
+          class="aspect-[4/5] w-full rounded-lg object-cover shadow-2xl"
+          fetchpriority="high"
+        />
+        <div class="absolute -bottom-6 left-4 right-4 rounded-lg border border-border bg-white p-5 shadow-xl sm:left-8 sm:right-auto sm:max-w-xs lg:-left-6">
+          <p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">Live from the bar</p>
+          <p class="mt-2 text-sm font-semibold italic leading-6 text-primary">
+            The house espresso is pulling bright today: chocolate, red apple, and a clean finish.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-7xl px-4 py-20 md:px-6">
+    <SectionHeader
+      eyebrow="The precision process"
+      title="A cafe workflow tuned from roast to handoff."
+      description="The refreshed Pronto experience leads with the details customers care about: what is pouring, what is fresh, and how quickly pickup fits into the day."
+    />
+    <div class="mt-10 grid gap-5 md:grid-cols-3">
+      <ImageFeatureCard {...processCards[0]} imageAlt={processCards[0].title} className="md:col-span-2" imageClassName="h-80" />
+      <div class="rounded-lg border border-border bg-white p-6 shadow-sm">
+        <div class="mb-6 flex h-12 w-12 items-center justify-center rounded-lg bg-secondary text-xl font-semibold text-primary">01</div>
+        <Badge>{processCards[1].eyebrow}</Badge>
+        <h3 class="mt-4 flex items-center gap-2 text-2xl font-semibold text-foreground">
+          <FlaskConical className="size-5 shrink-0 text-muted-foreground" aria-hidden="true" />
+          <span>{processCards[1].title}</span>
+        </h3>
+        <p class="mt-3 text-sm leading-7 text-muted-foreground">{processCards[1].description}</p>
+      </div>
+      <div class="rounded-lg border border-primary bg-primary p-6 text-primary-foreground shadow-sm">
+        <div class="mb-6 flex h-12 w-12 items-center justify-center rounded-lg bg-white/10 text-xl font-semibold text-white">02</div>
+        <Badge className="bg-white/10 text-white">{processCards[2].eyebrow}</Badge>
+        <h3 class="mt-4 flex items-center gap-2 text-2xl font-semibold text-white">
+          <Leaf className="size-5 shrink-0 text-white/70" aria-hidden="true" />
+          <span>{processCards[2].title}</span>
+        </h3>
+        <p class="mt-3 text-sm leading-7 text-white/70">{processCards[2].description}</p>
+      </div>
+      <ImageFeatureCard
+        image="/assets/images/stitch/stitch-20.webp"
+        imageAlt="Pour-over coffee brewing with steam."
+        eyebrow="Brew"
+        title="Pour control, every time"
+        description="Water, grind, and timing are tuned so each cup carries the roast clearly."
+        className="md:col-span-2"
+        imageClassName="h-80"
+      />
+    </div>
+  </section>
+
+  <section class="bg-secondary/50 px-4 py-20 md:px-6">
+    <div class="mx-auto max-w-7xl">
+      <div class="mb-10 flex flex-col justify-between gap-4 md:flex-row md:items-end">
+        <SectionHeader
+          eyebrow="Featured roasts"
+          title="This month's precision selections."
+          description="House favorites, cold brew, and breakfast pairings selected for the fastest pickup run."
+        />
+        <Button as="a" href="/menu/" variant="outline" className="w-fit">View all</Button>
+      </div>
+      <div class="grid gap-5 md:grid-cols-3">
+        {featuredMenuItems.map((item) => (
+          <Card>
+            <img src={item.image} alt={item.name} class="h-64 w-full rounded-t-lg object-cover" />
+            <CardContent className="space-y-3 p-5">
+              <Badge>{item.callout}</Badge>
+              <h3 class="text-2xl font-semibold text-foreground">{item.name}</h3>
+              <p class="text-sm leading-7 text-muted-foreground">{item.blurb}</p>
+            </CardContent>
           </Card>
         ))}
       </div>
     </div>
-    <Card className="overflow-hidden border-border/70 text-stone-50">
-      <CardContent className="p-0">
-        <img
-          src="/assets/images/coffee_hero.png"
-          alt="Illustrated coffee and cafe food arrangement."
-          class="h-full w-full bg-[radial-gradient(circle_at_top,_rgba(245,158,11,0.18),_transparent_55%)] object-cover p-6"
-        />
-      </CardContent>
-    </Card>
   </section>
 
-  <section class="max-w-6xl px-4 py-12 mx-auto md:px-6 lg:py-16">
-    <div class="grid gap-6 md:grid-cols-3">
-      {pillars.map((pillar) => (
-        <Card className="rounded-[32px]">
-          <CardHeader>
-            <img src={pillar.image} alt="" class="h-14 w-14" />
-            <CardTitle>{pillar.title}</CardTitle>
-            <CardDescription>{pillar.description}</CardDescription>
-          </CardHeader>
-        </Card>
-      ))}
-    </div>
-  </section>
-
-  <section class="mx-auto grid max-w-6xl gap-6 px-4 py-12 md:px-6 lg:grid-cols-[0.95fr_1.05fr] lg:py-16">
-    <Card className="overflow-hidden">
-      <CardContent className="p-0">
-        <img src="/assets/images/coffee_growth.png" alt="Illustrated person holding a growing plant." class="object-cover w-full h-full" />
-      </CardContent>
-    </Card>
-      <Card>
-        <CardHeader>
-          <Badge className="w-fit">Location feel</Badge>
-          <CardTitle className="text-3xl">From the first pour to the last breakfast bite, keep it simple and craveable</CardTitle>
-          <CardDescription className="text-base leading-7">
-          The best coffee-shop sites lead with what guests want to know right away: what is pouring, what is coming out of the kitchen, where the cafe is, and how quickly they can grab their order.
-          </CardDescription>
-        </CardHeader>
-      <CardContent className="space-y-4 text-sm leading-7 text-muted-foreground">
-        <!--  TODO:put some relative copy here -->
-        <div class="pt-2">
-          <Button as="a" href="/contact/" variant="secondary">Find the cafe</Button>
-        </div>
-      </CardContent>
-    </Card>
-  </section>
+  <NewsletterCta />
 </BaseLayout>

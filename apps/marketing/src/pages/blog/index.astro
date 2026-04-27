@@ -2,88 +2,206 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { StatusCard } from "@/components/ui/marketing-card";
+import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Mail } from "lucide-react";
 
 const featuredPost = {
-  title: "How to Brew the Perfect Cup",
+  title: "The Evolution of the Perfect Roast: Our Spring Collection",
   href: "/blog/how-to-brew-the-perfect-cup/",
   excerpt:
-    "A practical guide to dialing in water, grind, and timing so a good bag of beans has room to shine.",
-  image: "/assets/images/growth_tips_hero.jpg",
-  author: "John Something",
-  role: "Editor",
-  date: "August 20, 2021",
+    "Explore the science behind our newest seasonal coffees, from roast curves and water chemistry to the final handoff at the bar.",
+  image: "/assets/images/stitch/stitch-16.webp",
+  imageAlt: "Latte art in a dark ceramic cup.",
+  category: "Roastery News",
+  date: "May 15, 2026",
+  author: "Pronto Roastery Team",
+  role: "Head of Roasting",
 };
 
-const backlogPosts = [
+const posts = [
   {
-    title: "How to Source Better Beans",
-    excerpt: "Planned: origin notes, freshness, menu fit, and the tradeoffs worth paying attention to.",
-    status: "Todo",
+    title: "Mastering the V60: A Guide to Consistency",
+    href: "/blog/how-to-brew-the-perfect-cup/",
+    excerpt: "The difference between a good cup and a great cup often lives in the first 30 seconds of the bloom.",
+    image: "/assets/images/stitch/stitch-20.webp",
+    category: "Brewing Tips",
+    readTime: "8 min read",
   },
   {
-    title: "Calmer Service During the Rush",
-    excerpt: "Planned: small operational patterns that help the bar move faster without losing warmth.",
-    status: "Todo",
+    title: "Why faster pickup starts before the rush",
+    href: "/customer-login/?next=/order-ahead/",
+    excerpt: "How protected customer ordering keeps the queue clean while preserving the rhythm of the bar.",
+    image: "/assets/images/stitch/stitch-08.webp",
+    category: "Cafe Workflow",
+    readTime: "6 min read",
+  },
+  {
+    title: "The cold brew method for brighter beans",
+    href: "/menu/",
+    excerpt: "Balancing bright notes with extended extraction for a smooth, refreshing profile.",
+    image: "/assets/images/stitch/stitch-19.webp",
+    category: "Brewing Tips",
+    readTime: "6 min read",
+  },
+  {
+    title: "What zero-waste roasting looks like",
+    href: "/contact/",
+    excerpt: "How thoughtful sourcing, compostable packaging, and daily cafe decisions reduce waste.",
+    image: "/assets/images/stitch/stitch-10.webp",
+    category: "Sustainability",
+    readTime: "10 min read",
   },
 ];
+
+const trending = [
+  ["Temperature control for lighter roasts", "3.4k readers"],
+  ["Impact of water hardness on crema", "2.9k readers"],
+  ["The rise of high-elevation lots", "1.8k readers"],
+];
+
+const categories = ["Roastery", "Brewing", "Origins", "Equipment", "Sustainability", "Culture"];
 ---
 
 <BaseLayout title="Blog - Pronto Coffee Co." description="Pronto Coffee Co. journal and shop notes.">
-  <section class="mx-auto max-w-6xl px-4 pb-16 pt-14 md:px-6 lg:pb-24 lg:pt-20">
-    <div class="max-w-3xl space-y-4">
-      <Badge>Journal</Badge>
-      <h1 class="text-5xl font-semibold text-foreground">Shop notes, brewing guides, and stories from the counter.</h1>
-      <p class="text-base leading-8 text-muted-foreground">
-        This should read like a coffee brand journal, not a product roadmap. The next pass needs finished cafe stories, stronger drink-focused excerpts, and complete article metadata.
-      </p>
-    </div>
-
-    <div class="mt-10 grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
-      <Card className="overflow-hidden">
-        <div class="grid gap-0 lg:grid-cols-[1.1fr_0.9fr]">
-          <CardContent className="flex flex-col justify-between p-6">
-            <div class="space-y-4">
-              <div class="flex flex-wrap items-center gap-3 text-xs uppercase tracking-[0.2em] text-muted-foreground">
-                <span>Featured</span>
-                <span>{featuredPost.date}</span>
+  <main class="mx-auto max-w-7xl px-4 py-16 md:px-6 lg:py-20">
+    <section class="mb-16">
+      <article class="group grid overflow-hidden rounded-lg border border-border bg-card shadow-sm lg:grid-cols-12">
+        <div class="h-[360px] overflow-hidden lg:col-span-7 lg:h-[500px] xl:h-[600px]">
+          <img
+            src={featuredPost.image}
+            alt={featuredPost.imageAlt}
+            class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+            fetchpriority="high"
+          />
+        </div>
+        <div class="flex flex-col justify-center p-6 md:p-10 lg:col-span-5">
+          <div class="mb-5 flex flex-wrap items-center gap-3">
+            <Badge>{featuredPost.category}</Badge>
+            <span class="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">{featuredPost.date}</span>
+          </div>
+          <h1 class="text-4xl font-semibold leading-tight text-primary md:text-5xl">
+            {featuredPost.title}
+          </h1>
+          <p class="mt-5 text-base leading-8 text-muted-foreground">
+            {featuredPost.excerpt}
+          </p>
+          <div class="mt-8 flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+            <div class="flex items-center gap-3">
+              <img src="/assets/images/stitch/stitch-18.webp" alt="" class="h-11 w-11 rounded-full object-cover" loading="lazy" />
+              <div>
+                <p class="text-sm font-semibold text-primary">{featuredPost.author}</p>
+                <p class="text-xs text-muted-foreground">{featuredPost.role}</p>
               </div>
-              <CardTitle className="text-3xl">{featuredPost.title}</CardTitle>
-              <CardDescription className="text-base leading-7">
-                {featuredPost.excerpt}
-              </CardDescription>
             </div>
-            <div class="mt-8 flex items-center justify-between gap-4">
-              <div class="text-sm">
-                <p class="font-semibold text-foreground">{featuredPost.author}</p>
-                <p class="text-muted-foreground">{featuredPost.role}</p>
+            <Button as="a" href={featuredPost.href} variant="outline" className="w-fit">Read Article</Button>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <div class="grid gap-8 lg:grid-cols-12">
+      <section class="lg:col-span-8">
+        <div class="mb-8 flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
+          <h2 class="text-3xl font-semibold text-primary">Recent Insights</h2>
+          <div class="flex max-w-full gap-2 overflow-x-auto">
+            {["All", "Brewing Tips", "Origins"].map((label) => (
+              <button class="whitespace-nowrap rounded-lg border border-border bg-white px-4 py-2 text-sm font-semibold text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground">
+                {label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div class="grid gap-5 md:grid-cols-2">
+          {posts.map((post) => (
+            <article class="group overflow-hidden rounded-lg border border-border bg-white shadow-sm">
+              <div class="h-52 overflow-hidden bg-secondary">
+                <img
+                  src={post.image}
+                  alt={post.title}
+                  class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                  loading="lazy"
+                />
               </div>
-              <Button as="a" href={featuredPost.href}>Read article</Button>
+              <div class="flex min-h-64 flex-col p-5">
+                <span class="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">{post.category}</span>
+                <h3 class="mt-3 text-2xl font-semibold leading-tight text-primary">{post.title}</h3>
+                <p class="mt-3 flex-1 text-sm leading-7 text-muted-foreground">{post.excerpt}</p>
+                <div class="mt-5 flex items-center justify-between gap-4">
+                  <span class="text-xs font-semibold text-muted-foreground">{post.readTime}</span>
+                  <a href={post.href} class="text-sm font-semibold text-primary underline-offset-4 hover:underline">Read</a>
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+
+        <div class="mt-10 flex justify-center">
+          {posts.length > 4 && (
+            <Button as="a" href="/blog/how-to-brew-the-perfect-cup/" variant="outline">Load More Articles</Button>
+          )}
+        </div>
+      </section>
+
+      <aside class="space-y-6 lg:col-span-4">
+        <Card className="bg-primary text-primary-foreground">
+          <CardContent className="space-y-5 p-6">
+            <div class="flex h-11 w-11 items-center justify-center rounded-lg bg-white/10 text-lg font-semibold text-white">
+              <Mail size={24} strokeWidth={1.5} />
+            </div>
+            <div>
+              <h2 class="text-2xl font-semibold text-white">The Brew Newsletter</h2>
+              <p class="mt-3 text-sm leading-7 text-white/70">
+                Get roasting notes, limited drops, and pro brewing tips delivered weekly.
+              </p>
+            </div>
+            <form class="space-y-3">
+              <Input
+                id="blog-newsletter-email"
+                name="email"
+                type="email"
+                autoComplete="email"
+                placeholder="email@example.com"
+                className="border-white/20 bg-white/10 text-white placeholder:text-white/50"
+              />
+              <Button type="submit" variant="secondary" className="w-full">Subscribe Now</Button>
+            </form>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-6">
+            <h2 class="text-xs font-semibold uppercase tracking-[0.2em] text-primary">Trending Now</h2>
+            <div class="mt-6 space-y-6">
+              {trending.map(([title, readers], index) => (
+                <a href="/blog/how-to-brew-the-perfect-cup/" class="group flex gap-4">
+                  <span class="text-3xl font-semibold text-muted-foreground transition-colors group-hover:text-primary">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <span>
+                    <span class="block text-sm font-semibold leading-6 text-primary group-hover:underline">{title}</span>
+                    <span class="mt-1 block text-xs text-muted-foreground">{readers}</span>
+                  </span>
+                </a>
+              ))}
             </div>
           </CardContent>
-          <img src={featuredPost.image} alt="Coffee brewing setup." class="h-full w-full object-cover" />
-        </div>
-      </Card>
+        </Card>
 
-      <Card>
-        <CardHeader>
-          <Badge className="w-fit">Content backlog</Badge>
-          <CardTitle>Posts still to complete</CardTitle>
-          <CardDescription>
-            These entries should become real menu, sourcing, and cafe-life stories before the blog is promoted more prominently.
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          {backlogPosts.map((post) => (
-            <StatusCard
-              title={post.title}
-              status={post.status}
-              description={post.excerpt}
-            />
-          ))}
-        </CardContent>
-      </Card>
+        <Card>
+          <CardContent className="p-6">
+            <h2 class="text-xs font-semibold uppercase tracking-[0.2em] text-primary">Categories</h2>
+            <div class="mt-5 flex flex-wrap gap-2">
+              {categories.map((category) => (
+                <a href="/blog/" class="rounded-md bg-secondary px-3 py-1 text-sm font-semibold text-secondary-foreground transition-colors hover:bg-border">
+                  {category}
+                </a>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      </aside>
     </div>
-  </section>
+  </main>
 </BaseLayout>

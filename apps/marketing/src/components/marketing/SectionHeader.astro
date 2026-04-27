@@ -1,0 +1,24 @@
+---
+import { Badge } from "@/components/ui/badge";
+
+const {
+  eyebrow,
+  title,
+  description,
+  align = "left",
+  headingLevel = "h2",
+  class: className = "",
+} = Astro.props;
+
+const Heading = headingLevel;
+---
+
+<div class:list={[
+  "space-y-4",
+  align === "center" ? "mx-auto max-w-3xl text-center" : "max-w-3xl",
+  className,
+]}>
+  {eyebrow ? <Badge>{eyebrow}</Badge> : null}
+  <Heading class="text-4xl font-semibold leading-tight text-foreground md:text-6xl">{title}</Heading>
+  {description ? <p class="text-base leading-8 text-muted-foreground md:text-lg">{description}</p> : null}
+</div>

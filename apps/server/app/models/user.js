@@ -2,9 +2,15 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 
 const userSchema = mongoose.Schema({
+  role: {
+    type: String,
+    enum: ["staff", "customer"],
+    default: "staff",
+  },
   local: {
     userName: String,
     email: String,
+    phone: String,
     password: String,
   },
   facebook: {

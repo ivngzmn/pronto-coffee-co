@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 
 export function FeatureCard({ className, image, imageAlt = "", eyebrow, title, meta, description }) {
   return (
-    <article className={cn("overflow-hidden rounded-[28px] border border-border bg-secondary/30", className)}>
+    <article className={cn("overflow-hidden rounded-lg border border-border bg-secondary/30", className)}>
       {image ? <img src={image} alt={imageAlt} className="h-44 w-full object-cover" /> : null}
       <div className="space-y-3 p-4">
         {eyebrow ? <Badge>{eyebrow}</Badge> : null}
@@ -21,7 +21,7 @@ export function FeatureCard({ className, image, imageAlt = "", eyebrow, title, m
 
 export function MenuItemCard({ item, className }) {
   return (
-    <article className={cn("overflow-hidden rounded-[28px] border border-border bg-secondary/30", className)}>
+    <article className={cn("overflow-hidden rounded-lg border border-border bg-secondary/30", className)}>
       {item.image ? (
         <img src={item.image} alt={item.name} className="h-48 w-full object-cover" loading="lazy" />
       ) : null}
@@ -48,7 +48,7 @@ export function MenuItemCard({ item, className }) {
 
 export function StatusCard({ className, title, status, description }) {
   return (
-    <article className={cn("rounded-3xl border border-border bg-secondary/40 p-4", className)}>
+    <article className={cn("rounded-lg border border-border bg-secondary/40 p-4", className)}>
       <div className="flex items-center justify-between gap-4">
         <p className="font-semibold text-foreground">{title}</p>
         {status ? <Badge>{status}</Badge> : null}

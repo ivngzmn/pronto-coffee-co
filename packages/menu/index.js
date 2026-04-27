@@ -340,6 +340,7 @@ export const orderingCategories = menuCategories.map((category) => ({
     id: item.id,
     name: item.name,
     image: item.image,
+    description: item.description,
     basePrice: item.price,
     category: category.staffLabel,
     sizes: item.sizes || [],
