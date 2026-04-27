@@ -34,7 +34,10 @@ export function ImageFeatureCard({
   );
 }
 
-export function MenuProductCard({ item, ctaHref = "/order-ahead/" }) {
+export function MenuProductCard({
+  item,
+  ctaHref = "/customer-login/?next=/order-ahead/",
+}) {
   return (
     <article className="group overflow-hidden rounded-lg border border-border bg-white shadow-sm transition-shadow hover:shadow-md">
       <div className="h-56 overflow-hidden bg-secondary">

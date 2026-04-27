@@ -11,6 +11,8 @@ import {
   menuCategories,
   seasonalHighlights,
 } from "@pronto/menu";
+
+const orderAheadHref = "/customer-login/?next=/order-ahead/";
 ---
 
 <BaseLayout title="Menu - Pronto Coffee Co." description="Explore Pronto Coffee Co. drinks and cafe bites.">
@@ -57,7 +59,7 @@ import {
               <h2 class="mt-3 text-3xl font-semibold text-foreground">{category.title}</h2>
               <p class="mt-2 max-w-2xl text-sm leading-7 text-muted-foreground">{category.description}</p>
             </div>
-            <Button as="a" href="/order-ahead/" variant="outline" className="w-fit">Order Ahead</Button>
+            <Button as="a" href={orderAheadHref} variant="outline" className="w-fit">Order Ahead</Button>
           </div>
           <div class="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
             {category.items.map((item) => (

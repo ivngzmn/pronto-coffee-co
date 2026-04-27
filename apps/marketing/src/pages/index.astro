@@ -28,6 +28,7 @@ const processCards = [
     eyebrow: "Service",
   },
 ];
+const orderAheadHref = "/customer-login/?next=/order-ahead/";
 ---
 
 <BaseLayout title="Pronto Coffee Co. | Precision Roasted" description="Precision-roasted coffee, breakfast favorites, and easy pickup in Costa Mesa.">
@@ -43,7 +44,7 @@ const processCards = [
           Pronto Coffee Co. serves exacting espresso, smooth cold brew, breakfast favorites, and protected order-ahead pickup for the coffee run that needs to move.
         </p>
         <div class="flex flex-wrap gap-3">
-          <Button as="a" href="/order-ahead/" size="lg">Order Ahead</Button>
+          <Button as="a" href={orderAheadHref} size="lg">Order Ahead</Button>
           <Button as="a" href="/menu/" variant="outline" size="lg">View Menu</Button>
         </div>
       </div>

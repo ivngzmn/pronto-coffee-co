@@ -9,6 +9,14 @@ function userRole(user) {
   return user?.role || "staff";
 }
 
+function formatPhoneNumber(value) {
+  const digits = String(value || "").replace(/\D/g, "").slice(0, 10);
+
+  if (digits.length !== 10) return "";
+
+  return `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6)}`;
+}
+
 function serializeUser(user) {
   if (!user) return null;
 
@@ -17,6 +25,7 @@ function serializeUser(user) {
     role: userRole(user),
     userName: user.local?.userName || user.google?.name || user.github?.name || user.facebook?.name,
     email: user.local?.email || user.google?.email || user.github?.email || user.facebook?.email,
+    phone: user.local?.phone || "",
   };
 }
 
@@ -110,10 +119,11 @@ module.exports = function registerRoutes(app, passport, db, ObjectId) {
     try {
       const userName = typeof req.body.userName === "string" ? req.body.userName.trim() : "";
       const email = typeof req.body.email === "string" ? req.body.email.trim().toLowerCase() : "";
+      const phone = formatPhoneNumber(req.body.phone);
       const password = typeof req.body.password === "string" ? req.body.password : "";
 
-      if (!userName || !email || !password) {
-        return res.status(400).json({ error: "Name, email, and password are required." });
+      if (!userName || !email || !phone || !password) {
+        return res.status(400).json({ error: "Name, email, phone, and password are required." });
       }
 
       const existingUser = await User.findOne({ "local.email": email });
@@ -125,6 +135,7 @@ module.exports = function registerRoutes(app, passport, db, ObjectId) {
       user.role = "customer";
       user.local.userName = userName;
       user.local.email = email;
+      user.local.phone = phone;
       user.local.password = user.generateHash(password);
       await user.save();
 
@@ -285,15 +296,15 @@ module.exports = function registerRoutes(app, passport, db, ObjectId) {
       const requestName = typeof req.body.name === "string" ? req.body.name.trim() : "";
       const name = currentUser?.userName || requestName || currentUser?.email || "";
       const customerPhone =
-        typeof req.body.customerPhone === "string" ? req.body.customerPhone.trim() : "";
+        currentUser?.phone || formatPhoneNumber(req.body.customerPhone);
       const order = Array.isArray(req.body.order)
         ? req.body.order.filter((item) => typeof item === "string" && item.trim())
         : [];
 
-      if (!name || order.length === 0) {
+      if (!name || !customerPhone || order.length === 0) {
         return res
           .status(400)
-          .json({ error: "Add a customer name and at least one menu item." });
+          .json({ error: "Add a customer name, phone number, and at least one menu item." });
       }
 
       const payload = {

@@ -10,6 +10,7 @@ import {
 } from '@/components/ui/card';
 import { Field } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
+import { formatPhoneNumber } from '@/lib/utils';
 
 function normalizeApiUrl(apiUrl) {
   return apiUrl.replace(/\/$/, '');
@@ -32,6 +33,7 @@ export function CustomerAuthExperience({ apiUrl }) {
   });
   const [error, setError] = useState('');
   const [pending, setPending] = useState(false);
+  const [phone, setPhone] = useState('');
   const destination = useMemo(() => nextPath(), []);
 
   useEffect(() => {
@@ -77,6 +79,7 @@ export function CustomerAuthExperience({ apiUrl }) {
         body: JSON.stringify({
           userName: formData.get('userName'),
           email: formData.get('email'),
+          phone: formData.get('phone'),
           password: formData.get('password'),
         }),
       });
@@ -109,14 +112,15 @@ export function CustomerAuthExperience({ apiUrl }) {
           live queue our baristas use at the counter.
         </p>
         <div className='grid gap-4'>
+          {/* TODO: add lighting bolt for instant pickup and a star in a circle icon for the exclusive access */}
           {[
             [
               'Instant Pickup',
               'Build your order before you arrive and keep your morning moving.',
             ],
             [
-              'Protected Queue',
-              'Signed-in orders help the team keep spam out of the barista workflow.',
+              'Exclusive Access',
+              'Access limited small-batch roasts and member-only brewing workshops',
             ],
           ].map(([title, description]) => (
             <div
@@ -146,14 +150,30 @@ export function CustomerAuthExperience({ apiUrl }) {
         <CardContent>
           <form className='space-y-4' onSubmit={submit}>
             {mode === 'signup' ? (
-              <Field label='Name'>
-                <Input
-                  name='userName'
-                  required
-                  placeholder='Taylor'
-                  autoComplete='name'
-                />
-              </Field>
+              <>
+                <Field label='Name'>
+                  <Input
+                    name='userName'
+                    required
+                    placeholder='Taylor'
+                    autoComplete='name'
+                  />
+                </Field>
+                <Field label='Phone'>
+                  <Input
+                    name='phone'
+                    type='tel'
+                    required
+                    inputMode='numeric'
+                    value={phone}
+                    onChange={(event) =>
+                      setPhone(formatPhoneNumber(event.target.value))
+                    }
+                    placeholder='(714) 555-1234'
+                    autoComplete='tel'
+                  />
+                </Field>
+              </>
             ) : null}
             <Field label='Email'>
               <Input
@@ -199,6 +219,7 @@ export function CustomerAuthExperience({ apiUrl }) {
               type='button'
               onClick={() => {
                 setError('');
+                setPhone('');
                 setMode(mode === 'signup' ? 'login' : 'signup');
               }}
             >
