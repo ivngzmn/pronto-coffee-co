@@ -15,7 +15,7 @@ const navItems = [
   { href: "/menu/", label: "Menu" },
   { href: "/contact/", label: "Contact" },
 ];
-const orderAheadHref = "/customer-login/?next=/order-ahead/";
+const orderAheadHref = "/order-ahead/";
 
 const isActive = (href) => currentPath === href || (href !== "/" && currentPath.startsWith(href));
 ---
@@ -52,7 +52,6 @@ const isActive = (href) => currentPath === href || (href !== "/" && currentPath.
             ))}
           </nav>
           <div class="flex items-center gap-3">
-            <a href="/customer-login/" class="hidden text-sm font-medium text-muted-foreground transition-colors hover:text-foreground sm:inline-flex">Login</a>
             <Button as="a" href={orderAheadHref} size="sm" className="hidden sm:inline-flex">
               Order Ahead
             </Button>
@@ -75,7 +74,6 @@ const isActive = (href) => currentPath === href || (href !== "/" && currentPath.
                     </a>
                   ))}
                   <a href={orderAheadHref} class="transition-colors text-muted-foreground hover:text-foreground">Order Ahead</a>
-                  <a href="/customer-login/" class="transition-colors text-muted-foreground hover:text-foreground">Customer Login</a>
                   <a href="/login" data-app-path="/login" class="transition-colors text-muted-foreground hover:text-foreground">Staff Portal</a>
                 </div>
               </div>
@@ -105,7 +103,6 @@ const isActive = (href) => currentPath === href || (href !== "/" && currentPath.
           </div>
           <div class="space-y-3">
             <p class="font-semibold text-foreground">Pickup</p>
-            <a href="/customer-login/" class="block text-muted-foreground hover:text-foreground">Customer Login</a>
             <a href={orderAheadHref} class="block text-muted-foreground hover:text-foreground">Order Ahead</a>
           </div>
           <div class="space-y-3">

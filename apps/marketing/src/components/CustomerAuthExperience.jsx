@@ -24,6 +24,11 @@ function nextPath() {
   return next.startsWith('/') ? next : '/order-ahead/';
 }
 
+const authShellClass =
+  'mx-auto grid min-h-full max-w-7xl gap-6 px-4 py-16 md:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:py-20 xl:min-h-[calc(100vh-16rem)]';
+const authFormCardClass =
+  'mx-auto w-full max-w-full self-start lg:mt-0 lg:min-h-[36rem]';
+
 export function CustomerAuthExperience({ apiUrl }) {
   const [mode, setMode] = useState('login');
   const [session, setSession] = useState({
@@ -98,45 +103,15 @@ export function CustomerAuthExperience({ apiUrl }) {
     }
   }
 
-  return (
-    <div className='grid min-h-full xl:min-h-[calc(100vh-16rem)] mx-auto gap-10 px-4 py-16 md:px-6 lg:grid-cols-[0.95fr_1.05fr] max-w-7xl'>
-      <section className='hidden space-y-6 border-r border-border pr-10 lg:block'>
-        <div className='inline-flex rounded-md bg-secondary px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-secondary-foreground'>
-          Order Ahead
-        </div>
-        <h1 className='max-w-xl text-5xl font-semibold leading-tight text-primary'>
-          Skip the line, savor the ritual.
-        </h1>
-        <p className='max-w-md text-base leading-8 text-muted-foreground'>
-          Create a Pronto customer account to send pickup orders into the same
-          live queue our baristas use at the counter.
-        </p>
-        <div className='grid gap-4'>
-          {/* TODO: add lighting bolt for instant pickup and a star in a circle icon for the exclusive access */}
-          {[
-            [
-              'Instant Pickup',
-              'Build your order before you arrive and keep your morning moving.',
-            ],
-            [
-              'Exclusive Access',
-              'Access limited small-batch roasts and member-only brewing workshops',
-            ],
-          ].map(([title, description]) => (
-            <div
-              key={title}
-              className='rounded-lg border border-border bg-white p-4'
-            >
-              <p className='font-semibold text-primary'>{title}</p>
-              <p className='mt-1 text-sm leading-6 text-muted-foreground'>
-                {description}
-              </p>
-            </div>
-          ))}
-        </div>
-      </section>
+  if (session.loading) {
+    return <CustomerAuthSkeleton />;
+  }
 
-      <Card className='mx-auto w-full max-w-md'>
+  return (
+    <div className={authShellClass}>
+      <AuthPickupPanel />
+
+      <Card className={authFormCardClass}>
         <CardHeader>
           <CardTitle className='text-3xl'>
             {mode === 'signup' ? 'Create an account' : 'Welcome back'}
@@ -207,7 +182,7 @@ export function CustomerAuthExperience({ apiUrl }) {
                 ? 'Working...'
                 : mode === 'signup'
                   ? 'Create account'
-                  : 'Login'}
+                  : 'Sign in'}
             </Button>
           </form>
           <p className='mt-6 text-center text-sm text-muted-foreground'>
@@ -223,9 +198,101 @@ export function CustomerAuthExperience({ apiUrl }) {
                 setMode(mode === 'signup' ? 'login' : 'signup');
               }}
             >
-              {mode === 'signup' ? 'Login' : 'Create one'}
+              {mode === 'signup' ? 'Sign in' : 'Create one'}
             </button>
           </p>
+        </CardContent>
+      </Card>
+    </div>
+  );
+}
+
+function AuthPickupPanel() {
+  return (
+    <Card className='overflow-hidden border-border/70 bg-primary text-primary-foreground'>
+      <CardHeader className='space-y-4'>
+        <div className='inline-flex w-fit rounded-md bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-stone-100'>
+          Order Ahead
+        </div>
+        <CardTitle className='text-4xl text-white md:text-5xl'>
+          Skip the line, savor the ritual.
+        </CardTitle>
+        <CardDescription className='text-base leading-7 text-stone-300'>
+          Create a Pronto customer account to send pickup orders into the same
+          live queue our baristas use at the counter.
+        </CardDescription>
+      </CardHeader>
+      <CardContent className='space-y-4 text-sm leading-7 text-stone-200'>
+        <FeatureBlock
+          title='Instant Pickup'
+          description='Build your order before you arrive and keep your morning moving.'
+        />
+        <FeatureBlock
+          title='Exclusive Access'
+          description='Access limited small-batch roasts and member-only brewing workshops.'
+        />
+      </CardContent>
+    </Card>
+  );
+}
+
+function FeatureBlock({ title, description }) {
+  return (
+    <div className='rounded-lg bg-white/5 p-4'>
+      <p className='font-semibold text-white'>{title}</p>
+      <p className='mt-1 text-stone-300'>{description}</p>
+    </div>
+  );
+}
+
+function CustomerAuthSkeleton() {
+  return (
+    <div
+      className={authShellClass}
+      aria-busy='true'
+      aria-label='Loading customer sign in'
+    >
+      <Card className='overflow-hidden border-border/70 bg-primary text-primary-foreground'>
+        <CardHeader className='space-y-4'>
+          <div className='h-6 w-28 animate-pulse rounded-md bg-white/15' />
+          <div className='space-y-3'>
+            <div className='h-11 w-11/12 animate-pulse rounded-md bg-white/15' />
+            <div className='h-11 w-3/4 animate-pulse rounded-md bg-white/15' />
+          </div>
+          <div className='space-y-2'>
+            <div className='h-4 w-full animate-pulse rounded bg-white/10' />
+            <div className='h-4 w-10/12 animate-pulse rounded bg-white/10' />
+          </div>
+        </CardHeader>
+        <CardContent className='space-y-4'>
+          {[0, 1].map((item) => (
+            <div key={item} className='rounded-lg bg-white/5 p-4'>
+              <div className='h-4 w-36 animate-pulse rounded bg-white/15' />
+              <div className='mt-3 h-4 w-11/12 animate-pulse rounded bg-white/10' />
+            </div>
+          ))}
+          <div className='rounded-lg bg-white/5 p-4'>
+            <div className='h-4 w-40 animate-pulse rounded bg-white/15' />
+            <div className='mt-3 h-4 w-full animate-pulse rounded bg-white/10' />
+            <div className='mt-2 h-4 w-9/12 animate-pulse rounded bg-white/10' />
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card className={authFormCardClass}>
+        <CardHeader>
+          <div className='h-8 w-52 animate-pulse rounded-md bg-secondary' />
+          <div className='h-4 w-11/12 animate-pulse rounded bg-secondary' />
+        </CardHeader>
+        <CardContent className='space-y-4'>
+          {[0, 1].map((field) => (
+            <div key={field} className='space-y-2'>
+              <div className='h-4 w-20 animate-pulse rounded bg-secondary' />
+              <div className='h-11 w-full animate-pulse rounded-md bg-secondary' />
+            </div>
+          ))}
+          <div className='h-11 w-full animate-pulse rounded-md bg-primary/20' />
+          <div className='mx-auto h-4 w-56 animate-pulse rounded bg-secondary' />
         </CardContent>
       </Card>
     </div>
