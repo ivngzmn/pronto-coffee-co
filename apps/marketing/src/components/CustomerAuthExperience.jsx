@@ -96,7 +96,7 @@ export function CustomerAuthExperience({ apiUrl }) {
   }
 
   return (
-    <div className='grid min-h-[calc(100vh-4rem)] mx-auto gap-10 px-4 py-16 md:px-6 lg:grid-cols-[0.95fr_1.05fr] max-w-7xl'>
+    <div className='grid min-h-full xl:min-h-[calc(100vh-16rem)] mx-auto gap-10 px-4 py-16 md:px-6 lg:grid-cols-[0.95fr_1.05fr] max-w-7xl'>
       <section className='hidden space-y-6 border-r border-border pr-10 lg:block'>
         <div className='inline-flex rounded-md bg-secondary px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-secondary-foreground'>
           Order Ahead
