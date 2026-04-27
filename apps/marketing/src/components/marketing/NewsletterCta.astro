@@ -1,0 +1,32 @@
+---
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+
+const {
+  title = "Stay calibrated.",
+  description = "Get early access to limited seasonal drinks, brewing guides, and roastery notes.",
+  tone = "dark",
+} = Astro.props;
+---
+
+<section class:list={[
+  "px-4 py-16 md:px-6",
+  tone === "dark" ? "bg-primary text-primary-foreground" : "bg-secondary/60 text-foreground",
+]}>
+  <div class="mx-auto max-w-4xl text-center">
+    <h2 class:list(["text-3xl font-semibold md:text-5xl", tone === "dark" ? "text-white" : "text-foreground"]}>{title}</h2>
+    <p class:list(["mx-auto mt-5 max-w-2xl text-base leading-8", tone === "dark" ? "text-white/75" : "text-muted-foreground"]}>{description}</p>
+    <form class="mx-auto mt-8 flex max-w-lg flex-col gap-3 sm:flex-row">
+      <Input
+        id="newsletter-email"
+        name="email"
+        type="email"
+        autoComplete="email"
+        placeholder="Email address"
+        className={tone === "dark" ? "border-white/20 bg-white/10 text-white placeholder:text-white/50" : ""}
+        aria-label="Email address"
+      />
+      <Button type="submit" variant={tone === "dark" ? "secondary" : "default"}>Subscribe</Button>
+    </form>
+  </div>
+</section>

@@ -3,7 +3,7 @@ import { cva } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const alertVariants = cva(
-  "rounded-2xl border px-4 py-3 text-sm font-medium",
+  "rounded-lg border px-4 py-3 text-sm font-medium",
   {
     variants: {
       variant: {

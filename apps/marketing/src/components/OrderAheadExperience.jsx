@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   defaultLocation,
   formatOrderItem,
@@ -16,6 +16,8 @@ const defaultSize = "Medium";
 const defaultMilk = "Whole";
 
 export function OrderAheadExperience({ apiUrl }) {
+  const normalizedApiUrl = apiUrl.replace(/\/$/, "");
+  const [session, setSession] = useState({ loading: true, authenticated: false, user: null });
   const [activeCategoryId, setActiveCategoryId] = useState(defaultCategoryId);
   const [customerName, setCustomerName] = useState("");
   const [customerPhone, setCustomerPhone] = useState("");
@@ -32,6 +34,29 @@ export function OrderAheadExperience({ apiUrl }) {
       orderingCategories[0],
     [activeCategoryId]
   );
+
+  useEffect(() => {
+    let ignore = false;
+
+    fetch(`${normalizedApiUrl}/api/session`, { credentials: "include" })
+      .then((response) => response.json())
+      .then((data) => {
+        if (!ignore) setSession({ loading: false, ...data });
+      })
+      .catch(() => {
+        if (!ignore) setSession({ loading: false, authenticated: false, user: null });
+      });
+
+    return () => {
+      ignore = true;
+    };
+  }, [normalizedApiUrl]);
+
+  useEffect(() => {
+    if (!customerName && session.user?.userName) {
+      setCustomerName(session.user.userName);
+    }
+  }, [customerName, session.user?.userName]);
 
   function addItem(item) {
     const formatted = formatOrderItem(item, {
@@ -58,13 +83,19 @@ export function OrderAheadExperience({ apiUrl }) {
       return;
     }
 
+    if (!session.authenticated) {
+      setError("Login or create a customer account before sending the order.");
+      return;
+    }
+
     setPending(true);
     setError("");
     setSuccess("");
 
     try {
-      const response = await fetch(`${apiUrl.replace(/\/$/, "")}/api/order-ahead`, {
+      const response = await fetch(`${normalizedApiUrl}/api/order-ahead`, {
         method: "POST",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },
@@ -96,7 +127,7 @@ export function OrderAheadExperience({ apiUrl }) {
 
   return (
     <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
-      <Card className="overflow-hidden border-border/70 bg-stone-950 text-stone-50">
+      <Card className="overflow-hidden border-border/70 bg-primary text-primary-foreground">
         <CardHeader className="space-y-4">
           <Badge className="w-fit bg-white/10 text-stone-100">Order Ahead</Badge>
           <CardTitle className="text-4xl text-white">
@@ -127,14 +158,14 @@ export function OrderAheadExperience({ apiUrl }) {
               add-ons for the quick coffee run.
             </p>
           </div>
-          <div className="rounded-[24px] bg-white/5 p-4">
+          <div className="rounded-lg bg-white/5 p-4">
             <p className="text-xs uppercase tracking-[0.2em] text-stone-300">Current ticket</p>
             {ticket.length ? (
               <ol className="mt-3 space-y-2">
                 {ticket.map((item, index) => (
                   <li
                     key={`${item}-${index}`}
-                    className="flex items-center justify-between gap-3 rounded-2xl bg-white/10 px-4 py-3"
+                    className="flex items-center justify-between gap-3 rounded-lg bg-white/10 px-4 py-3"
                   >
                     <span>{item}</span>
                     <Button
@@ -169,7 +200,7 @@ export function OrderAheadExperience({ apiUrl }) {
               <Input
                 value={customerName}
                 onChange={(event) => setCustomerName(event.target.value)}
-                placeholder="Taylor"
+                placeholder={session.user?.userName || "Taylor"}
               />
             </Field>
             <Field label="Phone">
@@ -209,7 +240,7 @@ export function OrderAheadExperience({ apiUrl }) {
             {activeCategory?.items.map((item) => (
               <Button
                 key={item.id}
-                className="h-auto justify-start rounded-[24px] border-border bg-secondary/30 px-4 py-4 text-left hover:bg-secondary/60"
+                className="h-auto justify-start rounded-lg border-border bg-secondary/30 px-4 py-4 text-left hover:bg-secondary/60"
                 variant="outline"
                 type="button"
                 onClick={() => addItem(item)}
@@ -237,6 +268,11 @@ export function OrderAheadExperience({ apiUrl }) {
             <Button type="button" onClick={submitOrder} disabled={pending}>
               {pending ? "Sending Order..." : "Send Pickup Order"}
             </Button>
+            {!session.authenticated ? (
+              <Button as="a" href="/customer-login/?next=/order-ahead/" variant="secondary">
+                Login to Order
+              </Button>
+            ) : null}
             <Button as="a" href="/menu/" variant="outline">
               Browse Full Menu
             </Button>
@@ -255,7 +291,7 @@ function OptionGroup({ label, options, value, onChange }) {
         {options.map((option) => (
           <Button
             key={option}
-            className={value === option ? "rounded-full" : "rounded-full text-muted-foreground"}
+            className={value === option ? "rounded-lg" : "rounded-lg text-muted-foreground"}
             variant={value === option ? "default" : "outline"}
             size="sm"
             type="button"

@@ -53,6 +53,10 @@ function displayNameFor(provider, profile) {
   );
 }
 
+function userRole(user) {
+  return user?.role || "staff";
+}
+
 async function findOrCreateSocialUser(provider, accessToken, profile) {
   const email = primaryEmail(profile);
   const providerPath = `${provider}.id`;
@@ -74,6 +78,7 @@ async function findOrCreateSocialUser(provider, accessToken, profile) {
 
   if (!user) {
     user = new User();
+    user.role = "staff";
   }
 
   user[provider] = {
@@ -123,6 +128,7 @@ module.exports = function configurePassport(passport) {
 
           const userName = req.body.userName;
           const newUser = new User();
+          newUser.role = "staff";
           newUser.local.userName = userName;
           newUser.local.email = email;
           newUser.local.password = newUser.generateHash(password);
@@ -150,6 +156,10 @@ module.exports = function configurePassport(passport) {
 
           if (!user) {
             return done(null, false, { message: "No user found." });
+          }
+
+          if (userRole(user) !== "staff") {
+            return done(null, false, { message: "Use the customer login to order ahead." });
           }
 
           if (!user.validPassword(password)) {

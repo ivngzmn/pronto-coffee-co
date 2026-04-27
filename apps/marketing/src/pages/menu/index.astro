@@ -1,10 +1,10 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import SectionHeader from "@/components/marketing/SectionHeader.astro";
+import { MenuProductCard } from "@/components/marketing/MarketingCards";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Chip } from "@/components/ui/chip";
-import { FeatureCard, MenuItemCard } from "@/components/ui/marketing-card";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   defaultLocation,
   featuredMenuItems,
@@ -14,79 +14,75 @@ import {
 ---
 
 <BaseLayout title="Menu - Pronto Coffee Co." description="Explore Pronto Coffee Co. drinks and cafe bites.">
-  <section class="max-w-6xl px-4 pb-16 mx-auto pt-14 md:px-6 lg:pb-24 lg:pt-20">
-    <div class="max-w-3xl space-y-4">
-      <Badge>{defaultLocation.serviceModel}</Badge>
-      <h1 class="text-5xl font-semibold text-foreground">Coffee, breakfast, pastries, and pickup favorites all in one place.</h1>
-      <p class="text-base leading-8 text-muted-foreground">
-        This is now the live source for the public Pronto menu. It is also the same core item list the staff app uses when a barista is building an order at the register.
-      </p>
+  <section class="mx-auto max-w-7xl px-4 py-16 md:px-6 lg:py-20">
+    <SectionHeader
+      align="center"
+      headingLevel="h1"
+      eyebrow={defaultLocation.serviceModel}
+      title="Our curated menu"
+      description="Signature espresso, cold brew, tea, breakfast, and pastries. Every menu surface pulls from the same shared data used by staff order entry and customer pickup."
+    />
+
+    <div class="mt-10 flex justify-center">
+      <div class="flex max-w-full gap-1 overflow-x-auto rounded-lg border border-border bg-secondary p-1">
+        {menuCategories.map((category) => (
+          <a href={`#${category.id}`} class="whitespace-nowrap rounded-md px-4 py-2 text-sm font-semibold text-muted-foreground transition-colors hover:bg-white hover:text-foreground">
+            {category.staffLabel}
+          </a>
+        ))}
+      </div>
     </div>
 
-    <div class="grid gap-6 mt-10 lg:grid-cols-[1.15fr_0.85fr]">
-      <Card className="overflow-hidden">
-        <CardHeader>
-          <Badge className="w-fit">Featured Favorites</Badge>
-          <CardTitle>What regulars reach for first</CardTitle>
-          <CardDescription>
-            Signature coffee, quick breakfast, and the kind of add-ons that make the morning stop feel complete.
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="grid gap-4 md:grid-cols-3">
-          {featuredMenuItems.map((item) => (
-            <FeatureCard
-              image={item.image}
-              imageAlt={item.name}
-              eyebrow={item.callout}
-              title={item.name}
-              meta={item.category}
-              description={item.blurb}
-            />
-          ))}
-        </CardContent>
-      </Card>
-
-      <Card>
-        <CardHeader>
-          <Badge className="w-fit">Location Details</Badge>
-          <CardTitle>{defaultLocation.name}</CardTitle>
-          <CardDescription>
-            {defaultLocation.addressLines.join(" • ")}
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4 text-sm text-muted-foreground">
-          <p>{defaultLocation.hours}</p>
-          <p>{defaultLocation.phone}</p>
-          <div>
-            <p class="font-semibold text-foreground">Seasonal highlights</p>
-            <ul class="mt-3 space-y-2">
-              {seasonalHighlights.map((item) => (
-                <li><Chip className="rounded-2xl bg-secondary/50 px-4 py-3 text-sm">{item}</Chip></li>
-              ))}
-            </ul>
-          </div>
-          <div class="flex flex-wrap gap-3 pt-2">
-            <Button as="a" href="/order-ahead/" variant="outline">Order Ahead</Button>
-            <Button as="a" href="/contact/">Find the cafe</Button>
-          </div>
-        </CardContent>
-      </Card>
-    </div>
-
-    <div class="grid gap-6 mt-10">
-      {menuCategories.map((group) => (
+    <div class="mt-12 grid gap-5 md:grid-cols-3">
+      {featuredMenuItems.map((item) => (
         <Card>
-          <CardHeader>
-            <CardTitle>{group.title}</CardTitle>
-            <CardDescription>{group.description}</CardDescription>
-          </CardHeader>
-          <CardContent className="grid gap-4 md:grid-cols-2">
-            {group.items.map((item) => (
-              <MenuItemCard item={item} />
-            ))}
+          <img src={item.image} alt={item.name} class="h-64 w-full rounded-t-lg object-cover" loading="lazy" />
+          <CardContent className="space-y-3 p-5">
+            <Badge>{item.callout}</Badge>
+            <h2 class="text-2xl font-semibold text-foreground">{item.name}</h2>
+            <p class="text-sm leading-7 text-muted-foreground">{item.blurb}</p>
           </CardContent>
         </Card>
       ))}
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-7xl px-4 pb-20 md:px-6">
+    <div class="grid gap-12">
+      {menuCategories.map((category) => (
+        <div id={category.id} class="scroll-mt-24">
+          <div class="mb-6 flex flex-col justify-between gap-3 md:flex-row md:items-end">
+            <div>
+              <Badge>{category.staffLabel}</Badge>
+              <h2 class="mt-3 text-3xl font-semibold text-foreground">{category.title}</h2>
+              <p class="mt-2 max-w-2xl text-sm leading-7 text-muted-foreground">{category.description}</p>
+            </div>
+            <Button as="a" href="/order-ahead/" variant="outline" className="w-fit">Order Ahead</Button>
+          </div>
+          <div class="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+            {category.items.map((item) => (
+              <MenuProductCard item={item} />
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="bg-primary px-4 py-16 text-primary-foreground md:px-6">
+    <div class="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[1fr_0.8fr] lg:items-center">
+      <div>
+        <Badge className="bg-white/10 text-white">Seasonal highlights</Badge>
+        <h2 class="mt-4 text-4xl font-semibold text-white">Precision roasted for the current menu.</h2>
+        <p class="mt-4 max-w-2xl text-sm leading-7 text-white/75">
+          Small-batch drinks and bakery features rotate through the pickup menu as the team dials them in.
+        </p>
+      </div>
+      <div class="grid gap-3 sm:grid-cols-3">
+        {seasonalHighlights.map((item) => (
+          <div class="rounded-lg border border-white/15 bg-white/10 p-4 text-sm font-semibold text-white">{item}</div>
+        ))}
+      </div>
     </div>
   </section>
 </BaseLayout>

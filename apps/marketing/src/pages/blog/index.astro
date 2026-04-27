@@ -1,89 +1,80 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { StatusCard } from "@/components/ui/marketing-card";
+import SectionHeader from "@/components/marketing/SectionHeader.astro";
+import NewsletterCta from "@/components/marketing/NewsletterCta.astro";
+import { BlogCard } from "@/components/marketing/MarketingCards";
 
 const featuredPost = {
-  title: "How to Brew the Perfect Cup",
+  title: "The evolution of the perfect roast",
   href: "/blog/how-to-brew-the-perfect-cup/",
   excerpt:
-    "A practical guide to dialing in water, grind, and timing so a good bag of beans has room to shine.",
-  image: "/assets/images/growth_tips_hero.jpg",
-  author: "John Something",
-  role: "Editor",
-  date: "August 20, 2021",
+    "A practical look at how water, grind, roast profile, and service timing all shape the final cup.",
+  image: "/assets/images/stitch/stitch-06.webp",
+  imageAlt: "Barista pouring latte art in a modern cafe.",
+  category: "Roastery News",
+  date: "May 15, 2026",
 };
 
-const backlogPosts = [
+const posts = [
   {
-    title: "How to Source Better Beans",
-    excerpt: "Planned: origin notes, freshness, menu fit, and the tradeoffs worth paying attention to.",
-    status: "Todo",
+    title: "How to brew the perfect cup",
+    href: "/blog/how-to-brew-the-perfect-cup/",
+    excerpt: "A grounded guide to dialing in water, grind, timing, and repeatable morning coffee.",
+    image: "/assets/images/growth_tips_hero.jpg",
+    category: "Brewing Tips",
+    date: "April 12, 2026",
   },
   {
-    title: "Calmer Service During the Rush",
-    excerpt: "Planned: small operational patterns that help the bar move faster without losing warmth.",
-    status: "Todo",
+    title: "Designing the faster pickup bar",
+    excerpt: "How order-ahead tickets move from customer login to the same live queue staff already trust.",
+    image: "/assets/images/stitch/stitch-08.webp",
+    category: "Cafe Workflow",
+    date: "March 28, 2026",
+  },
+  {
+    title: "Origin notes without the noise",
+    excerpt: "A plain-language way to choose beans by sweetness, body, acidity, and everyday brew method.",
+    image: "/assets/images/stitch/stitch-09.webp",
+    category: "Origins",
+    date: "March 9, 2026",
+  },
+  {
+    title: "What makes a breakfast pairing work",
+    excerpt: "Balancing espresso, cold brew, pastry, and savory favorites for the morning rush.",
+    image: "/assets/images/menu/pronto-breakfast-sandwich.webp",
+    category: "Menu",
+    date: "February 24, 2026",
   },
 ];
 ---
 
 <BaseLayout title="Blog - Pronto Coffee Co." description="Pronto Coffee Co. journal and shop notes.">
-  <section class="mx-auto max-w-6xl px-4 pb-16 pt-14 md:px-6 lg:pb-24 lg:pt-20">
-    <div class="max-w-3xl space-y-4">
-      <Badge>Journal</Badge>
-      <h1 class="text-5xl font-semibold text-foreground">Shop notes, brewing guides, and stories from the counter.</h1>
-      <p class="text-base leading-8 text-muted-foreground">
-        This should read like a coffee brand journal, not a product roadmap. The next pass needs finished cafe stories, stronger drink-focused excerpts, and complete article metadata.
-      </p>
-    </div>
-
-    <div class="mt-10 grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
-      <Card className="overflow-hidden">
-        <div class="grid gap-0 lg:grid-cols-[1.1fr_0.9fr]">
-          <CardContent className="flex flex-col justify-between p-6">
-            <div class="space-y-4">
-              <div class="flex flex-wrap items-center gap-3 text-xs uppercase tracking-[0.2em] text-muted-foreground">
-                <span>Featured</span>
-                <span>{featuredPost.date}</span>
-              </div>
-              <CardTitle className="text-3xl">{featuredPost.title}</CardTitle>
-              <CardDescription className="text-base leading-7">
-                {featuredPost.excerpt}
-              </CardDescription>
-            </div>
-            <div class="mt-8 flex items-center justify-between gap-4">
-              <div class="text-sm">
-                <p class="font-semibold text-foreground">{featuredPost.author}</p>
-                <p class="text-muted-foreground">{featuredPost.role}</p>
-              </div>
-              <Button as="a" href={featuredPost.href}>Read article</Button>
-            </div>
-          </CardContent>
-          <img src={featuredPost.image} alt="Coffee brewing setup." class="h-full w-full object-cover" />
-        </div>
-      </Card>
-
-      <Card>
-        <CardHeader>
-          <Badge className="w-fit">Content backlog</Badge>
-          <CardTitle>Posts still to complete</CardTitle>
-          <CardDescription>
-            These entries should become real menu, sourcing, and cafe-life stories before the blog is promoted more prominently.
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          {backlogPosts.map((post) => (
-            <StatusCard
-              title={post.title}
-              status={post.status}
-              description={post.excerpt}
-            />
-          ))}
-        </CardContent>
-      </Card>
+  <section class="mx-auto max-w-7xl px-4 py-16 md:px-6 lg:py-20">
+    <SectionHeader
+      eyebrow="Journal"
+      headingLevel="h1"
+      title="Roasting notes, brewing guides, and cafe workflow."
+      description="A customer-facing journal for the practical details behind the Pronto menu and the systems that keep pickup moving."
+    />
+    <div class="mt-10">
+      <BlogCard post={featuredPost} featured />
     </div>
   </section>
+
+  <section class="mx-auto max-w-7xl px-4 pb-20 md:px-6">
+    <div class="mb-8 flex flex-wrap gap-2">
+      {["All", "Brewing Tips", "Origins", "Cafe Workflow"].map((label) => (
+        <button class="rounded-lg border border-border bg-white px-4 py-2 text-sm font-semibold text-muted-foreground transition-colors hover:text-foreground">
+          {label}
+        </button>
+      ))}
+    </div>
+    <div class="grid gap-5 md:grid-cols-2">
+      {posts.map((post) => (
+        <BlogCard post={post} />
+      ))}
+    </div>
+  </section>
+
+  <NewsletterCta tone="light" title="Notes worth opening." description="Get brew guides, seasonal drops, and cafe updates without noise." />
 </BaseLayout>
