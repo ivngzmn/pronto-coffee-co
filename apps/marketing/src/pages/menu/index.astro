@@ -11,6 +11,20 @@ import {
 } from "@pronto/menu";
 
 const orderAheadHref = "/customer-login/?next=/order-ahead/";
+const menuItemsByName = new Map(
+  menuCategories.flatMap((category) =>
+    category.items.map((item) => [
+      item.name,
+      {
+        ...item,
+        category: category.staffLabel,
+      },
+    ]),
+  ),
+);
+const seasonalHighlightCards = seasonalHighlights
+  .map((itemName) => menuItemsByName.get(itemName))
+  .filter(Boolean);
 ---
 
 <BaseLayout title="Menu - Pronto Coffee Co." description="Explore Pronto Coffee Co. drinks and cafe bites.">
@@ -125,6 +139,7 @@ const orderAheadHref = "/customer-login/?next=/order-ahead/";
     const inactiveClasses = ["text-muted-foreground", "hover:bg-white", "hover:text-foreground"];
     const initialCategoryId = window.location.hash.replace("#", "");
     let clickedCategoryLockUntil = 0;
+    let scrollFrame = null;
 
     function setActiveCategory(categoryId) {
       navLinks.forEach((link) => {
@@ -159,47 +174,75 @@ const orderAheadHref = "/customer-login/?next=/order-ahead/";
       setActiveCategory(initialCategoryId);
     }
 
-    if ("IntersectionObserver" in window && categories.length > 0) {
-      const observer = new IntersectionObserver(
-        (entries) => {
-          if (Date.now() < clickedCategoryLockUntil) {
-            return;
-          }
+    function updateActiveCategoryFromScroll() {
+      if (Date.now() < clickedCategoryLockUntil || categories.length === 0) {
+        return;
+      }
 
-          const visibleEntry = entries
-            .filter((entry) => entry.isIntersecting)
-            .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+      const stickyOffset = 170;
+      const activeCategory = categories.reduce((currentCategory, category) => {
+        const categoryTop = category.getBoundingClientRect().top;
 
-          if (visibleEntry) {
-            setActiveCategory(visibleEntry.target.id);
-          }
-        },
-        {
-          rootMargin: "-35% 0px -50% 0px",
-          threshold: [0.2, 0.5, 0.75],
-        },
-      );
+        if (categoryTop <= stickyOffset) {
+          return category;
+        }
 
-      categories.forEach((category) => observer.observe(category));
+        return currentCategory;
+      }, categories[0]);
+
+      setActiveCategory(activeCategory.id);
     }
+
+    function queueActiveCategoryUpdate() {
+      if (scrollFrame) {
+        return;
+      }
+
+      scrollFrame = window.requestAnimationFrame(() => {
+        scrollFrame = null;
+        updateActiveCategoryFromScroll();
+      });
+    }
+
+    window.addEventListener("scroll", queueActiveCategoryUpdate, { passive: true });
+    window.addEventListener("resize", queueActiveCategoryUpdate);
+    queueActiveCategoryUpdate();
 
     window.setTimeout(() => {
       menuRegion?.classList.add("is-loaded");
+      queueActiveCategoryUpdate();
     }, 450);
   </script>
 
   <section class="bg-primary px-4 py-16 text-primary-foreground md:px-6">
-    <div class="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[1fr_0.8fr] lg:items-center">
-      <div>
+    <div class="mx-auto max-w-7xl space-y-8">
+      <div class="max-w-2xl">
         <Badge className="bg-white/10 text-white">Seasonal highlights</Badge>
-        <h2 class="mt-4 text-4xl font-semibold text-white">Precision roasted for the current menu.</h2>
+        <h2 class="mt-4 text-4xl font-semibold text-white">Try this season's must-have drinks and pastries</h2>
         <p class="mt-4 max-w-2xl text-sm leading-7 text-white/75">
-          Small-batch drinks and bakery features rotate through the pickup menu as the team dials them in.
+          Small-batch drinks and bakery features that our customers currently love.
         </p>
       </div>
-      <div class="grid gap-3 sm:grid-cols-3">
-        {seasonalHighlights.map((item) => (
-          <div class="rounded-lg border border-white/15 bg-white/10 p-4 text-sm font-semibold text-white">{item}</div>
+      <div class="grid gap-5 md:grid-cols-3">
+        {seasonalHighlightCards.map((item) => (
+          <article class="overflow-hidden rounded-lg border border-white/15 bg-white text-foreground shadow-sm">
+            <div class="h-56 overflow-hidden bg-secondary">
+              <img
+                src={item.image}
+                alt={item.name}
+                class="h-full w-full object-cover transition-transform duration-500 hover:scale-[1.03]"
+                loading="lazy"
+              />
+            </div>
+            <div class="space-y-3 p-5">
+              <div class="flex items-center justify-between gap-3">
+                <Badge>{item.category}</Badge>
+                <span class="rounded-md bg-secondary px-2 py-1 text-sm font-semibold text-secondary-foreground">{item.price}</span>
+              </div>
+              <h3 class="text-2xl font-semibold text-foreground">{item.name}</h3>
+              <p class="text-sm leading-7 text-muted-foreground">{item.description}</p>
+            </div>
+          </article>
         ))}
       </div>
     </div>
