@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
+import { CircleStar, Zap } from 'lucide-react';
 import { Alert } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import {
@@ -224,10 +225,12 @@ function AuthPickupPanel() {
       </CardHeader>
       <CardContent className='space-y-4 text-sm leading-7 text-stone-200'>
         <FeatureBlock
+          icon={Zap}
           title='Instant Pickup'
           description='Build your order before you arrive and keep your morning moving.'
         />
         <FeatureBlock
+          icon={CircleStar}
           title='Exclusive Access'
           description='Access limited small-batch roasts and member-only brewing workshops.'
         />
@@ -236,10 +239,13 @@ function AuthPickupPanel() {
   );
 }
 
-function FeatureBlock({ title, description }) {
+function FeatureBlock({ icon: Icon, title, description }) {
   return (
     <div className='rounded-lg bg-white/5 p-4'>
-      <p className='font-semibold text-white'>{title}</p>
+      <p className='flex items-center gap-2 font-semibold text-white'>
+        {Icon ? <Icon className='size-4 shrink-0' aria-hidden='true' /> : null}
+        <span>{title}</span>
+      </p>
       <p className='mt-1 text-stone-300'>{description}</p>
     </div>
   );

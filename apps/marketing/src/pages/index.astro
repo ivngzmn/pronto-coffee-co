@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { featuredMenuItems } from "@pronto/menu";
+import { FlaskConical, Leaf } from "lucide-react";
 
 const processCards = [
   {
@@ -76,13 +77,19 @@ const orderAheadHref = "/customer-login/?next=/order-ahead/";
       <div class="rounded-lg border border-border bg-white p-6 shadow-sm">
         <div class="mb-6 flex h-12 w-12 items-center justify-center rounded-lg bg-secondary text-xl font-semibold text-primary">01</div>
         <Badge>{processCards[1].eyebrow}</Badge>
-        <h3 class="mt-4 text-2xl font-semibold text-foreground">{processCards[1].title}</h3>
+        <h3 class="mt-4 flex items-center gap-2 text-2xl font-semibold text-foreground">
+          <FlaskConical className="size-5 shrink-0 text-muted-foreground" aria-hidden="true" />
+          <span>{processCards[1].title}</span>
+        </h3>
         <p class="mt-3 text-sm leading-7 text-muted-foreground">{processCards[1].description}</p>
       </div>
       <div class="rounded-lg border border-primary bg-primary p-6 text-primary-foreground shadow-sm">
         <div class="mb-6 flex h-12 w-12 items-center justify-center rounded-lg bg-white/10 text-xl font-semibold text-white">02</div>
         <Badge className="bg-white/10 text-white">{processCards[2].eyebrow}</Badge>
-        <h3 class="mt-4 text-2xl font-semibold text-white">{processCards[2].title}</h3>
+        <h3 class="mt-4 flex items-center gap-2 text-2xl font-semibold text-white">
+          <Leaf className="size-5 shrink-0 text-white/70" aria-hidden="true" />
+          <span>{processCards[2].title}</span>
+        </h3>
         <p class="mt-3 text-sm leading-7 text-white/70">{processCards[2].description}</p>
       </div>
       <ImageFeatureCard
