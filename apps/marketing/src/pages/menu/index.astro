@@ -10,7 +10,7 @@ import {
   seasonalHighlights,
 } from "@pronto/menu";
 
-const orderAheadHref = "/customer-login/?next=/order-ahead/";
+const orderAheadHref = "/order-ahead/";
 const menuItemsByName = new Map(
   menuCategories.flatMap((category) =>
     category.items.map((item) => [
@@ -97,7 +97,7 @@ const seasonalHighlightCards = seasonalHighlights
           </div>
           <div class="grid gap-5 md:grid-cols-2 lg:grid-cols-3" data-menu-items>
             {category.items.map((item) => (
-              <MenuProductCard item={item} />
+              <MenuProductCard item={{ ...item, category: category.staffLabel }} client:load />
             ))}
           </div>
         </div>

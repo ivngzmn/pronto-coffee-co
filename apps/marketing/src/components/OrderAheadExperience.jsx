@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import {
   defaultLocation,
-  formatOrderItem,
   orderingCategories,
 } from '@pronto/menu';
 import { Badge } from '@/components/ui/badge';
@@ -15,6 +14,16 @@ import {
 } from '@/components/ui/card';
 import { Alert } from '@/components/ui/alert';
 import { formatPhoneNumber } from '@/lib/utils';
+import {
+  addPickupCartItem,
+  clearPickupPromo,
+  clearPickupCart,
+  formatCartLineForOrder,
+  getPickupCart,
+  PICKUP_CART_UPDATED_EVENT,
+  removePickupCartItem,
+  saveRecentPickupOrder,
+} from '@/lib/pickupCart';
 
 const defaultCategoryId = orderingCategories[0]?.id || '';
 const defaultSize = 'Medium';
@@ -70,36 +79,41 @@ export function OrderAheadExperience({ apiUrl }) {
     }
   }, [session.authenticated, session.loading, session.user?.role]);
 
+  useEffect(() => {
+    if (session.loading || !session.authenticated || session.user?.role !== 'customer') {
+      return undefined;
+    }
+
+    setTicket(getPickupCart());
+
+    function syncTicket(event) {
+      setTicket(event.detail?.cart || getPickupCart());
+    }
+
+    window.addEventListener(PICKUP_CART_UPDATED_EVENT, syncTicket);
+
+    return () => {
+      window.removeEventListener(PICKUP_CART_UPDATED_EVENT, syncTicket);
+    };
+  }, [session.authenticated, session.loading, session.user?.role]);
+
   function addItem(item) {
-    const formatted = formatOrderItem(item, {
+    const nextCart = addPickupCartItem(item, {
       size: item.sizes?.length ? size : '',
-      milk: item.milkOptions?.length ? milk : '',
       temperature:
         item.temperatureOptions?.length > 1
           ? item.temperatureOptions[0]
           : item.temperatureOptions?.[0] || '',
+      milk: item.milkOptions?.length ? milk : '',
     });
 
-    setTicket((current) => [
-      ...current,
-      {
-        uid: `${item.id}-${Date.now()}-${Math.random()}`,
-        id: item.id,
-        name: item.name,
-        description: item.description,
-        image: item.image,
-        price: item.basePrice,
-        formatted,
-      },
-    ]);
+    setTicket(nextCart);
     setError('');
     setSuccess('');
   }
 
-  function removeItem(index) {
-    setTicket((current) =>
-      current.filter((_, itemIndex) => itemIndex !== index),
-    );
+  function removeItem(uid) {
+    setTicket(removePickupCartItem(uid));
   }
 
   async function submitOrder() {
@@ -132,7 +146,7 @@ export function OrderAheadExperience({ apiUrl }) {
         body: JSON.stringify({
           name: customerName,
           customerPhone,
-          order: ticket.map((item) => item.formatted),
+          order: ticket.map(formatCartLineForOrder),
         }),
       });
 
@@ -142,7 +156,9 @@ export function OrderAheadExperience({ apiUrl }) {
         throw new Error(data.error || 'Unable to place the order right now.');
       }
 
-      setTicket([]);
+      saveRecentPickupOrder(ticket, data.order);
+      setTicket(clearPickupCart());
+      clearPickupPromo();
       setSuccess(
         `Order sent to ${defaultLocation.name}. The team can now see it in the pickup queue.`,
       );
@@ -166,7 +182,8 @@ export function OrderAheadExperience({ apiUrl }) {
       // The session cookie is cleared server-side when possible; continue locally.
     } finally {
       setSession({ loading: false, authenticated: false, user: null });
-      setTicket([]);
+      setTicket(clearPickupCart());
+      clearPickupPromo();
       setPending(false);
 
       if (typeof window !== 'undefined') {
@@ -228,7 +245,7 @@ export function OrderAheadExperience({ apiUrl }) {
             </p>
             {ticket.length ? (
               <ol className='mt-3 space-y-2'>
-                {ticket.map((item, index) => (
+                {ticket.map((item) => (
                   <li
                     key={item.uid}
                     className='flex items-start justify-between gap-3 rounded-lg bg-white/10 px-3 py-3'
@@ -242,7 +259,7 @@ export function OrderAheadExperience({ apiUrl }) {
                       />
                       <span className='min-w-0'>
                         <span className='block text-sm font-semibold text-white'>
-                          {item.formatted}
+                          {formatCartLineForOrder(item)}
                         </span>
                         <span className='mt-1 block text-xs leading-5 text-stone-300'>
                           {item.description}
@@ -253,7 +270,7 @@ export function OrderAheadExperience({ apiUrl }) {
                       className='h-auto shrink-0 px-2 py-1 text-xs uppercase tracking-[0.2em] text-stone-300 hover:bg-white/10 hover:text-white'
                       variant='ghost'
                       type='button'
-                      onClick={() => removeItem(index)}
+                      onClick={() => removeItem(item.uid)}
                     >
                       Remove
                     </Button>
