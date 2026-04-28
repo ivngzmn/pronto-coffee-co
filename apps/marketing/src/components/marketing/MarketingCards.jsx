@@ -1,8 +1,21 @@
 import * as React from "react";
+import { Minus, Plus } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Chip } from "@/components/ui/chip";
+import {
+  Sheet,
+  SheetBody,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
+import { addPickupCartItem } from "@/lib/pickupCart";
 
 export function ImageFeatureCard({
   image,
@@ -36,8 +49,29 @@ export function ImageFeatureCard({
 
 export function MenuProductCard({
   item,
-  ctaHref = "/customer-login/?next=/order-ahead/",
 }) {
+  const [pickerOpen, setPickerOpen] = React.useState(false);
+  const [quantity, setQuantity] = React.useState(1);
+  const [size, setSize] = React.useState(item.sizes?.[0] || "");
+  const [temperature, setTemperature] = React.useState(item.temperatureOptions?.[0] || "");
+  const [milk, setMilk] = React.useState(item.milkOptions?.[0] || "");
+  const [added, setAdded] = React.useState(false);
+
+  function addToCart() {
+    addPickupCartItem(
+      item,
+      {
+        size: item.sizes?.length ? size : "",
+        temperature: item.temperatureOptions?.length ? temperature : "",
+        milk: item.milkOptions?.length ? milk : "",
+      },
+      quantity,
+    );
+    setAdded(true);
+    setPickerOpen(false);
+    window.setTimeout(() => setAdded(false), 1800);
+  }
+
   return (
     <article className="group overflow-hidden rounded-lg border border-border bg-white shadow-sm transition-shadow hover:shadow-md">
       <div className="h-56 overflow-hidden bg-secondary">
@@ -65,9 +99,121 @@ export function MenuProductCard({
             <Chip key={tag} variant="outline">{tag}</Chip>
           ))}
         </div>
-        <Button as="a" href={ctaHref} className="w-full">Add to pickup order</Button>
+        <Sheet open={pickerOpen} onOpenChange={setPickerOpen}>
+          <SheetTrigger asChild>
+            <Button type="button" className="w-full">
+              {added ? "Added to cart" : "Add to pickup order"}
+            </Button>
+          </SheetTrigger>
+          <SheetContent title={`Add ${item.name} to pickup order`}>
+            <SheetHeader className="flex flex-row items-start justify-between gap-4 space-y-0">
+              <div>
+                <SheetTitle>{item.name}</SheetTitle>
+                <SheetDescription>
+                  Customize this item before adding it to your pickup cart.
+                </SheetDescription>
+              </div>
+              <SheetClose aria-label="Close item options" />
+            </SheetHeader>
+
+            <SheetBody className="space-y-6">
+              <div className="overflow-hidden rounded-lg border border-border bg-secondary/20">
+                <img
+                  src={item.image || "/assets/images/menu/house-latte.webp"}
+                  alt=""
+                  className="h-56 w-full object-cover"
+                  loading="lazy"
+                />
+                <div className="space-y-2 p-4">
+                  <div className="flex items-start justify-between gap-3">
+                    <p className="font-semibold text-foreground">{item.name}</p>
+                    <span className="rounded-md bg-card px-2 py-1 text-sm font-semibold text-foreground">
+                      {item.price}
+                    </span>
+                  </div>
+                  <p className="text-sm leading-6 text-muted-foreground">
+                    {item.description}
+                  </p>
+                </div>
+              </div>
+
+              {item.sizes?.length ? (
+                <OptionPicker label="Size" options={item.sizes} value={size} onChange={setSize} />
+              ) : null}
+              {item.temperatureOptions?.length ? (
+                <OptionPicker
+                  label="Temperature"
+                  options={item.temperatureOptions}
+                  value={temperature}
+                  onChange={setTemperature}
+                />
+              ) : null}
+              {item.milkOptions?.length ? (
+                <OptionPicker label="Milk" options={item.milkOptions} value={milk} onChange={setMilk} />
+              ) : null}
+
+              <div className="flex items-center justify-between rounded-lg border border-border bg-secondary/30 p-3">
+                <span className="text-sm font-medium text-foreground">Quantity</span>
+                <div className="flex items-center gap-2">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="icon"
+                    className="size-8 rounded-full"
+                    onClick={() => setQuantity((current) => Math.max(1, current - 1))}
+                    aria-label={`Decrease ${item.name} quantity`}
+                  >
+                    <Minus className="size-3.5" aria-hidden="true" />
+                  </Button>
+                  <span className="w-7 text-center text-sm font-semibold text-foreground">{quantity}</span>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="icon"
+                    className="size-8 rounded-full"
+                    onClick={() => setQuantity((current) => Math.min(99, current + 1))}
+                    aria-label={`Increase ${item.name} quantity`}
+                  >
+                    <Plus className="size-3.5" aria-hidden="true" />
+                  </Button>
+                </div>
+              </div>
+            </SheetBody>
+
+            <SheetFooter className="grid gap-2">
+              <Button type="button" onClick={addToCart}>
+                Add to Cart
+              </Button>
+              <Button type="button" variant="outline" onClick={() => setPickerOpen(false)}>
+                Cancel
+              </Button>
+            </SheetFooter>
+          </SheetContent>
+        </Sheet>
       </div>
     </article>
+  );
+}
+
+function OptionPicker({ label, options, value, onChange }) {
+  return (
+    <div className="space-y-2">
+      <p className="text-sm font-medium text-foreground">{label}</p>
+      <div className="flex flex-wrap gap-2">
+        {options.map((option) => (
+          <Button
+            key={option}
+            type="button"
+            variant={value === option ? "default" : "outline"}
+            size="sm"
+            className={value === option ? "rounded-lg" : "rounded-lg text-muted-foreground"}
+            onClick={() => onChange(option)}
+          >
+            {option}
+          </Button>
+        ))}
+      </div>
+    </div>
   );
 }
 

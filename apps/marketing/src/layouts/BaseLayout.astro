@@ -1,6 +1,7 @@
 ---
 import "@/styles/globals.css";
 import { Button } from "@/components/ui/button";
+import { PickupCartDrawer } from "@/components/PickupCartDrawer";
 
 const {
   title = "Pronto Coffee Co.",
@@ -52,6 +53,7 @@ const isActive = (href) => currentPath === href || (href !== "/" && currentPath.
             ))}
           </nav>
           <div class="flex items-center gap-3">
+            <PickupCartDrawer client:load />
             <Button as="a" href={orderAheadHref} size="sm" className="hidden sm:inline-flex">
               Order Ahead
             </Button>
