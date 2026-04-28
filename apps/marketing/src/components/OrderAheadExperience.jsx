@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
+import { Minus, Plus, Tag, Trash2 } from 'lucide-react';
 import {
   defaultLocation,
   orderingCategories,
@@ -20,12 +21,22 @@ import {
   clearPickupCart,
   formatCartLineForOrder,
   getPickupCart,
+  getPickupCartTotals,
+  getPickupPromo,
   PICKUP_CART_UPDATED_EVENT,
   removePickupCartItem,
   saveRecentPickupOrder,
+  setPickupPromo,
+  updatePickupCartQuantity,
 } from '@/lib/pickupCart';
 
+const currencyFormatter = new Intl.NumberFormat('en-US', {
+  style: 'currency',
+  currency: 'USD',
+});
+
 const defaultCategoryId = orderingCategories[0]?.id || '';
+const defaultItemId = orderingCategories[0]?.items[0]?.id || '';
 const defaultSize = 'Medium';
 const defaultMilk = 'Whole';
 
@@ -37,9 +48,13 @@ export function OrderAheadExperience({ apiUrl }) {
     user: null,
   });
   const [activeCategoryId, setActiveCategoryId] = useState(defaultCategoryId);
+  const [selectedItemId, setSelectedItemId] = useState(defaultItemId);
   const [size, setSize] = useState(defaultSize);
   const [milk, setMilk] = useState(defaultMilk);
   const [ticket, setTicket] = useState([]);
+  const [promoInput, setPromoInput] = useState('');
+  const [promo, setPromo] = useState(null);
+  const [promoMessage, setPromoMessage] = useState('');
   const [pending, setPending] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
@@ -50,6 +65,13 @@ export function OrderAheadExperience({ apiUrl }) {
       orderingCategories[0],
     [activeCategoryId],
   );
+  const selectedItem = useMemo(
+    () =>
+      activeCategory?.items.find((item) => item.id === selectedItemId) ||
+      activeCategory?.items[0],
+    [activeCategory?.items, selectedItemId],
+  );
+  const totals = useMemo(() => getPickupCartTotals(ticket, promo), [ticket, promo]);
 
   useEffect(() => {
     let ignore = false;
@@ -85,9 +107,11 @@ export function OrderAheadExperience({ apiUrl }) {
     }
 
     setTicket(getPickupCart());
+    setPromo(getPickupPromo());
 
     function syncTicket(event) {
       setTicket(event.detail?.cart || getPickupCart());
+      setPromo(getPickupPromo());
     }
 
     window.addEventListener(PICKUP_CART_UPDATED_EVENT, syncTicket);
@@ -98,6 +122,8 @@ export function OrderAheadExperience({ apiUrl }) {
   }, [session.authenticated, session.loading, session.user?.role]);
 
   function addItem(item) {
+    if (!item) return;
+
     const nextCart = addPickupCartItem(item, {
       size: item.sizes?.length ? size : '',
       temperature:
@@ -112,8 +138,36 @@ export function OrderAheadExperience({ apiUrl }) {
     setSuccess('');
   }
 
+  function addSelectedItem() {
+    addItem(selectedItem);
+  }
+
   function removeItem(uid) {
     setTicket(removePickupCartItem(uid));
+  }
+
+  function setItemQuantity(item, quantity) {
+    if (quantity < 1) {
+      setTicket(removePickupCartItem(item.uid));
+      return;
+    }
+
+    setTicket(updatePickupCartQuantity(item.uid, quantity));
+  }
+
+  function applyPromo(event) {
+    event.preventDefault();
+    const nextPromo = setPickupPromo(promoInput);
+    setPromo(nextPromo);
+    setPromoMessage(
+      nextPromo ? `${nextPromo.code} applied.` : 'Enter PRONTO10 or PICKUP5.',
+    );
+  }
+
+  function removePromo() {
+    setPromo(clearPickupPromo());
+    setPromoInput('');
+    setPromoMessage('');
   }
 
   async function submitOrder() {
@@ -248,32 +302,62 @@ export function OrderAheadExperience({ apiUrl }) {
                 {ticket.map((item) => (
                   <li
                     key={item.uid}
-                    className='flex items-start justify-between gap-3 rounded-lg bg-white/10 px-3 py-3'
+                    className='grid grid-cols-[3.5rem_1fr_auto] gap-3 rounded-lg bg-white/10 px-3 py-3'
                   >
-                    <span className='flex min-w-0 gap-3'>
-                      <img
-                        src={item.image}
-                        alt=''
-                        className='size-14 shrink-0 rounded-md object-cover'
-                        loading='lazy'
-                      />
-                      <span className='min-w-0'>
-                        <span className='block text-sm font-semibold text-white'>
-                          {formatCartLineForOrder(item)}
-                        </span>
-                        <span className='mt-1 block text-xs leading-5 text-stone-300'>
-                          {item.description}
-                        </span>
+                    <img
+                      src={item.image}
+                      alt=''
+                      className='size-14 rounded-md object-cover'
+                      loading='lazy'
+                    />
+                    <div className='min-w-0'>
+                      <span className='block text-sm font-semibold text-white'>
+                        {item.name}
                       </span>
-                    </span>
-                    <Button
-                      className='h-auto shrink-0 px-2 py-1 text-xs uppercase tracking-[0.2em] text-stone-300 hover:bg-white/10 hover:text-white'
-                      variant='ghost'
-                      type='button'
-                      onClick={() => removeItem(item.uid)}
-                    >
-                      Remove
-                    </Button>
+                      <span className='mt-1 block text-xs leading-5 text-stone-300'>
+                        {item.formatted}
+                      </span>
+                      <div className='mt-3 flex items-center gap-2'>
+                        <Button
+                          type='button'
+                          variant='ghost'
+                          size='icon'
+                          className='size-8 rounded-full border border-white/15 text-stone-300 hover:bg-white/10 hover:text-white'
+                          onClick={() => setItemQuantity(item, item.quantity - 1)}
+                          aria-label={`Decrease ${item.name} quantity`}
+                        >
+                          <Minus className='size-3.5' aria-hidden='true' />
+                        </Button>
+                        <span className='w-6 text-center text-sm font-semibold text-white'>
+                          {item.quantity}
+                        </span>
+                        <Button
+                          type='button'
+                          variant='ghost'
+                          size='icon'
+                          className='size-8 rounded-full border border-white/15 text-stone-300 hover:bg-white/10 hover:text-white'
+                          onClick={() => setItemQuantity(item, item.quantity + 1)}
+                          aria-label={`Increase ${item.name} quantity`}
+                        >
+                          <Plus className='size-3.5' aria-hidden='true' />
+                        </Button>
+                      </div>
+                    </div>
+                    <div className='flex flex-col items-end justify-between gap-3'>
+                      <span className='text-sm font-semibold text-white'>
+                        {item.price}
+                      </span>
+                      <Button
+                        type='button'
+                        variant='ghost'
+                        size='icon'
+                        className='text-stone-300 hover:bg-white/10 hover:text-red-200'
+                        onClick={() => removeItem(item.uid)}
+                        aria-label={`Remove ${item.name}`}
+                      >
+                        <Trash2 className='size-4' aria-hidden='true' />
+                      </Button>
+                    </div>
                   </li>
                 ))}
               </ol>
@@ -282,6 +366,100 @@ export function OrderAheadExperience({ apiUrl }) {
                 Choose coffee, breakfast, or pastries to build the order.
               </p>
             )}
+            <form className='mt-4 space-y-2 border-t border-white/10 pt-4' onSubmit={applyPromo}>
+              <label
+                className='flex items-center gap-2 text-sm font-medium text-white'
+                htmlFor='order-ahead-promo-code'
+              >
+                <Tag className='size-4 text-stone-300' aria-hidden='true' />
+                Promo code
+              </label>
+              <div className='flex gap-2'>
+                <input
+                  id='order-ahead-promo-code'
+                  className='h-10 min-w-0 flex-1 rounded-lg border border-white/15 bg-white/10 px-3 text-sm text-white shadow-sm outline-none placeholder:text-stone-400 focus:border-white/40 focus:ring-2 focus:ring-white/15'
+                  value={promoInput}
+                  onChange={(event) => setPromoInput(event.target.value)}
+                  placeholder='PRONTO10'
+                />
+                <Button
+                  type='submit'
+                  variant='ghost'
+                  className='border border-white/15 text-white hover:bg-white/10 hover:text-white'
+                  disabled={!ticket.length}
+                >
+                  Apply
+                </Button>
+              </div>
+              {promo ? (
+                <div className='flex items-center justify-between text-xs text-stone-300'>
+                  <span>{promo.label} active</span>
+                  <button
+                    className='font-semibold text-white underline underline-offset-4'
+                    type='button'
+                    onClick={removePromo}
+                  >
+                    Remove
+                  </button>
+                </div>
+              ) : promoMessage ? (
+                <p className='text-xs text-stone-300'>{promoMessage}</p>
+              ) : null}
+            </form>
+            <div className='mt-4 space-y-2 border-t border-white/10 pt-4 text-sm'>
+              <div className='flex items-center justify-between text-stone-300'>
+                <span>Subtotal</span>
+                <span className='font-semibold text-white'>
+                  {currencyFormatter.format(totals.subtotal)}
+                </span>
+              </div>
+              {totals.discount ? (
+                <div className='flex items-center justify-between text-stone-300'>
+                  <span>Promo discount</span>
+                  <span className='font-semibold text-green-200'>
+                    -{currencyFormatter.format(totals.discount)}
+                  </span>
+                </div>
+              ) : null}
+              <div className='flex items-center justify-between text-stone-300'>
+                <span>Pickup</span>
+                <span className='font-semibold text-green-200'>Free</span>
+              </div>
+              <div className='flex items-center justify-between text-stone-300'>
+                <span>Estimated tax</span>
+                <span className='font-semibold text-white'>
+                  {currencyFormatter.format(totals.tax)}
+                </span>
+              </div>
+              <div className='flex items-center justify-between border-t border-white/10 pt-3 text-base font-semibold text-white'>
+                <span>Total</span>
+                <span>{currencyFormatter.format(totals.total)}</span>
+              </div>
+            </div>
+            {error ? (
+              <Alert className='mt-4' variant='destructive'>
+                {error}
+              </Alert>
+            ) : null}
+            {success ? (
+              <Alert className='mt-4' variant='success'>
+                {success}
+              </Alert>
+            ) : null}
+            <div className='mt-4 flex flex-wrap gap-3'>
+              <Button
+                type='button'
+                onClick={submitOrder}
+                disabled={pending || missingPhone || ticket.length === 0}
+              >
+                {pending ? 'Sending Order...' : 'Send Pickup Order'}
+              </Button>
+              {success ? (
+                <Button type='button' variant='outline' onClick={handleLogout}>
+                  Log out
+                </Button>
+              ) : null}
+            </div>
           </div>
         </CardContent>
       </Card>
@@ -331,7 +509,10 @@ export function OrderAheadExperience({ apiUrl }) {
               const nextCategory = orderingCategories.find(
                 (category) => category.title === title,
               );
-              if (nextCategory) setActiveCategoryId(nextCategory.id);
+              if (nextCategory) {
+                setActiveCategoryId(nextCategory.id);
+                setSelectedItemId(nextCategory.items[0]?.id || '');
+              }
             }}
           />
           <OptionGroup
@@ -348,56 +529,56 @@ export function OrderAheadExperience({ apiUrl }) {
           />
 
           <div className='grid gap-3 sm:grid-cols-2'>
-            {activeCategory?.items.map((item) => (
-              <Button
-                key={item.id}
-                className='h-auto whitespace-normal rounded-lg border-border bg-secondary/30 px-4 py-4 text-left hover:bg-secondary/60'
-                variant='outline'
-                type='button'
-                onClick={() => addItem(item)}
-              >
-                <span className='flex items-start gap-3'>
-                  <img
-                    src={item.image}
-                    alt=''
-                    className='size-16 shrink-0 rounded-md object-cover'
-                    loading='lazy'
-                  />
-                  <span>
-                    <span className='block font-semibold text-foreground'>
-                      {item.name}
-                    </span>
-                    <span className='mt-1 block text-xs leading-5 text-muted-foreground'>
-                      {item.description}
-                    </span>
-                    <span className='mt-2 block text-sm leading-6 text-muted-foreground'>
-                      {item.basePrice}
+            {activeCategory?.items.map((item) => {
+              const isSelected = selectedItem?.id === item.id;
+
+              return (
+                <Button
+                  key={item.id}
+                  className={
+                    isSelected
+                      ? 'h-auto whitespace-normal rounded-lg px-4 py-4 text-left ring-2 ring-ring/20'
+                      : 'h-auto whitespace-normal rounded-lg border-border bg-secondary/30 px-4 py-4 text-left hover:bg-secondary/60'
+                  }
+                  variant={isSelected ? 'default' : 'outline'}
+                  type='button'
+                  onClick={() => setSelectedItemId(item.id)}
+                >
+                  <span className='flex items-start gap-3'>
+                    <img
+                      src={item.image}
+                      alt=''
+                      className='size-16 shrink-0 rounded-md object-cover'
+                      loading='lazy'
+                    />
+                    <span>
+                      <span className={isSelected ? 'block font-semibold text-white' : 'block font-semibold text-foreground'}>
+                        {item.name}
+                      </span>
+                      <span className={isSelected ? 'mt-1 block text-xs leading-5 text-white/75' : 'mt-1 block text-xs leading-5 text-muted-foreground'}>
+                        {item.description}
+                      </span>
+                      <span className={isSelected ? 'mt-2 block text-sm leading-6 text-white/80' : 'mt-2 block text-sm leading-6 text-muted-foreground'}>
+                        {item.basePrice}
+                      </span>
                     </span>
                   </span>
-                </span>
-              </Button>
-            ))}
+                </Button>
+              );
+            })}
           </div>
-
-          {error ? <Alert variant='destructive'>{error}</Alert> : null}
-          {success ? <Alert variant='success'>{success}</Alert> : null}
 
           <div className='flex flex-wrap gap-3'>
             <Button
               type='button'
-              onClick={submitOrder}
-              disabled={pending || missingPhone}
+              onClick={addSelectedItem}
+              disabled={!selectedItem}
             >
-              {pending ? 'Sending Order...' : 'Send Pickup Order'}
+              Add to Cart
             </Button>
             <Button as='a' href='/menu/' variant='outline'>
               Browse Full Menu
             </Button>
-            {success ? (
-              <Button type='button' variant='outline' onClick={handleLogout}>
-                Log out
-              </Button>
-            ) : null}
           </div>
         </CardContent>
       </Card>
